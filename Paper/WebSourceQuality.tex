@@ -55,9 +55,7 @@
 \newcommand{\papertext}[1]{#1}
 \newcommand{\techreporttext}[1]{}
 
-
 \newcommand{\calD}{\mathcal{D}\xspace}
-
 
 \newenvironment{denselist}{
     \begin{list}{\small{$\bullet$}}%
@@ -99,7 +97,25 @@ Aditya Parameswaran\\
 \begin{abstract}
 \end{abstract}
 
+\section{Introduction}
+Problem setting
+Sources, tuples.
+Bipartite graph
+Each tuple true or false (boolean rand. var)
+Each source has a real number rand var called accuracy.
+Each source, tuple pair can be a factor, with odds based on source accuracy and tuple truth value.
+Sets of sources have correlations. need to model that. 
+Sets of tuples have correlations. 
 
+
+Later:
+Crowdsourcing with budget
+Key constraints (part of tuple correlations?)
+partial extraction
+partial correctness.
+
+Tuples $t_1, t_2, ... t_n$, sources $s_1, ... s_m$. Bipartite graph $b_{i,j}$ is indicator edge variable between $s_i$ and $t_j$. $S_i$ is random variable $\in \left[0, 1\right]$, accuracy of $s_i$. $T_j$ is boolean random variable, truth of $t_j$. Let $P$ denote the un-normalized joint probability distribution over all random variables. If the sources were all independent, we would have:
+$$\log(P(T_1, .. T_n, S_1, ... S_m)) = \Sigma_{i,j} b_{i,j}(T_j\log(S_i) + (1-T_j)\log(1-S_i))$$
 
 
 %\balance
