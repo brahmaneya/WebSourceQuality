@@ -97,26 +97,29 @@ Aditya Parameswaran\\
 \begin{abstract}
 \end{abstract}
 
-\section{Introduction}
-Problem setting
-Sources, tuples.
-Bipartite graph
-Each tuple true or false (boolean rand. var)
-Each source has a real number rand var called accuracy.
-Each source, tuple pair can be a factor, with odds based on source accuracy and tuple truth value.
-Sets of sources have correlations. need to model that. 
-Sets of tuples have correlations. 
+\section{Problem Setting}
+Our database consists of a single table $T$. We have a given set of sources $s_1, s_2, ... s_m$. We extract several candidate tuples for $T$ from each of these sources. Let $t_1, t_2, ... t_n$ be the candidate tuples for all the sources. Each tuple may come from multiple sources. We define the boolean variable $b_{i,j}$ to be true if tuple $t_j$ was obtained from source $s_i$. For each $t_j$, we let $T_j$ be a boolean random variable that denotes whether of not $t_j$ is a correct tuple for table $T$. 
+
+Each source has some accuracy level, which is itself a random variable. In addition, sources are not independent. For example, two webpages on the same site are more likely to contain similar errors. Thus even if the two webpages individually have an accuracy of $0.8$ each, the probability of both webpages being correct on any individual tuple may be more than $0.8 \times 0.8 = 0.64$. Modelling arbitrary  correlation between sources can be expensive, as the number of parameters required for $m$ sources is exponential in $m$. Thus we choose a route between the two extremes of assuming independence of all sources, and allowing arbitrary correlations in sets of sources. We assume that we are given a list of groups of sources $g_1, g_2, ...$, where each group $g$ is a set of sources that are known to be related to each other. For instance, there may be a $g$ for each website, that contains all pages on that website. Or there may be a $g$ for each author, consisting of all papers written by that author. Then for each $g_k$, we define a random variable $G_k$ that represents the `shared' part of the accuracy of sources belonging to $g_k$. We will elaborate on $G_k$ later.
+
+For each source $s_i$, we have a random variable $S_i$ that denotes the `individual' component of its accuracy (individual meaning in addition to the $G_k$ parts). 
+% xor and product make sense, but resulting logits are not factorizable, into a factor part and a source part. can use mutiplicative logits instead, but doesn't seem to have a good interpretation. or can create factors for each subset of each g, (so the number of factors and parameters is now exponential in the size of g). 
+
+$S_i$ is random variable $\in \left[0, 1\right]$, accuracy of $s_i$. $T_j$ is boolean random variable, truth of $t_j$. Let $P$ denote the un-normalized joint probability distribution over all random variables. If the sources were all independent, we would have:
+$$\log(P(T_1, .. T_n, S_1, ... S_m)) = \Sigma_{i,j} b_{i,j}(T_j\log(S_i) + (1-T_j)\log(1-S_i))$$
 
 
+\begin{comment}
 Later:
 Crowdsourcing with budget
 Key constraints (part of tuple correlations?)
 partial extraction
 partial correctness.
+\end{comment}
 
-Tuples $t_1, t_2, ... t_n$, sources $s_1, ... s_m$. Bipartite graph $b_{i,j}$ is indicator edge variable between $s_i$ and $t_j$. $S_i$ is random variable $\in \left[0, 1\right]$, accuracy of $s_i$. $T_j$ is boolean random variable, truth of $t_j$. Let $P$ denote the un-normalized joint probability distribution over all random variables. If the sources were all independent, we would have:
-$$\log(P(T_1, .. T_n, S_1, ... S_m)) = \Sigma_{i,j} b_{i,j}(T_j\log(S_i) + (1-T_j)\log(1-S_i))$$
 
+% xor model? seems elegant to compute, and accuracies don't decay as badly with multiple factors. for the factor graph, a xor model allows us to simply hae one factor weight per sources-factor, and one per source. this links correctness of sources on tuples even after their marginal accuracies are fixed. On the other hand, we could add correlations between marginal accuracies themselves (instead of having independent uniform prior for each source)
+% For tuple correlations, just have factors containing tuples. All primary key correlations have same (fixed?) weight. All ER-based corrs, have same weight, and so on. 
 
 %\balance
 {\small
