@@ -130,35 +130,35 @@ Our problem involves two kinds of variables we need to estimate: (i) Boolean var
 
 Given a some training data (a set of correct and incorrect tuples for the table), we can solve this problem in a way similar to Deepdive~\cite{deepdive,Niu_deepdive:web-scale}. First, we explain some terms needed for the solution. Our joint probability distribution over the boolean variables as a \textit{factor graph}. A factor graph is a bipartite graph, with two types of nodes, \textit{variables} and \textit{factors}. On one side of the bipartite graph are variable nodes, each of which corresponds to a random variable whose value we wish to infer. In our case, we create a variable node for each of our boolean random variables ($T_j, T_{j, k}, T_{j,k,i} ..$). A \textit{possible world} refers to an assignment to all the variable nodes in the graph. The other side of the bipartite graph has factor nodes. Each factor node is connected to one or more variable nodes, and represents a relation between their probabilities. For instance, if two tuples $T_{j_1}, T_{j_2}$ are mutually incompatible because of say, a primary key constraint, then we will construct a factor node that is connected to $T_{j_1}$ and $T_{j_2}$ to represent their negative correlation. Each factor node is associated with a boolean \textit{expression} involving the variable nodes connected to it, and a \textit{weight}. To continue the example above, say we have mutually incompatible tuples $T_{j_1}, T_{j_2}$, and a factor node $f$ connected to both of them. Then $f$ will be associated with the expression $T_{j_1} \land T_{j_2}$, and a large negative weight $w_f$. The interpretation of this is that in any possible world where the expression of $f$ evaluates to true, the probability of the resulting world is multiplied by $e^{w_f}$. In this case, because $w_f$ is a large negative weight, we will heavily penalize any assignment to the variable nodes that makes both $T_{j_1}$ and $T_{j_2}$ true. In general, the un-normalized probability of a possible world is obtained by multiplying the $e^{w_f}$ values for every factor whose expression evaluates to true in that world.
 
-A factor graph thus encodes a probability distribution over the set of possible worlds. Computing the exact probability of any variable in the graph being set to true can be computationally infeasible, but we can use Gibb's sampling to approximate the probability distribution over possible worlds, and use it to measure the marginal probability distribution over each variable node. If the weights of some factors are not known beforehand (for example, because they depend on an unknown quantity like the false positive rate of a source), we can `learn' these weights using training data. So if we are given a certain set of tuples that are known to be correct, and a set that is known to be wrong, we can choose the weights so as to maximise the resulting marginal probability assigned to the correct tuples, and minimize that of the incorrect tuples. 
+A factor graph thus encodes a probability distribution over the set of possible worlds. Computing the exact marginal probability distribution of any variable in the graph can be computationally infeasible, but we can use Gibb's sampling to approximate the joint probability distribution over possible worlds, and use it to measure the marginal probability distribution over each variable node. If the weights of some factors are not known beforehand (for example, because they depend on an unknown quantity like the false positive rate of a source), we can `learn' these weights using training data. So if we are given a certain set of tuples that are known to be correct and a set of tuples known to be incorrect, we can choose the weights so as to maximise the resulting marginal probability assigned to the correct tuples, and minimize that of the incorrect tuples. 
 
 We will encode our random variables in two forms. Our boolean random variables ($T_j, T_{j,k}, T_{j,k,i}..$) will form variable nodes in the factor graph. The real number random variables ($T, G_k, S_i..$) will be encoded in the weights of certain factors. We can then use training data to figure out the correct weights, and hence the optimal values of the real number random variables. Our prior distribution $P(T), P(G_k), P(S_i)$ over error rates can also be taken into account in the weight learning process. Once weights are learned, we can then use Gibb's sampling to figure out the marginal probability of each tuple being correct, the marginal probability of each source being correct about a particular tuple, and so on. 
 
-For our problem, we set the variable nodes to the boolean random variables in $\overrightarrow{T}, \overrightarrow{T_S}, \overrightarrow{T_G}$. For each tuple-group, for each pair of tuples $t_{j_1}, t_{j_2}$ in it, we create a factor connected to both tuples with the expression $T_{j_1} \land T_{j_2}$, and weight $\logit(\epsilon)$ (where $\logit(p)$ means $\log\frac{p}{1-p}$). For each tuple $t_j$ and source $s_i$, we also create a factor connecting $T_{j,k,i}$ for all groups $g_k$ that contain $s_i$. The expression for this factor is $b_{i,j} \neq \lor_{k} T_{j,k,i}$, and weight is $\logit(\epsilon)$. 
+For our problem, we set the variable nodes to the boolean random variables in $\overrightarrow{T}, \overrightarrow{T_S}, \overrightarrow{T_G}$. For each tuple-group, for each pair of tuples $t_{j_1}, t_{j_2}$ in it, we create a factor consisting of $T_{j_1}, T_{j_2}$ with the expression $T_{j_1} \land T_{j_2}$, and weight $\logit(\epsilon)$ (where $\logit(p)$ means $\log\frac{p}{1-p}$). For each tuple $t_j$ and source $s_i$, we also create a factor connecting $T_{j,k,i}$ for all groups $g_k$ that contain $s_i$. The expression for this factor is $b_{i,j} \neq \lor_{k} T_{j,k,i}$, and weight is $\logit(\epsilon)$. 
 
 %***IMPORTANT***: Need to deal with fully missing tuples, or decide what to change in order to ignore them. 
 %***IMPORTANT***: Need to put the prior over S and G somewhere. Additional restrictions on weights. 
 
-Now we have the specify the factors and weights that encode the real number random variables. To encode $T$, for each $T_j$, we have a factor consisting of node $T_j$, boolean expression $T_j$, and weight $w_T = \logit([1,0]T)$. To encode $G_k$, for each $T_{j,k}$, we have four factors containing $T_{j,k}, T_{j}$. Their expressions and weights are given by
- 
-\noindent
-($T_{j,k} \land T_j$, $w_{g_k++} = [1,0]G_k[1,0]^T$)\\ 
-($T_{j,k} \land \lnot T_j$, $w_{g_k+-} = [1,0]G_k[0,1]^T$)\\
-($\lnot T_{j,k} \land T_j$, $w_{g_k-+} = [0,1]G_k[1,0]^T$)\\ 
-($\lnot T_{j,k} \land \lnot T_j$, $w_{g_k--} = [0,1]G_k[0,1]^T$)
+Now we have the specify the factors and weights that encode the real number random variables. To encode $T$, for each $T_j$, we have a factor consisting of node $T_j$, boolean expression $T_j$, and weight $w_T = \logit([1,0]T)$. To encode $G_k$, for each $T_{j,k}$, we have four factors containing $T_{j,k}, T_{j}$. Their expressions and weights are given by:
 
-The weights are shared over all tuples, and only depend on the group. That is the first factor with $T_{1,k} \land T_{1}$ must have the same weight $W_{g_1++}$ as the factor with $T_{2,k} \land t_2$,and so on. We also impose an additional constraint for each $k$, namely: $e^{w_{g_k++}} + e^{w_{g_k-+}} = e^{w_{g_k+-}} + e^{w_{g_k--}}$. Such constraints on weights can be taken into account in the weight learning process. Once the weights are learned, the false positive and negative rates can be recovered using the equations $$G_{k-} = \frac{e^{w_{g_k-+}}}{e^{w_{g_k-+}} + e^{w_{g_k++}}}$$ 
+\noindent
+($T_{j,k} \land T_j$; $w_{g_k++} = [1,0]G_k[1,0]^T$)\\ 
+($T_{j,k} \land \lnot T_j$; $w_{g_k+-} = [1,0]G_k[0,1]^T$)\\
+($\lnot T_{j,k} \land T_j$; $w_{g_k-+} = [0,1]G_k[1,0]^T$)\\ 
+($\lnot T_{j,k} \land \lnot T_j$; $w_{g_k--} = [0,1]G_k[0,1]^T$)
+
+The weights are shared over all tuples, and only depend on the group. That is the factor with expression $T_{1,k} \land T_{1}$ must have the same weight $w_{g_1++}$ as the factor with $T_{2,k} \land t_2$, and so on. We also impose an additional constraint for each $k$, namely: $$e^{w_{g_k++}} + e^{w_{g_k-+}} = e^{w_{g_k+-}} + e^{w_{g_k--}}$$. Such constraints on weights can be taken into account in the weight learning process. Once the weights are learned, the false positive and negative rates can be recovered using the equations $$G_{k-} = \frac{e^{w_{g_k-+}}}{e^{w_{g_k-+}} + e^{w_{g_k++}}}$$ 
 $$G_{k+} = \frac{e^{w_{g_k+-}}}{e^{w_{g_k+-}} + e^{w_{g_k--}}}$$
 
 We can similarly encode source error rates $S_i$. For each tuple $T_j$, and each group $g_k$ containing $s_i$, we create four factors containing $T_{j,k,i}, T_{j,k}$. The expressions and weights of the factors are:
 
 \noindent
-($T_{j,k,i} \land T_{j,k}$, $w_{s_i++} = [1,0]S_i[1,0]^T$)\\ 
-($T_{j,k,i} \land \lnot T_{j,k}$, $w_{s_i+-} = [1,0]S_i[0,1]^T$)\\
-($\lnot T_{j,k,i} \land T_{j,k}$, $w_{s_i-+} = [0,1]S_i[1,0]^T$)\\ 
-($\lnot T_{j,k,i} \land \lnot T_{j,k}$, $w_{s_i--} = [0,1]S_i[0,1]^T$)
+($T_{j,k,i} \land T_{j,k}$; $w_{s_i++} = [1,0]S_i[1,0]^T$)\\ 
+($T_{j,k,i} \land \lnot T_{j,k}$; $w_{s_i+-} = [1,0]S_i[0,1]^T$)\\
+($\lnot T_{j,k,i} \land T_{j,k}$; $w_{s_i-+} = [0,1]S_i[1,0]^T$)\\ 
+($\lnot T_{j,k,i} \land \lnot T_{j,k}$; $w_{s_i--} = [0,1]S_i[0,1]^T$)
 
-We again have the constraint $e^{w_{s_i++}} + e^{w_{s_i-+}} = e^{w_{s_i+-}} + e^{w_{s_i--}}$ for each $i$. And the false positive and negative rates can be found using 
+We again have the constraint $$e^{w_{s_i++}} + e^{w_{s_i-+}} = e^{w_{s_i+-}} + e^{w_{s_i--}}$$ for each $i$. And the false positive and negative rates can be found using 
 $$S_{i-} = \frac{e^{w_{s_i-+}}}{e^{w_{s_i-+}} + e^{w_{s_i++}}}$$ 
 $$S_{i+} = \frac{e^{w_{s_i+-}}}{e^{w_{s_i+-}} + e^{w_{s_i--}}}$$
 
