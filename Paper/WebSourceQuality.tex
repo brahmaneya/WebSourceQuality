@@ -143,8 +143,19 @@ For our problem, we set the variable nodes to the boolean random variables in $\
 %***IMPORTANT***: Need to put the prior over S and G somewhere. Additional restrictions on weights. 
 % Remove the e^{w1} + ... condition. It is not needed, as photo shows. w_T is not needed either, it can be derived from the w_{g} weights. 
 
-Now we have the specify the factors and weights that encode the real number random variables. To encode $T$, for each $T_j$, we have a factor consisting of node $T_j$, boolean expression $T_j$, and weight $w_T = \logit([1,0]T)$. To encode $G_k$, for each $T_{j,k}$, we have four factors containing $T_{j,k}, T_{j}$. Their expressions and weights are given by:
+Now we have the specify the factors and weights that encode the real number random variables. For each group $g_k$, we define four sets of factors, with four corresponding weights. For each tuple $t_j$, we create four factors with the expressions and weights as follows: $[(T_{j,k} \land T_j, w_{g_k++})$, $(T_{j,k} \land \lnot T_j, w_{g_k+-})$, $(\lnot T_{j,k} \land T_j, w_{g_k-+})$, $(\lnot T_{j,k} \land \lnot T_j, w_{g_k--})]$. When the optimal values of these weights are found, we can use them to find $T$ and $G_k$ using the following equations:
+$$T_{+} = \frac{\prod_{k} (e^{w_{g_k++}} + e^{w_{g_k-+}})}{\prod_{k} (e^{w_{g_k++}} + e^{w_{g_k-+}}) + \prod_{k} (e^{w_{g_k+-}} + e^{w_{g_k--}})}$$
+$$G_{k+} = \frac{e^{w_{g_k+-}}}{e^{w_{g_k+-}} + e^{w_{g_k--}}}$$
+$$G_{k-} = \frac{e^{w_{g_k-+}}}{e^{w_{g_k-+}} + e^{w_{g_k++}}}$$
 
+%%%%%%%%%%
+% Encoding for S_i
+We can encode $S_i$ similarly. For each source $s_i$, we have four sets of factors, each with a corresponding weight. For each tuple $t_j$, and group $g_k$ containing $s_i$, we have factors with the following expressions and weights : $[(T_{j,k,i} \land T_{j,i}, w_{s_i++})$, $(T_{j,k,i} \land \lnot T_{j,i}, w_{s_i+-})$, $(\lnot T_{j,k,i} \land T_{j,i}, w_{s_i-+})$, $(\lnot T_{j,k,i} \land \lnot T_{j,i}, w_{s_i--})]$. The values of $S_i$ can be found using 
+$$S_{i+} = \frac{e^{w_{s_i+-}}}{e^{w_{s_i+-}} + e^{w_{s_i--}}}$$
+$$S_{i-} = \frac{e^{w_{s_i-+}}}{e^{w_{s_i-+}} + e^{w_{s_i++}}}$$
+
+\begin{comment}
+To encode $T$, for each $T_j$, we have a factor consisting of node $T_j$, boolean expression $T_j$, and weight $w_T = \logit([1,0]T)$. To encode $G_k$, for each $T_{j,k}$, we have four factors containing $T_{j,k}, T_{j}$. Their expressions and weights are given by:
 \noindent
 ($T_{j,k} \land T_j$; $w_{g_k++} = [1,0]G_k[1,0]^T$)\\ 
 ($T_{j,k} \land \lnot T_j$; $w_{g_k+-} = [1,0]G_k[0,1]^T$)\\
@@ -165,6 +176,7 @@ We can similarly encode source error rates $S_i$. For each tuple $T_j$, and each
 We again have the constraint $$e^{w_{s_i++}} + e^{w_{s_i-+}} = e^{w_{s_i+-}} + e^{w_{s_i--}}$$ for each $i$. And the false positive and negative rates can be found using 
 $$S_{i-} = \frac{e^{w_{s_i-+}}}{e^{w_{s_i-+}} + e^{w_{s_i++}}}$$ 
 $$S_{i+} = \frac{e^{w_{s_i+-}}}{e^{w_{s_i+-}} + e^{w_{s_i--}}}$$
+\end{comment}
 
 %%%%%%%%%
 %Given a factor graph, with the graph structure, expressions, and weights specified, we want to find the probability distribution of values for each variable node in the graph. Finding the exact probability distribution is intractable for several graphs, but we can estimate the probability distribution using Gibb's Sampling. That is, we start from a random possible world, and then change the value of variables in it one at a time, in accordance with the total probability distribution. If we do this for sufficiently many iterations, the probability with which we reach a possible world approaches the actual probability of that possible world according to the total probability distribution. Then by counting the fraction of sampled possible worlds in which a variable node $T$ was set to true, we get an estimate of the marginal probability of $T$ being true. 
