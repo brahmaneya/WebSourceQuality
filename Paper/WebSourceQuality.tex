@@ -98,7 +98,7 @@ Aditya Parameswaran\\
 \begin{abstract}
 \end{abstract}
 
-\section{Problem Setting}
+\section{Problem Setting}  
 Our database consists of a single table $Z$, which we want to populate. We also imagine there is a conceptual table $Z'$ that is fully populated. For instance, $Z$ may be a table with schema, (Country, President), and only a few tuples filled in. Then $Z'$ is a table that contains all countries and their presidents. We say a tuple $t$ is `correct' if it is contained in $Z'$. 
 
 We have a given set of data sources $s_1, s_2, ... s_m$. A source can be an online table, a document, or a webpage. We run extractors on every source to get candidate tuples. A candidate tuple is a tuple which we consider as being likely to be correct, though we are not sure of its correctness. We extract several candidate tuples for $Z$ from each of these sources, with each tuple possibly coming from multiple sources. Let $t_1, t_2, ... t_n$ be the candidate tuples extracted. We say source $s_i$ `output' tuple $t_j$ if $t_j$ was obtained by running an extractor on $s_i$. We also say a source $s_i$ is correct on a tuple $t_j$ if either $t_j$ is correct and $s_i$ outputs it, or if $t_j$ is incorrect and $s_i$ does not output it. We define the boolean variable $b_{i,j}$ to be true if tuple $t_j$ was output by source $s_i$. In addition, we $N$ denote the total number of potential tuples, including both correct and incorrect tuples, and tuples that have and haven't been output by any source. Thus $N-n$ tuples will not have been output by any source. We assume a XXX prior on $N$.
@@ -113,8 +113,6 @@ In addition to knowing which tuples were displayed, we may have knowledge about 
 
 Let $P_J$ denote the un-normalized joint probability distribution over all random variables. For any source $s_i$, let $g(s_i)$ denote the set of indices of source groups that contain $s_i$. 
 Using $\overrightarrow{T}$ to denote the vector of random variables $T_1..T_n$, $\overrightarrow{S}$ for $S_1..S_m$, $\overrightarrow{G}$ for $G_1, ... G_k$,  $\overrightarrow{T_G}$ for $T_{1, 1}, ..$, $\overrightarrow{T_S}$ for $T_{1, 1, i_1}, ..$, $P$ is given by:
-% add prior terms for S_1, G_1 etc if not using uniform prior.
-% we need to consider both presence and absence of tuples. But for tuples that dont occur anywhere at all, we need to have some assumption, to sensibly calibrate false negative rates.
 
 \begin{align*} 
 & P_J(\overrightarrow{T}, \overrightarrow{T_S}, \overrightarrow{T_G}, T, \overrightarrow{S}, \overrightarrow{G}) =
@@ -139,17 +137,13 @@ We will encode our random variables in two forms. Our boolean random variables (
 
 For our problem, we set the variable nodes to the boolean random variables in $\overrightarrow{T}, \overrightarrow{T_S}, \overrightarrow{T_G}$. For each tuple-group, for each pair of tuples $t_{j_1}, t_{j_2}$ in it, we create a factor consisting of $T_{j_1}, T_{j_2}$ with the expression $T_{j_1} \land T_{j_2}$, and weight $\logit(\epsilon)$ (where $\logit(p)$ means $\log\frac{p}{1-p}$). For each tuple $t_j$ and source $s_i$, we also create a factor connecting $T_{j,k,i}$ for all groups $g_k$ that contain $s_i$. The expression for this factor is $b_{i,j} \neq \lor_{k} T_{j,k,i}$, and weight is $\logit(\epsilon)$. 
 
-%***IMPORTANT***: Need to deal with fully missing tuples, or decide what to change in order to ignore them. 
 %***IMPORTANT***: Need to put the prior over S and G somewhere. Additional restrictions on weights. 
-% Remove the e^{w1} + ... condition. It is not needed, as photo shows. w_T is not needed either, it can be derived from the w_{g} weights. 
 
 Now we have the specify the factors and weights that encode the real number random variables. For each group $g_k$, we define four sets of factors, with four corresponding weights. For each tuple $t_j$, we create four factors with the expressions and weights as follows: $[(T_{j,k} \land T_j, w_{g_k++})$, $(T_{j,k} \land \lnot T_j, w_{g_k+-})$, $(\lnot T_{j,k} \land T_j, w_{g_k-+})$, $(\lnot T_{j,k} \land \lnot T_j, w_{g_k--})]$. When the optimal values of these weights are found, we can use them to find $T$ and $G_k$ using the following equations:
 $$T_{+} = \frac{\prod_{k} (e^{w_{g_k++}} + e^{w_{g_k-+}})}{\prod_{k} (e^{w_{g_k++}} + e^{w_{g_k-+}}) + \prod_{k} (e^{w_{g_k+-}} + e^{w_{g_k--}})}$$
 $$G_{k+} = \frac{e^{w_{g_k+-}}}{e^{w_{g_k+-}} + e^{w_{g_k--}}}$$
 $$G_{k-} = \frac{e^{w_{g_k-+}}}{e^{w_{g_k-+}} + e^{w_{g_k++}}}$$
 
-%%%%%%%%%%
-% Encoding for S_i
 We can encode $S_i$ similarly. For each source $s_i$, we have four sets of factors, each with a corresponding weight. For each tuple $t_j$, and group $g_k$ containing $s_i$, we have factors with the following expressions and weights : $[(T_{j,k,i} \land T_{j,i}, w_{s_i++})$, $(T_{j,k,i} \land \lnot T_{j,i}, w_{s_i+-})$, $(\lnot T_{j,k,i} \land T_{j,i}, w_{s_i-+})$, $(\lnot T_{j,k,i} \land \lnot T_{j,i}, w_{s_i--})]$. The values of $S_i$ can be found using 
 $$S_{i+} = \frac{e^{w_{s_i+-}}}{e^{w_{s_i+-}} + e^{w_{s_i--}}}$$
 $$S_{i-} = \frac{e^{w_{s_i-+}}}{e^{w_{s_i-+}} + e^{w_{s_i++}}}$$
