@@ -10,7 +10,7 @@ if ! [ -d data ] \
 fi
 
 export APP_HOME=`cd $(dirname $0)/; pwd`
-export DEEPDIVE_HOME=`cd $(dirname $0)/../../; pwd`
+export DEEPDIVE_HOME=`cd ~/deepdive/; pwd`
 
 # Database Configuration
 export DBNAME=manasrj_deepdive
