@@ -10,14 +10,17 @@ import csv, os, sys
 
 tuples = set()
 nontuples = set()
+unknowntuples = set()
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 lines = open(BASE_DIR + '/../data/tuples.tsv').readlines()
 for line in lines:
   tuple_id, value = line.strip().split('\t')
   if value == 'true':
     tuples.add(tuple_id)
-  else:
+  elif value == 'false':
     nontuples.add(tuple_id)
+  else:
+    unknowntuples.add(tuple_id)
 
 outputted_tuples = set()
 for row in sys.stdin:
@@ -37,3 +40,25 @@ for row in sys.stdin:
       '\N'   # leave "id" blank for system!
       ])
     outputted_tuples.add(tuple_id)
+
+for tuple_id in tuples.difference(outputted_tuples):
+  print '\t'.join([
+    tuple_id, 
+    '1',
+    '\N'   # leave "id" blank for system!
+    ])
+
+for tuple_id in nontuples.difference(outputted_tuples):
+  print '\t'.join([
+    tuple_id, 
+    '0',
+    '\N'   # leave "id" blank for system!
+    ])
+
+for tuple_id in unknowntuples.difference(outputted_tuples):
+  print '\t'.join([
+    tuple_id, 
+    '\N',
+    '\N'   # leave "id" blank for system!
+    ])
+
