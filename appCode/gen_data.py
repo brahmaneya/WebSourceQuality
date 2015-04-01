@@ -4,7 +4,7 @@ import sys,os
 import random
 import numpy as np 
 
-N = 100 # total number of tuples
+N = 1000 # total number of tuples
 pTrainPos = 0.5 # probability that a positive tuple is in training data
 pTrainNeg = 0.5 # probability that a negative tuple is in training data
 T_p = 0.5 # base tuple truth rate
@@ -98,10 +98,10 @@ for i in range(0,N):
                 S_j = trueMatrix
             if (S_j == trueMatrix).all():
                 f_source_group_beliefs_latent.write('{}\t{}\t{}\t{}\n'.format(j,k,i,'true'))
-                S_T_i[j] *= 90.0 #since 2 is the default weight we've given to the source output factors.
+                S_T_i[j] *= 300.0 #since 2 is the default weight we've given to the source output factors.
             else:
                 f_source_group_beliefs_latent.write('{}\t{}\t{}\t{}\n'.format(j,k,i,'false'))
-                S_T_i[j] /= 90.0;
+                S_T_i[j] /= 300.0;
             #S_T_i[j] *= (S_jp.item((0,0)))/(S_jp.item((1,0)))
     for j in range(0,N_S):
         prob = S_T_i[j]/(1 + S_T_i[j])
