@@ -6,6 +6,14 @@ CREATE TABLE source_outputs_input(
   )
   DISTRIBUTED BY (tuple_id);
 
+DROP TABLE IF EXISTS group_tuple_belief_input CASCADE;
+CREATE TABLE group_tuple_belief_input(
+  group_id int,
+  tuple_id int,
+  is_true boolean -- whether the group believes the tuple
+  )
+  DISTRIBUTED BY (tuple_id);
+
 DROP TABLE IF EXISTS source_outputs CASCADE;
 CREATE TABLE source_outputs(
   source_id int,

@@ -4,7 +4,8 @@ import sys,os
 import random
 import numpy as np 
 
-N = 10000 # total number of tuples
+initializationTuples = 500 # tuples used for prior of beta distribution
+N = 9 * initializationTuples # total number of tuples
 pTrainPos = 0.9 # probability that a positive tuple is in training data
 pTrainNeg = 0.9 # probability that a negative tuple is in training data
 T_p = 0.5 # base tuple truth rate
@@ -44,10 +45,12 @@ for k in range(1,N_G):
 tuples_file = "data/tuples.tsv"
 source_outputs_file = "data/source_tuples.csv"
 source_groups_file = "data/source_group.csv"
+group_beliefs_file = "data/group_beliefs.csv"
 
 f_tuples = open(tuples_file,'w')
 f_source_outputs = open(source_outputs_file,'w')
 f_source_groups = open(source_groups_file,'w')
+f_group_beliefs = open(group_beliefs_file,'w')
 
 #logfiles, containing latent variables
 tuples_latent = "data/latent/tuples.tsv"
@@ -57,7 +60,6 @@ f_tuples_latent = open(tuples_latent,'w')
 f_group_beliefs_latent = open(group_beliefs_latent,'w')
 f_source_group_beliefs_latent = open(source_group_beliefs_latent,'w')
 
-
 trueMatrix = np.matrix([[1.0],[0.0]])
 falseMatrix = np.matrix([[0.0],[1.0]])
 
@@ -65,7 +67,7 @@ for k in range(0,N_G):
     for j in G[k]:
         f_source_groups.write('{},{}\n'.format(j,k))
 
-for i in range(0,N):
+for i in range(0,N + initializationTuples):
     val = "null"
     S_T_i = [] # odds for sources for displaying this tuple
     for j in range(0,N_S):
@@ -89,8 +91,12 @@ for i in range(0,N):
             G_k = trueMatrix
         if (G_k == trueMatrix).all():
             f_group_beliefs_latent.write('{}\t{}\t{}\n'.format(k,i,'true'))
+            if i < initializationTuples:
+                f_group_beliefs.write('{},{},{}\n'.format(k,i,'true'))
         else:
             f_group_beliefs_latent.write('{}\t{}\t{}\n'.format(k,i,'false'))
+            if i < initializationTuples:
+                f_group_beliefs.write('{},{},{}\n'.format(k,i,'false'))
         for j in G[k]:
             S_jp = A_S[j]*G_k
             S_j = falseMatrix

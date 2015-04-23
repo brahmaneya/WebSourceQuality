@@ -25,3 +25,4 @@ export APP_HOME=`cd $(dirname $0)/; pwd`
 psql -d $DBNAME < $APP_HOME/schema.sql
 psql -d $DBNAME -c "copy source_groups from STDIN CSV;" < $APP_HOME/data/source_group.csv
 psql -d $DBNAME -c "copy source_outputs_input from STDIN CSV;" < $APP_HOME/data/source_tuples.csv
+psql -d $DBNAME -c "copy group_tuple_belief_input from STDIN CSV;" < $APP_HOME/data/group_beliefs.csv

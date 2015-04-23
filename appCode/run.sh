@@ -5,7 +5,7 @@ if ! [ -d data ] \
   || ! [ -f data/tuples.tsv ] \
   || ! [ -f data/source_group.csv ] \
   || ! [ -f data/source_tuples.csv ]; then
-  echo "ERROR: Data files do not exist. You should download the data from http://i.stanford.edu/hazy/deepdive-tutorial-data.zip, and extract files to data/ directory."
+  echo "ERROR: Data files do not exist in  data/ directory."
   exit 1;
 fi
 
