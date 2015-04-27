@@ -90,15 +90,39 @@ public class LiveSample {
 		for (int k = 0; k < modelInstance.numGroups; k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
 			for (int i = 0; i < modelInstance.numTuples; i++) {
-				if (Math.random() < groupBeliefProb(k, tupleTruths.get(i))) {
-					groupTupleBeliefsList.add(true);
-					updateGroupCount(k, true, tupleTruths.get(i), 1);
+				boolean groupTupleBelief;
+				boolean tupleTruth = tupleTruths.get(i);
+				if (Math.random() < groupBeliefProb(k, tupleTruth)) {
+					groupTupleBelief = true;
 				} else {
-					groupTupleBeliefsList.add(false);
-					updateGroupCount(k, false, tupleTruths.get(i), 1);
+					groupTupleBelief = false;
 				}
+				groupTupleBeliefsList.add(groupTupleBelief);
+				updateGroupCount(k, groupTupleBelief, tupleTruth, 1);
 			}
 			groupTupleBeliefs.add(groupTupleBeliefsList);
+		}
+		
+		sourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
+		for (int j = 0; j < modelInstance.numSources; j++) {
+			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
+			for (int k : modelInstance.sourceGroups.get(j)) {
+				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
+				for (int i = 0; i < modelInstance.numTuples; i++) {
+					boolean groupTupleBelief = groupTupleBeliefs.get(k).get(i);
+					boolean sourceGroupTupleBelief;
+					if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
+						sourceGroupTupleBelief = true;
+					} else {
+						sourceGroupTupleBelief = false;
+					}
+					groupTupleBeliefsList.add(sourceGroupTupleBelief);
+					updateSourceCount(j, sourceGroupTupleBelief, groupTupleBelief, 1);
+				}
+				sourceGroupTupleBeliefsMap.put(k, groupTupleBeliefsList);
+			}
+			
+			sourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
 	}
 	
