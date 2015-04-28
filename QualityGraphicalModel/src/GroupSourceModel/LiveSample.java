@@ -38,6 +38,8 @@ public class LiveSample {
 	List<Integer> sourceFalseFalse;
 	
 	LiveSample(ModelInstance modelInstance) {
+		this.modelInstance = modelInstance;
+		
 		tupleTrue = 0;
 		tupleFalse = 0;
 		
@@ -127,7 +129,7 @@ public class LiveSample {
 	}
 	
 	// To add: terms for mutually exclusive tuple groups 
-	void changeTupleTruth(int i) {
+	private void changeTupleTruth(int i) {
 		if (isFixed.get(i)) {
 			return;
 		}
@@ -170,7 +172,7 @@ public class LiveSample {
 		}
 	}
 	
-	void changeGroupBelief(int i, int k) {
+	private void changeGroupBelief(int i, int k) {
 		Double trueWeight = 0.0;
 		Double falseWeight = 0.0;
 		
@@ -211,7 +213,7 @@ public class LiveSample {
 		}
 	}
 	
-	void changeSourceGroupBelief(int i, int j, int k) {
+	private void changeSourceGroupBelief(int i, int j, int k) {
 		Double trueWeight = 0.0;
 		Double falseWeight = 0.0;
 		
@@ -220,7 +222,7 @@ public class LiveSample {
 		
 		boolean falseOr = false; // The Or of all other beliefs for this source-tuple pair
 		final boolean trueOr = true;
-		for (int kk = 0; kk < modelInstance.numGroups; kk++) {
+		for (int kk : modelInstance.sourceGroups.get(j)) {
 			if (kk == k) {
 				continue;
 			}
@@ -231,8 +233,8 @@ public class LiveSample {
 		}
 		
 		// Below: change 0.001 to epsilon, a parameter set in the modelInstance.
-		trueWeight += Math.log(trueOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : 0.001);
-		falseWeight += Math.log(falseOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : 0.001);
+		trueWeight += Math.log(trueOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : modelInstance.epsilon);
+		falseWeight += Math.log(falseOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : modelInstance.epsilon);
 		
 		final Double odds = Math.exp(trueWeight - falseWeight);
 		if (Math.random() < odds / (1 + odds)) {
@@ -302,6 +304,27 @@ public class LiveSample {
 		}
 	}
 	
+	List<GroundingSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
+		List<GroundingSample> samples = new ArrayList<GroundingSample>();
+		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
+			for (int i = 0; i < modelInstance.numTuples; i++) {
+				for (int k = 0; k < modelInstance.numGroups; k++) {
+					// Do this in random order to prevent early j's from being true'd first for source-outputs?
+					for (int j : modelInstance.groupSources.get(k)) {
+						changeSourceGroupBelief(i, j, k);
+					}
+					changeGroupBelief(i, k);
+				}
+				changeTupleTruth(i);
+			}
+			
+			if (iter >= burnIn && (iter - burnIn) % thinFactor == 0) {
+				samples.add(saveState());
+			}
+		}
+		return samples;
+	}
+	
 	GroundingSample saveState() {
 		List<Boolean> gTupleTruths = new ArrayList<Boolean>();
 		List<List<Boolean>> gGroupTupleBeliefs = new ArrayList<List<Boolean>>();
@@ -324,6 +347,8 @@ public class LiveSample {
 			gSourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
 		
-		return new GroundingSample(modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs);
+		return new GroundingSample(modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
+				tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
+				sourceFalseTrue, sourceFalseFalse);
 	}
 }

@@ -43,6 +43,9 @@ public class ModelInstance {
 	// Labelled Data
 	Map<Integer, Boolean> tupleTruth;
 	
+	// Probability penalty for having OR_{k} of sourceGroupTupleBeliefs[k][j][i] disagree with sourceOutput[j][i].
+	final Double epsilon = 0.001;
+	
 	public ModelInstance (int numTuples, int numGroups, int numSources, List<List<Integer>> groupSources, 
 			List<List<Integer>> sourceOutputs, List<Integer> groupTrueTrueInit, List<Integer> groupTrueFalseInit,
 			List<Integer> groupFalseTrueInit, List<Integer> groupFalseFalseInit, List<Integer> sourceTrueTrueInit,
@@ -94,22 +97,30 @@ public class ModelInstance {
 		this.tupleTruth = tupleTruth;
 	}
 	
+	void analyzeModel (int numSamples, int burnIn, int thinFactor, Double tuplePrior, Map<Integer, Double> groupFPs, 
+			Map<Integer, Double> groupFNs, Map<Integer, Double> sourceFPs, Map<Integer, Double> sourceFNs) {
+		LiveSample liveSample = new LiveSample(this);
+		List<GroundingSample> samples = liveSample.GibbsSampling(numSamples, burnIn, thinFactor);
+		
+		
+	}
+	
 	@Override
-	public String toString() {
+	public String toString () {
 		String ans = "";
 		ans = String.format("%d, %d, %d \n", numTuples, numGroups, numSources);
 		return ans;
 	}
 	
 	public static void main (String[] args) {
-		final int numTuples = 100;
-		final int numSources = 4;
-		final int numGroups = 4;
+		final int numTuples = 2000;
+		final int numGroups = 3;
+		final int numSources = 6;
 		
 		List<List<Integer>> groupSources = new ArrayList<List<Integer>>();
 		List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
 
-		Double groupDensity = 0.1;
+		Double groupDensity = 0.3;
 		
 		groupSources.add(new ArrayList<Integer>());
 		for (int j = 0; j < numSources; j++) {
@@ -142,7 +153,7 @@ public class ModelInstance {
 		ArrayList<Double> groupFN = new ArrayList<Double>();
 		for (int k = 0; k < numGroups; k++) {
 			groupFP.add(0.01);
-			groupFN.add(0.5);
+			groupFN.add(0.3);
 		}
 		
 		for (int k = 0; k < numGroups; k++) {
@@ -169,7 +180,7 @@ public class ModelInstance {
 		ArrayList<Double> sourceFN = new ArrayList<Double>();
 		for (int j = 0; j < numSources; j++) {
 			sourceFP.add(0.01);
-			sourceFN.add(0.5);
+			sourceFN.add(0.7);
 		}
 		
 		for (int j = 0; j < numSources; j++) {
@@ -218,10 +229,10 @@ public class ModelInstance {
 		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
 		
 		for (int k = 0; k < numGroups; k++) {
-			groupTrueTrueInit.add(10);
-			groupTrueFalseInit.add(10);
-			groupFalseTrueInit.add(10);
-			groupFalseFalseInit.add(90);
+			groupTrueTrueInit.add(4);
+			groupTrueFalseInit.add(4);
+			groupFalseTrueInit.add(4);
+			groupFalseFalseInit.add(35);
 		}
 		
 		List<Integer> sourceTrueTrueInit = new ArrayList<Integer>();
@@ -230,15 +241,15 @@ public class ModelInstance {
 		List<Integer> sourceFalseFalseInit = new ArrayList<Integer>();
 		
 		for (int j = 0; j < numSources; j++) {
-			sourceTrueTrueInit.add(10);
-			sourceTrueFalseInit.add(10);
-			sourceFalseTrueInit.add(10);
-			sourceFalseFalseInit.add(90);
+			sourceTrueTrueInit.add(4);
+			sourceTrueFalseInit.add(4);
+			sourceFalseTrueInit.add(4);
+			sourceFalseFalseInit.add(35);
 		}
 		
 		Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
-		Double trueLabelProb = 0.5;
-		Double falseLabelProb = 0.5;
+		Double trueLabelProb = 0.1;
+		Double falseLabelProb = 0.1;
 		for (int i = 0; i < numTuples; i++) {
 			if (tupleTruths.get(i) && Math.random() < trueLabelProb) {
 				tupleTruth.put(i, true);
@@ -260,14 +271,29 @@ public class ModelInstance {
 			outputtedTuples.addAll(sourceOutputs.get(j));
 		}
 		
-		final int numTrueTuples = trueTuples.size();
-		final int numOutputtedTuples = outputtedTuples.size();
+		//final int numTrueTuples = trueTuples.size();
+		//final int numOutputtedTuples = outputtedTuples.size();
 
 		ModelInstance modelInstance = new ModelInstance(numTuples, numGroups, numSources, groupSources, 
 				sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
 				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
 	
 		LiveSample liveSample = new LiveSample(modelInstance);
-		
+		final int numSamples = 1;
+		final int burnIn = 10000;
+		final int thinFactor = 1000;
+		List<GroundingSample> samples = liveSample.GibbsSampling(numSamples, burnIn, thinFactor);
+		for (GroundingSample sample : samples) {
+			out.println(sample.tupleTruthProb());
+			for (int k = 0; k < modelInstance.numGroups; k++) {
+				out.println(sample.groupBeliefProb(k, true));
+				out.println(1 - sample.groupBeliefProb(k, false));				
+			}
+			for (int j = 0; j < modelInstance.numSources; j++) {
+				out.println(sample.sourceBeliefProb(j, true));
+				out.println(1 - sample.sourceBeliefProb(j, false));				
+			}
+			out.println();
+		}
 	}
 }
