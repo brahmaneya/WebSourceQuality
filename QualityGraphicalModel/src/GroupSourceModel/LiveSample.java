@@ -126,6 +126,130 @@ public class LiveSample {
 		}
 	}
 	
+	// To add: terms for mutually exclusive tuple groups 
+	void changeTupleTruth(int i) {
+		if (isFixed.get(i)) {
+			return;
+		}
+		
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		
+		trueWeight += Math.log(tupleTruthProb());
+		for (int k = 0; k < modelInstance.numGroups; k++) {
+			if (groupTupleBeliefs.get(k).get(i)) {
+				trueWeight += Math.log(groupBeliefProb(k, true));
+				falseWeight += Math.log(groupBeliefProb(k, false));
+			} else {
+				trueWeight += Math.log(1 - groupBeliefProb(k, true));
+				falseWeight += Math.log(1 - groupBeliefProb(k, false));				
+			}
+		}
+		
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		if (Math.random() < odds / (1 + odds)) {
+			if (!tupleTruths.get(i)) {
+				tupleTruths.set(i, true);
+				tupleTrue++;
+				tupleFalse--;
+				for (int k = 0; k < modelInstance.numGroups; k++) {
+					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, 1);
+					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, -1);
+				}
+			} 
+		} else {
+			if (tupleTruths.get(i)) {
+				tupleTruths.set(i, false);
+				tupleTrue--;
+				tupleFalse++;
+				for (int k = 0; k < modelInstance.numGroups; k++) {
+					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, -1);
+					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, 1);
+				}
+			}
+		}
+	}
+	
+	void changeGroupBelief(int i, int k) {
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		
+		trueWeight += Math.log(groupBeliefProb(k, tupleTruths.get(i)));
+		falseWeight += Math.log(1 - groupBeliefProb(k, tupleTruths.get(i)));
+		
+		for (int j : modelInstance.groupSources.get(k)) {
+			if (sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
+				trueWeight += Math.log(sourceBeliefProb(j, true));
+				falseWeight += Math.log(sourceBeliefProb(j, false));
+			} else {
+				trueWeight += Math.log(1 - sourceBeliefProb(j, true));
+				falseWeight += Math.log(1 - sourceBeliefProb(j, false));				
+			}
+		}
+		
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		if (Math.random() < odds / (1 + odds)) {
+			if (!groupTupleBeliefs.get(k).get(i)) {
+				groupTupleBeliefs.get(k).set(i, true);
+				updateGroupCount(k, true, tupleTruths.get(i), 1);
+				updateGroupCount(k, false, tupleTruths.get(i), -1);
+				for (int j : modelInstance.groupSources.get(k)) {
+					updateSourceCount(j, sourceGroupTupleBeliefs.get(j).get(k).get(i), true, 1);
+					updateSourceCount(j, sourceGroupTupleBeliefs.get(j).get(k).get(i), false, -1);
+				}
+			} 
+		} else {
+			if (groupTupleBeliefs.get(k).get(i)) {
+				groupTupleBeliefs.get(k).set(i, false);
+				updateGroupCount(k, true, tupleTruths.get(i), -1);
+				updateGroupCount(k, false, tupleTruths.get(i), 1);
+				for (int j : modelInstance.groupSources.get(k)) {
+					updateSourceCount(j, sourceGroupTupleBeliefs.get(j).get(k).get(i), true, -1);
+					updateSourceCount(j, sourceGroupTupleBeliefs.get(j).get(k).get(i), false, 1);
+				}
+			} 
+		}
+	}
+	
+	void changeSourceGroupBelief(int i, int j, int k) {
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		
+		trueWeight += Math.log(sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
+		falseWeight += Math.log(1 - sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
+		
+		boolean falseOr = false; // The Or of all other beliefs for this source-tuple pair
+		final boolean trueOr = true;
+		for (int kk = 0; kk < modelInstance.numGroups; kk++) {
+			if (kk == k) {
+				continue;
+			}
+			if (sourceGroupTupleBeliefs.get(j).get(kk).get(i)) {
+				falseOr = true;
+				break;
+			}
+		}
+		
+		// Below: change 0.001 to epsilon, a parameter set in the modelInstance.
+		trueWeight += Math.log(trueOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : 0.001);
+		falseWeight += Math.log(falseOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : 0.001);
+		
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		if (Math.random() < odds / (1 + odds)) {
+			if (!sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
+				sourceGroupTupleBeliefs.get(j).get(k).set(i, true);
+				updateSourceCount(j, true, groupTupleBeliefs.get(k).get(i), 1);
+				updateSourceCount(j, false, groupTupleBeliefs.get(k).get(i), -1);
+			}
+		} else {
+			if (sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
+				sourceGroupTupleBeliefs.get(j).get(k).set(i, false);
+				updateSourceCount(j, true, groupTupleBeliefs.get(k).get(i), -1);
+				updateSourceCount(j, false, groupTupleBeliefs.get(k).get(i), 1);
+			}
+		}
+	}
+	
 	double tupleTruthProb () {
 		return (tupleTrue + 0.0) / (tupleTrue + tupleFalse);
 	}

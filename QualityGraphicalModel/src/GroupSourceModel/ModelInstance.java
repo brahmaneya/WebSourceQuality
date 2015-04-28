@@ -1,10 +1,13 @@
 package GroupSourceModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static java.lang.System.out;
 
 /**
  * Class to describe an instance of our probabilistic graphical model, describing how sources outputs tuples. 
@@ -90,5 +93,181 @@ public class ModelInstance {
 	
 		this.tupleTruth = tupleTruth;
 	}
+	
+	@Override
+	public String toString() {
+		String ans = "";
+		ans = String.format("%d, %d, %d \n", numTuples, numGroups, numSources);
+		return ans;
+	}
+	
+	public static void main (String[] args) {
+		final int numTuples = 100;
+		final int numSources = 4;
+		final int numGroups = 4;
+		
+		List<List<Integer>> groupSources = new ArrayList<List<Integer>>();
+		List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
 
+		Double groupDensity = 0.1;
+		
+		groupSources.add(new ArrayList<Integer>());
+		for (int j = 0; j < numSources; j++) {
+			groupSources.get(0).add(j);
+		}
+		
+		for (int k = 1; k < numGroups; k++) {
+			groupSources.add(new ArrayList<Integer>());
+			for (int j = 0; j < numSources; j++) {
+				if (Math.random() < groupDensity) {
+					groupSources.get(k).add(j);
+				}
+			}
+		}
+		
+		List<Boolean> tupleTruths = new ArrayList<Boolean>();
+		List<List<Boolean>> groupTupleBeliefs = new ArrayList<List<Boolean>>();
+		List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
+
+		Double tuplePrior = 0.2;
+		for (int i = 0; i < numTuples; i++) {
+			if (Math.random() < tuplePrior) {
+				tupleTruths.add(true);
+			} else {
+				tupleTruths.add(false);
+			}
+		}
+		
+		ArrayList<Double> groupFP = new ArrayList<Double>();
+		ArrayList<Double> groupFN = new ArrayList<Double>();
+		for (int k = 0; k < numGroups; k++) {
+			groupFP.add(0.01);
+			groupFN.add(0.5);
+		}
+		
+		for (int k = 0; k < numGroups; k++) {
+			List<Boolean> beliefsList = new ArrayList<Boolean>();
+			for (int i = 0; i < numTuples; i++) {
+				if (tupleTruths.get(i)) {
+					if (Math.random() < groupFN.get(k)) {
+						beliefsList.add(false);
+					} else {
+						beliefsList.add(true);
+					}
+				} else {
+					if (Math.random() < groupFP.get(k)) {
+						beliefsList.add(true);
+					} else {
+						beliefsList.add(false);
+					}
+				}
+			}
+			groupTupleBeliefs.add(beliefsList);
+		}
+		
+		ArrayList<Double> sourceFP = new ArrayList<Double>();
+		ArrayList<Double> sourceFN = new ArrayList<Double>();
+		for (int j = 0; j < numSources; j++) {
+			sourceFP.add(0.01);
+			sourceFN.add(0.5);
+		}
+		
+		for (int j = 0; j < numSources; j++) {
+			Map<Integer, List<Boolean>> beliefsMap = new HashMap<Integer, List<Boolean>>();
+			for (int k = 0; k < numGroups; k++) {
+				if (!groupSources.get(k).contains(j)) {
+					continue;
+				}
+				List<Boolean> beliefsList = new ArrayList<Boolean>();
+				for (int i = 0; i < numTuples; i++) {
+					if (groupTupleBeliefs.get(k).get(i)) {
+						if (Math.random() < sourceFN.get(j)) {
+							beliefsList.add(false);
+						} else {
+							beliefsList.add(true);
+						}
+					} else {
+						if (Math.random() < sourceFP.get(j)) {
+							beliefsList.add(true);
+						} else {
+							beliefsList.add(false);
+						}
+					}
+				}
+				beliefsMap.put(k, beliefsList);
+			}
+			sourceGroupTupleBeliefs.add(beliefsMap);
+		}
+		
+		for (int j = 0; j < numSources; j++) {
+			List<Integer> outputs = new ArrayList<Integer>();
+			for (int i = 0; i < numTuples; i++) {
+				for (int k = 0; k < numGroups; k++) {
+					if (groupSources.get(k).contains(j) && sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
+						outputs.add(i);
+						break;
+					}
+				}
+			}
+			sourceOutputs.add(outputs);
+		}
+		
+		List<Integer> groupTrueTrueInit = new ArrayList<Integer>();
+		List<Integer> groupTrueFalseInit = new ArrayList<Integer>();
+		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
+		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
+		
+		for (int k = 0; k < numGroups; k++) {
+			groupTrueTrueInit.add(10);
+			groupTrueFalseInit.add(10);
+			groupFalseTrueInit.add(10);
+			groupFalseFalseInit.add(90);
+		}
+		
+		List<Integer> sourceTrueTrueInit = new ArrayList<Integer>();
+		List<Integer> sourceTrueFalseInit = new ArrayList<Integer>();
+		List<Integer> sourceFalseTrueInit = new ArrayList<Integer>();
+		List<Integer> sourceFalseFalseInit = new ArrayList<Integer>();
+		
+		for (int j = 0; j < numSources; j++) {
+			sourceTrueTrueInit.add(10);
+			sourceTrueFalseInit.add(10);
+			sourceFalseTrueInit.add(10);
+			sourceFalseFalseInit.add(90);
+		}
+		
+		Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
+		Double trueLabelProb = 0.5;
+		Double falseLabelProb = 0.5;
+		for (int i = 0; i < numTuples; i++) {
+			if (tupleTruths.get(i) && Math.random() < trueLabelProb) {
+				tupleTruth.put(i, true);
+			} else if (!tupleTruths.get(i) && Math.random() < falseLabelProb) {
+				tupleTruth.put(i, false);
+			}
+		}
+		
+		// For checking
+		Set<Integer> trueTuples = new HashSet<Integer>();
+		for (int i = 0; i < numTuples; i++) {
+			if (tupleTruths.get(i)) {
+				trueTuples.add(i);
+			}
+		}
+		
+		Set<Integer> outputtedTuples = new HashSet<Integer>();
+		for (int j = 0; j < numSources; j++) {
+			outputtedTuples.addAll(sourceOutputs.get(j));
+		}
+		
+		final int numTrueTuples = trueTuples.size();
+		final int numOutputtedTuples = outputtedTuples.size();
+
+		ModelInstance modelInstance = new ModelInstance(numTuples, numGroups, numSources, groupSources, 
+				sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
+				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
+	
+		LiveSample liveSample = new LiveSample(modelInstance);
+		
+	}
 }
