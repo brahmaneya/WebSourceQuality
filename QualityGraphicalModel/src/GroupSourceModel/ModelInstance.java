@@ -44,7 +44,7 @@ public class ModelInstance {
 	Map<Integer, Boolean> tupleTruth;
 	
 	// Probability penalty for having OR_{k} of sourceGroupTupleBeliefs[k][j][i] disagree with sourceOutput[j][i].
-	final Double epsilon = 0.001;
+	final Double epsilon = 0.0001;
 	
 	public ModelInstance (int numTuples, int numGroups, int numSources, List<List<Integer>> groupSources, 
 			List<List<Integer>> sourceOutputs, List<Integer> groupTrueTrueInit, List<Integer> groupTrueFalseInit,
@@ -115,7 +115,7 @@ public class ModelInstance {
 	public static void main (String[] args) {
 		final int numTuples = 2000;
 		final int numGroups = 3;
-		final int numSources = 6;
+		final int numSources = 12;
 		
 		List<List<Integer>> groupSources = new ArrayList<List<Integer>>();
 		List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
@@ -248,8 +248,8 @@ public class ModelInstance {
 		}
 		
 		Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
-		Double trueLabelProb = 0.1;
-		Double falseLabelProb = 0.1;
+		Double trueLabelProb = 0.2;
+		Double falseLabelProb = 0.2;
 		for (int i = 0; i < numTuples; i++) {
 			if (tupleTruths.get(i) && Math.random() < trueLabelProb) {
 				tupleTruth.put(i, true);
@@ -258,7 +258,6 @@ public class ModelInstance {
 			}
 		}
 		
-		// For checking
 		Set<Integer> trueTuples = new HashSet<Integer>();
 		for (int i = 0; i < numTuples; i++) {
 			if (tupleTruths.get(i)) {
@@ -279,11 +278,79 @@ public class ModelInstance {
 				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
 	
 		LiveSample liveSample = new LiveSample(modelInstance);
-		final int numSamples = 1;
-		final int burnIn = 10000;
-		final int thinFactor = 1000;
+		out.println("Current base truth rate:\t" + liveSample.tupleTruthProb());
+		final int numSamples = 4;
+		final int burnIn = 100000;
+		final int thinFactor = 10000;
 		List<GroundingSample> samples = liveSample.GibbsSampling(numSamples, burnIn, thinFactor);
+
+		List<Double> tupleTruthExp = new ArrayList<Double>();
+		List<List<Double>> groupTupleBeliefExp = new ArrayList<List<Double>>();
+		List<Map<Integer, List<Double>>> sourceGroupTupleBeliefExp = new ArrayList<Map<Integer, List<Double>>>();
+		
+		for(int i = 0; i < modelInstance.numTuples; i++) {
+			tupleTruthExp.add(0.0);
+		}
+		for(int k = 0; k < modelInstance.numGroups; k++) {
+			List<Double> tt = new ArrayList<Double>();
+			for (int i = 0; i < modelInstance.numTuples; i++) {
+				tt.add(0.0);
+			}
+			groupTupleBeliefExp.add(tt);
+		}
+		for (int j = 0; j < modelInstance.numSources; j++) {
+			Map<Integer, List<Double>> tm = new HashMap<Integer, List<Double>>();
+			for (int k : modelInstance.sourceGroups.get(j)) {
+				List<Double> tt = new ArrayList<Double>();
+				for (int i = 0; i < modelInstance.numTuples; i++) {
+					tt.add(0.0);
+				}
+				tm.put(k,tt);
+			}
+			sourceGroupTupleBeliefExp.add(tm);	
+		}
+
 		for (GroundingSample sample : samples) {
+			for(int i = 0; i < modelInstance.numTuples; i++) {
+				tupleTruthExp.set(i, tupleTruthExp.get(i) + (sample.getVal(i) ? 1.0 : 0.0));
+			}
+			for(int k = 0; k < modelInstance.numGroups; k++) {
+				List<Double> tt = groupTupleBeliefExp.get(k);
+				for (int i = 0; i < modelInstance.numTuples; i++) {
+					tt.set(i, tt.get(i) + (sample.getVal(i, k) ? 1.0 : 0.0));
+				}
+			}
+			for (int j = 0; j < modelInstance.numSources; j++) {
+				Map<Integer, List<Double>> tm = sourceGroupTupleBeliefExp.get(j); 
+				for (int k : modelInstance.sourceGroups.get(j)) {
+					List<Double> tt = tm.get(k); 
+					for (int i = 0; i < modelInstance.numTuples; i++) {
+						tt.set(i, tt.get(i) + (sample.getVal(i, j, k) ? 1.0 : 0.0));
+					}
+				}
+			}
+		}
+
+		for(int i = 0; i < modelInstance.numTuples; i++) {
+			tupleTruthExp.set(i, tupleTruthExp.get(i) / numSamples);
+		}
+		for(int k = 0; k < modelInstance.numGroups; k++) {
+			List<Double> tt = groupTupleBeliefExp.get(k);
+			for (int i = 0; i < modelInstance.numTuples; i++) {
+				tt.set(i, tt.get(i) / numSamples);
+			}
+		}
+		for (int j = 0; j < modelInstance.numSources; j++) {
+			Map<Integer, List<Double>> tm = sourceGroupTupleBeliefExp.get(j); 
+			for (int k : modelInstance.sourceGroups.get(j)) {
+				List<Double> tt = tm.get(k); 
+				for (int i = 0; i < modelInstance.numTuples; i++) {
+					tt.set(i, tt.get(i) / numSamples);
+				}
+			}
+		}
+		
+		for (GroundingSample sample : samples.subList(0,1)) {
 			out.println(sample.tupleTruthProb());
 			for (int k = 0; k < modelInstance.numGroups; k++) {
 				out.println(sample.groupBeliefProb(k, true));
@@ -295,5 +362,45 @@ public class ModelInstance {
 			}
 			out.println();
 		}
+		double tt = 0.0;
+		double ft = 0.0;
+		double tf = 0.0;
+		double ff = 0.0;
+		for (int i = 0; i < numTuples; i++) {
+			if (trueTuples.contains(i)) {
+				tt += tupleTruthExp.get(i);
+				ft += 1 - tupleTruthExp.get(i);
+			} else {
+				tf += tupleTruthExp.get(i);
+				ff += 1 - tupleTruthExp.get(i);
+			}
+		}	
+		out.println("true acc:\t" + (tt/(tt+ft)));
+		out.println("false acc:\t" + (ff/(ff+tf)));
+
+		Map<Integer, Integer> trueSourceCount = new HashMap<Integer, Integer>();
+		for (int j = 0; j <= modelInstance.numSources; j++) {
+			trueSourceCount.put(j,0);
+		}
+		
+		Map<Integer, Integer> falseSourceCount = new HashMap<Integer, Integer>();
+		for (int j = 0; j <= modelInstance.numSources; j++) {
+			falseSourceCount.put(j,0);
+		}
+		for (int i = 0; i < numTuples; i++) {
+			int sourceCount = 0;
+			for (int j = 0; j < modelInstance.numSources; j++) {
+				if (sourceOutputs.get(j).contains(i)) {
+					sourceCount++;
+				}
+			}
+			if (tupleTruths.get(i)) {
+				trueSourceCount.put(sourceCount, 1 + trueSourceCount.get(sourceCount));
+			} else {	
+				falseSourceCount.put(sourceCount, 1 + falseSourceCount.get(sourceCount));
+			}
+		}
+		out.println(trueSourceCount.toString());
+		out.println(falseSourceCount.toString());
 	}
 }

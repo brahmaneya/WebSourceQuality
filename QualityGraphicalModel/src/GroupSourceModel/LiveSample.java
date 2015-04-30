@@ -77,8 +77,10 @@ public class LiveSample {
 			}
 		}
 		for (int i = 0; i < modelInstance.numTuples; i++) {
+			Double tupleTrueProbability = tupleTrueProb();
+			// NOTE: What would happen if we initialized tuples based on number of outputting sources rather than randomly? Closer to equilibrium state, but any local optima problems?
 			if (!isFixed.get(i)) {
-				if (Math.random() < tupleTruthProb()) {
+				if (Math.random() < tupleTruthProbability) {
 					tupleTruths.set(i, true);
 					tupleTrue++;
 				} else {
