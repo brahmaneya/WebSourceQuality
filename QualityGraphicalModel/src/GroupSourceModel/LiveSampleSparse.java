@@ -2,8 +2,10 @@ package GroupSourceModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class maintains information on the state of different variables during Gibb's sampling. The Gibb's sampling consists
@@ -11,13 +13,17 @@ import java.util.Map;
  *  
  * @author manasrj
  */
-public class LiveSample {
+public class LiveSampleSparse {
 	ModelInstance modelInstance;
-	List<Boolean> tupleTruths;
-	List<List<Boolean>> groupTupleBeliefs;
-	List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs;
+	int numTuples;
+	Map<Integer, Boolean> tupleTruths;
+	List<Map<Integer, Boolean>> groupTupleBeliefs;
+	List<Map<Integer, Map<Integer, Boolean>>> sourceGroupTupleBeliefs;
 	
-	List<Boolean> isFixed;
+	Map<Integer, Set<Integer>> groupOutputs;
+	Map<Integer, Set<Integer>> outputGroups;	
+	
+	Set<Integer> isFixed;
 
 	// number of true and false tuples
 	Integer tupleTrue;
@@ -37,7 +43,35 @@ public class LiveSample {
 	List<Integer> sourceFalseTrue;
 	List<Integer> sourceFalseFalse;
 	
-	LiveSample(ModelInstance modelInstance) {
+	// T_i
+	Boolean getVal (int i) {
+		if (tupleTruths.containsKey(i)) {
+			return tupleTruths.get(i);			
+		} else {
+			return false;
+		}
+	}
+
+	// G_{k,i}
+	Boolean getVal (int i, int k) {
+		if (groupOutputs.get(k).contains(i)) {
+			return groupTupleBeliefs.get(k).get(i);			
+		} else {
+			return false;
+		}
+	}
+
+	// S_{j,k,i}
+	Boolean getVal (int i, int j, int k) {
+		if (modelInstance.sourceOutputs.get(j).contains(i)) {
+			return sourceGroupTupleBeliefs.get(j).get(k).get(i);			
+		} else {
+			return false;
+		}
+	}
+	
+	
+	LiveSampleSparse (ModelInstance modelInstance) {
 		this.modelInstance = modelInstance;
 		
 		tupleTrue = 0;
@@ -61,15 +95,29 @@ public class LiveSample {
 		sourceFalseTrue.addAll(modelInstance.sourceFalseTrueInit);
 		sourceFalseFalse.addAll(modelInstance.sourceFalseFalseInit);
 		
-		isFixed = new ArrayList<Boolean>();
-		tupleTruths = new ArrayList<Boolean>();
-		for (int i = 0; i < modelInstance.numTuples; i++) {
-			isFixed.add(false);
-			tupleTruths.add(false);
+		groupOutputs = new HashMap<Integer, Set<Integer>>();
+		outputGroups = new HashMap<Integer, Set<Integer>>();
+		for (int i  = 0; i < modelInstance.numTuples; i++) {
+			outputGroups.put(i, new HashSet<Integer>());
 		}
+		for (int k  = 0; k < modelInstance.numGroups; k++) {
+			groupOutputs.put(k, new HashSet<Integer>());
+		}
+		for (int j = 0; j < modelInstance.numSources; j++) {
+			for (int i : modelInstance.sourceOutputs.get(j)) {
+				for (int k : modelInstance.sourceGroups.get(j)) {
+					outputGroups.get(i).add(k);
+					groupOutputs.get(k).add(i);
+				}
+			}
+		}
+		
+		isFixed = new HashSet<Integer>();
+		tupleTruths = new HashMap<Integer, Boolean>();
+		numTuples = modelInstance.numTuples;
 		for (int i : modelInstance.tupleTruth.keySet()) {
-			isFixed.set(i, true);
-			tupleTruths.set(i, modelInstance.tupleTruth.get(i));
+			isFixed.add(i);
+			tupleTruths.put(i, modelInstance.tupleTruth.get(i));
 			if (tupleTruths.get(i)) {
 				tupleTrue++;
 			} else {
@@ -77,53 +125,63 @@ public class LiveSample {
 			}
 		}
 		for (int i = 0; i < modelInstance.numTuples; i++) {
-			Double tupleTrueProbability = tupleTrueProb();
+			Double tupleTrueProbability = tupleTruthProb(); // Need better way to choose this? (We aren't using it currently)
 			// NOTE: What would happen if we initialized tuples based on number of outputting sources rather than randomly? Closer to equilibrium state, but any local optima problems?
-			if (!isFixed.get(i)) {
-				if (Math.random() < tupleTruthProbability) {
-					tupleTruths.set(i, true);
-					tupleTrue++;
-				} else {
-					tupleTruths.set(i, false);
-					tupleFalse++;
-				}
+			final Set<Integer> sources = modelInstance.outputSources.get(i);
+			if (sources.isEmpty()) {
+				tupleFalse++; 
+				continue; // Don't even store this tuple explicitly
+			} else if (sources.size() == 1) { // NOTE: Need to choose the '1' threshold better. 
+				tupleTruths.put(i, false);
+				tupleFalse++;
+			} else {
+				tupleTruths.put(i, true);
+				tupleTrue++;
 			}
 		}
 		
-		groupTupleBeliefs = new ArrayList<List<Boolean>>();
+		groupTupleBeliefs = new ArrayList<Map<Integer, Boolean>>();
 		for (int k = 0; k < modelInstance.numGroups; k++) {
-			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
+			Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				boolean groupTupleBelief;
-				boolean tupleTruth = tupleTruths.get(i);
-				if (Math.random() < groupBeliefProb(k, tupleTruth)) {
-					groupTupleBelief = true;
-				} else {
+				boolean tupleTruth = getVal(i);
+				if (!groupOutputs.get(k).contains(i)) {
 					groupTupleBelief = false;
+				} else {
+					if (Math.random() < groupBeliefProb(k, tupleTruth)) {
+						groupTupleBelief = true;
+					} else {
+						groupTupleBelief = false;
+					}
+					groupTupleBeliefsMap.put(i, groupTupleBelief);					
 				}
-				groupTupleBeliefsList.add(groupTupleBelief);
 				updateGroupCount(k, groupTupleBelief, tupleTruth, 1);
 			}
-			groupTupleBeliefs.add(groupTupleBeliefsList);
+			groupTupleBeliefs.add(groupTupleBeliefsMap);
 		}
 		
-		sourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
+		sourceGroupTupleBeliefs = new ArrayList<Map<Integer, Map<Integer, Boolean>>>();
 		for (int j = 0; j < modelInstance.numSources; j++) {
-			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
+			Map<Integer, Map<Integer, Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, Map<Integer, Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
-				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
+				Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
 				for (int i = 0; i < modelInstance.numTuples; i++) {
 					boolean groupTupleBelief = groupTupleBeliefs.get(k).get(i);
 					boolean sourceGroupTupleBelief;
-					if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
-						sourceGroupTupleBelief = true;
-					} else {
+					if (!modelInstance.sourceOutputs.get(j).contains(i)) {
 						sourceGroupTupleBelief = false;
+					} else {
+						if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
+							sourceGroupTupleBelief = true;
+						} else {
+							sourceGroupTupleBelief = false;
+						}
+						groupTupleBeliefsMap.put(i, sourceGroupTupleBelief);						
 					}
-					groupTupleBeliefsList.add(sourceGroupTupleBelief);
 					updateSourceCount(j, sourceGroupTupleBelief, groupTupleBelief, 1);
 				}
-				sourceGroupTupleBeliefsMap.put(k, groupTupleBeliefsList);
+				sourceGroupTupleBeliefsMap.put(k, groupTupleBeliefsMap);
 			}
 			
 			sourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
@@ -132,7 +190,7 @@ public class LiveSample {
 	
 	// To add: terms for mutually exclusive tuple groups 
 	private void changeTupleTruth(int i) {
-		if (isFixed.get(i)) {
+		if (isFixed.contains(i)) {
 			return;
 		}
 		

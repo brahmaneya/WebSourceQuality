@@ -98,6 +98,19 @@ Aditya Parameswaran\\
 \begin{abstract}
 \end{abstract}
 
+%write:
+% existing work
+% why our setting is more general. our design choices. prior, etc. see draft. 
+% our setting (already written). change the deepdive part, write about our naive pseudo code
+% problems with setting. sparsity
+% suggestions for improvment
+% several choices/assumptions for improvement. generalizing jiawei han's work. 
+
+\section{Introduction}
+problem: source quality. web sources. output data. some incorrect. want to find correct data, as well as accuracy of sources. many variants. e.g. one vs many truths per entity. errors independence. extractor error. (give names to variants). 
+related work. which variants solved, what's missing. 
+our framework, which combines all. then the framework section, then design decisions?
+
 \section{Problem Setting}  
 Our database consists of a single table $Z$, which we want to populate. We also imagine there is a conceptual table $Z'$ that is fully populated. For instance, $Z$ may be a table with schema, (Country, President), and only a few tuples filled in. Then $Z'$ is a table that contains all countries and their presidents. We say a tuple $t$ is `correct' if it is contained in $Z'$. 
 

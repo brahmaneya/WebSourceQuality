@@ -44,7 +44,7 @@ public class ModelInstance {
 	Map<Integer, Boolean> tupleTruth;
 	
 	// Probability penalty for having OR_{k} of sourceGroupTupleBeliefs[k][j][i] disagree with sourceOutput[j][i].
-	final Double epsilon = 0.0001;
+	final Double epsilon = 0.00001;
 	
 	public ModelInstance (int numTuples, int numGroups, int numSources, List<List<Integer>> groupSources, 
 			List<List<Integer>> sourceOutputs, List<Integer> groupTrueTrueInit, List<Integer> groupTrueFalseInit,
@@ -99,8 +99,8 @@ public class ModelInstance {
 	
 	void analyzeModel (int numSamples, int burnIn, int thinFactor, Double tuplePrior, Map<Integer, Double> groupFPs, 
 			Map<Integer, Double> groupFNs, Map<Integer, Double> sourceFPs, Map<Integer, Double> sourceFNs) {
-		LiveSample liveSample = new LiveSample(this);
-		List<GroundingSample> samples = liveSample.GibbsSampling(numSamples, burnIn, thinFactor);
+		LiveSampleDense liveSampleDense = new LiveSampleDense(this);
+		List<GroundingSample> samples = liveSampleDense.GibbsSampling(numSamples, burnIn, thinFactor);
 		
 		
 	}
@@ -277,12 +277,12 @@ public class ModelInstance {
 				sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
 				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
 	
-		LiveSample liveSample = new LiveSample(modelInstance);
-		out.println("Current base truth rate:\t" + liveSample.tupleTruthProb());
+		LiveSampleDense liveSampleDense = new LiveSampleDense(modelInstance);
+		out.println("Current base truth rate:\t" + liveSampleDense.tupleTruthProb());
 		final int numSamples = 4;
 		final int burnIn = 100000;
 		final int thinFactor = 10000;
-		List<GroundingSample> samples = liveSample.GibbsSampling(numSamples, burnIn, thinFactor);
+		List<GroundingSample> samples = liveSampleDense.GibbsSampling(numSamples, burnIn, thinFactor);
 
 		List<Double> tupleTruthExp = new ArrayList<Double>();
 		List<List<Double>> groupTupleBeliefExp = new ArrayList<List<Double>>();
