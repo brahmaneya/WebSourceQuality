@@ -260,6 +260,8 @@ Some other ideas for making computation faster, by potentially changing the mode
 \squishlist
 \item Assume that all groups are connected to only a small number of sources. (This assumption makes it hard to explain data when there are false tuples that are outputted by a large number of sources, like the (USA, Bush) tuple).
 \item Currently, if a source does not output a tuple, we are treating it as asserting that the tuple is false (and making it count towards the false negative rate). We would allow a model where model source-tuple or group-tuple relations are labelled `ignore' rather than false. That way, when computing odds, we do not need to do the odds mutliplication for the `ignore' edges.
+\item We can make a source have an indepedent error rate for each group it belongs to (so a source is connected to each group with a different strength). This might make the odds computation easier, because a source $s_i$'s error rate wrt a group $g_k$ depends only on $T_{j,k,i}$s, and we can possibly approximately it using the count of $g_k$ beliefs and disbeliefs (similar to what we do when updating a $T_j$).
+\item For things which get updated infrequently, does it make sense to skip some update. For example, if a variable has a $]frac{1}{10000}$ chance of getting flipped, then is it ok to skip it for $100$ iterations and then flip it with probability $\frac{1}{100}$? Other tricks for optimizing Gibb's sampling, including better initialization of values, may allow us to sample for fewer iterations, and thus reduce computation time.     
 \squishend
 
 % model changes/ open world assumption/small groups assumption. 
