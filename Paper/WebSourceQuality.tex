@@ -158,10 +158,10 @@ We use the idea of groups to model correlations between sources. This allows us 
 Having groups specified beforehand allows us to incorporate our prior knowledge about relations between source errors. For instance, a domain expert can tell us which sources tend to agree with each other, and we can create groups to reflect that in our model. Groups created this way are also interpretable, and the error rates found for these groups can be connected to corresponding real world entities, such as journals or websites. One weakness of our model is that groups aren't learned; we can potentially compensate for this by running the model with multiple groupings and seeing which group structure works best. 
 
 We do not make the single truth assumption, to increase the applicability of our work. If we need to populate a table which does not have a primary key, then we need a model that doesn't make the single truth assumption. For instance, we have a table with schema (gene, phenotype), and we wish to populate it with information on which genes are associated with which phenotypes. Since a single gene can be associated with multiple phenotypes, we need to avoid making the single truth assumption. Another such example is a book-authors table, where each tuple has a single book-author pair, but one book can have multiple authors. In fact, our setting is even more general than the one in~\cite{Zhao:2012:BAD:2168651.2168656}, which doesn't have the single truth assumption, but still assumes that each tuple consists of an `entity' and a claim about that entity. 
-On the other hand, if we do have a table with a primary key, we can enforce the key constraint using the tuple-groups in our model. We can simulate the setting in~\cite{Zhao:2012:BAD:2168651.2168656} as well, by choosing one group per entity, and connecting it to all sources that output at least one tuple about that entity. 
+On the other hand, if we do have a table with a primary key, we can enforce the single truth assumption there by using the tuple-groups in our model. With minor modifications to our model, we can also simulate the setting in~\cite{Zhao:2012:BAD:2168651.2168656}, by choosing one group per entity, and connecting it to all sources that output at least one tuple about that entity and initializing the group to believe in all tuples that talk about that entity. 
 
 A knowledge base usually consists of multiple tables, with different primary key constraints within some tables, and foreign key constraints between several tables.
-There can be other probabilistic constraints on tuples in the knowledge base. We choose our setting so that tuples outputted by sources can potentially belong to different tables, with different kinds of constraints within or between tables (modelled using tuple-groups). Moreover, as stated before, our setting is general enough to be able to model the single truth assumption when necessary, or the entity assumption in~\cite{Zhao:2012:BAD:2168651.2168656}, but can also apply to settings not covered by previous work. We do not currently consider extractor errors separately from source errors; we can work around this by treaating each source-extractor pair as a `source'. and each source as a `group'. 
+There can be other probabilistic constraints on tuples in the knowledge base. We choose our setting so that tuples outputted by sources can potentially belong to different tables, with different kinds of constraints within or between tables (modelled using tuple-groups). Moreover, as stated before, our setting is general enough to be able to model the single truth assumption when necessary, or an assumption similar to the one in~\cite{Zhao:2012:BAD:2168651.2168656}, but can also apply to settings not covered by previous work. We do not currently consider extractor errors separately from source errors; we can work around this by treaating each source-extractor pair as a `source'. and each source as a `group'. 
 
 Hence to summarize, our setting is very general, and capable of incorporating prior knowledge, and can be tailored to a wide variety of realistic scenarios. 
 
@@ -237,65 +237,40 @@ and the probability of setting $T_{j,k}$ to true is given by $\frac{P_{j,k+}}{P_
 
 Finally, changing $T_{j,k,i}$ is similar. In addition to the $[s_{i++} s_{i+-}] T_{j,k}$ term, it will have a term that connects the `Or' of the $T_{j,k,i}$s to output $b_{i,j}$. 
 
+An implementation of the solution given above works on simulated data with $\approx 20000$ tuples, $4$ groups and $10$ sources. It finds the source accuracies reasonably well, but it takes a long time $\approx$ 25 minutes. Since the number of sources in real datasets are much higher, this means the implementation will not finish in a reasonable amount of time on our real datasets. 
+
 \subsection{Efficiency and Sparsity} 
 The number of boolean variables in our model can be very large, for real datasets. Firstly, we assume that there is a large number of false tuples that are never outputted, which increases the number of tuple variables (relative to the number of tuples that have actually been outputted). In addition, for each $i, j, k$ such that source $s_i$ is in group $g_k$, we have one boolean variable $T_{j,k,i}$. This means the number of variables is at least equal to the number of tuples times the number of sources. For a data with $800$ sources and $10000$ outputted tuples (which are the sizes for one of our real datasets), the number of variables is at least $8$ million, which is very large. Each iteration of the collapsed Gibb's sampling involves making a pass over $8$ million tuples, and we need a large number of such passes to generate samples. Moreover, each step of changing the value of a random variable involves several multiplications (to compute the conditional probability of the variable taking value true or false), and several updates to the counters in case the value is changed. 
 
-We compute the conditional probability even for variables which are almost guaranteed to be false ($T_{j,k,i}$ where $t_j$ was not outputted by $s_i$, $T_{j,k}$ where $t_j$ was not outputted by any source in $g_k$, $T_j$ where $t_j$ was never outputted). Although the number of sources and tuples is large, we have two factors that need to be used to speed up our sampling:
+We compute the conditional probability even for variables which are almost guaranteed to be false (e.g. $T_{j,k,i}$ where $t_j$ was not outputted by $s_i$, $T_j$ where $t_j$ was never outputted). Although the number of sources and tuples is large, we have two factors that need to be used to speed up our sampling:
 \squishlist
 \item A large number of tuples are false and never outputted
 \item Even for tuples that have been outputted, they are usually outputted by only a small fraction of the sources. That is, the source-tuple graph is sparse.
 \squishend
 
-% problem with model. large number of false tuples, sources. so large number of boolean variables (so memory). during gibbs sampling, have to iterate over many variables. also for each variable, have to check a large number of probabilities (as the flip prob is this big product). and then if change of variable, have to update a lot of counts. all of these are at least |T||S| time. have to do this for 10000 iterations per sample(?). 
-% solution. lots of tuples false. even for true tuples, source-output graph (b_{i,j}) is sparse. so instead of maintaining all booleans, only maintain those likely to be true. i.e. join of ST and SG. How to deal with combining probabilities (for both T's and GT's) and updating counts. 
+We can try using these factors by making the following changes:
+\squishlist
+\item Instead of instantiating boolean variables for all $T_{j}, T_{j,k}, T_{j,k,i}$s, we will only instantiate $T_j$'s where $t_j$ has been outputted at least once, $T_{j,k}$ where $t_j$ has been outputte dbe at least once source belonging to group $g_k$, and $T_{j,k,i}$ where source $s_i$ belongs to group $g_k$ and has outputted tuple $t_j$. The others are assumed to be permanently false (but they will still be counted in their corresponding counters, as they still affect our error rate estimates for sources and groups.)
+\item We don't need to explicitly maintain $g_{k-+}, g_{k--}$ for any $k$. They can be computed on the fly using $g_{k-+} = t_{+} - g_{k++} + <prior terms>$, $g_{k--} = t_{-} - g_{+-} + <prior terms>$ (By $<prior terms>$ we mean the parts of the counters that were set to specify the prior probabilities of $g_k$'s error rates). Since we are only maintaining $g_{k+-}, g_{k++}$, when a $T_j$ changes, we only need to update the counter for groups that believe in $T_j$ i.e. for groups where $T_{j,k}$ is true. Since most groups won't believe in most tuples (due to sparsity of the source-tuple relation), this will save a lot of time. This would still be problematic if there is a large number of groups connected to a large number of sources.
+\item When deciding if to change $T_j$, we need to compute a likelihood estimate for all groups $g_k$ based on the current value of $T_{j,k}$ and the counters for the group. If $T_{j,k}$ is true, the odds ratio $\frac{P_{j+}}{P_{j-}}$ that we have to compute would be multiplied by $\frac{g_{k++}t_{-}}{g_{k+-}t_{+}}$, and if $T_{j,k}$ is false, it would be multiplied by $\frac{g_{-+}t_{-}}{g_{k--}t_{+}}$. The latter of these quantities is very close to $1$ for groups that are only connected to a few sources (since for those groups we will have, $g_{k-+} \approx t_{+}, g_{k--} \approx t_{-}$), so we can probably just ignore those terms while calculating odds. This will reduce time for calculating odds while deciding if to change $T_j$.
+\item The two points above were on changing $T_j$, for reducing number of updates, and reducing cost of computing odds respectively. We need to make similar improvements to the process of changing $T_{j,k}$. Both the updates and the odds computation take time proprtional to the number of sources belonging to group $g_k$. If we assumed that all groups were small, then this would run fast. If a group is large (say there is a group that contains all sources), then we would like to extend the above ideas to try and update only $s_{i++}..$ values such that $T_{j,k,i}$ is already true, and to skip the odds computation for sources where $T_{j,k,i}$ is false. Unfortunately, earlier ideas do not directly extend to this setting, because unlike $g_{k--}$, $s_{i--}$ cannot directly be computed in terms of $s_{i+-}$ (so we would need to maintain this counter and update it even when $T_{j,k,i}$ is false). The odds computation is harder as well, because the odds multiplication term when $T_{j,k,i}$ is false is $\frac{s_{i-+}(s_{i+-} + s_{i--})}{s_{i--}(s_{i-+}+s_{i++})}$, and its not clear if this is bound to be close to $1$. 
+\squishend
 
-% gibbs optimizations
+Some other ideas for making computation faster, by potentially changing the model, are:
+\squishlist
+\item Assume that all groups are connected to only a small number of sources. (This assumption makes it hard to explain data when there are false tuples that are outputted by a large number of sources, like the (USA, Bush) tuple).
+\item Currently, if a source does not output a tuple, we are treating it as asserting that the tuple is false (and making it count towards the false negative rate). We would allow a model where model source-tuple or group-tuple relations are labelled `ignore' rather than false. That way, when computing odds, we do not need to do the odds mutliplication for the `ignore' edges.
+\squishend
 
-\subsection{Dealing with sparsity, and other problems}
-
-
-
-
-
-
-
-
-
-
-
-
+% model changes/ open world assumption/small groups assumption. 
+% gibbs optimizations.
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{comment}
 \section{Solution Sketch (Old)}
 Our problem involves two kinds of variables we need to estimate: (i) Boolean variables (with column matrices corresponding to `true' and `false' values), such as $T_j$, $T_{j,k}$ and $T_{j,k,i}$ (ii) Real number variables, which are the baseline correctness probability $T$, and false positive and false negative rates of sources or source-groups. For the boolean variables, we want to find the \textit{marginal probability} of them being correct, which is itself a real number. 
 
@@ -317,7 +292,7 @@ $$G_{k-} = \frac{e^{w_{g_k-+}}}{e^{w_{g_k-+}} + e^{w_{g_k++}}}$$
 We can encode $S_i$ similarly. For each source $s_i$, we have four sets of factors, each with a corresponding weight. For each tuple $t_j$, and group $g_k$ containing $s_i$, we have factors with the following expressions and weights : $[(T_{j,k,i} \land T_{j,i}, w_{s_i++})$, $(T_{j,k,i} \land \lnot T_{j,i}, w_{s_i+-})$, $(\lnot T_{j,k,i} \land T_{j,i}, w_{s_i-+})$, $(\lnot T_{j,k,i} \land \lnot T_{j,i}, w_{s_i--})]$. The values of $S_i$ can be found using 
 $$S_{i+} = \frac{e^{w_{s_i+-}}}{e^{w_{s_i+-}} + e^{w_{s_i--}}}$$
 $$S_{i-} = \frac{e^{w_{s_i-+}}}{e^{w_{s_i-+}} + e^{w_{s_i++}}}$$
-
+\end{comment}
 
 %%%%%%%%%
 %Given a factor graph, with the graph structure, expressions, and weights specified, we want to find the probability distribution of values for each variable node in the graph. Finding the exact probability distribution is intractable for several graphs, but we can estimate the probability distribution using Gibb's Sampling. That is, we start from a random possible world, and then change the value of variables in it one at a time, in accordance with the total probability distribution. If we do this for sufficiently many iterations, the probability with which we reach a possible world approaches the actual probability of that possible world according to the total probability distribution. Then by counting the fraction of sampled possible worlds in which a variable node $T$ was set to true, we get an estimate of the marginal probability of $T$ being true. 
