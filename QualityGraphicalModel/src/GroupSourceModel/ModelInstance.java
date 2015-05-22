@@ -99,8 +99,8 @@ public class ModelInstance {
 	
 	void analyzeModel (int numSamples, int burnIn, int thinFactor, Double tuplePrior, Map<Integer, Double> groupFPs, 
 			Map<Integer, Double> groupFNs, Map<Integer, Double> sourceFPs, Map<Integer, Double> sourceFNs) {
-		LiveSampleDense liveSampleDense = new LiveSampleDense(this);
-		List<GroundingSample> samples = liveSampleDense.GibbsSampling(numSamples, burnIn, thinFactor);
+		DenseSample denseSample = new DenseSample(this);
+		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 		
 		
 	}
@@ -277,12 +277,12 @@ public class ModelInstance {
 				sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
 				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
 	
-		LiveSampleDense liveSampleDense = new LiveSampleDense(modelInstance);
-		out.println("Current base truth rate:\t" + liveSampleDense.tupleTruthProb());
+		DenseSample denseSample = new DenseSample(modelInstance);
+		out.println("Current base truth rate:\t" + denseSample.tupleTruthProb());
 		final int numSamples = 4;
 		final int burnIn = 100000;
 		final int thinFactor = 10000;
-		List<GroundingSample> samples = liveSampleDense.GibbsSampling(numSamples, burnIn, thinFactor);
+		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
 		List<Double> tupleTruthExp = new ArrayList<Double>();
 		List<List<Double>> groupTupleBeliefExp = new ArrayList<List<Double>>();
@@ -310,7 +310,7 @@ public class ModelInstance {
 			sourceGroupTupleBeliefExp.add(tm);	
 		}
 
-		for (GroundingSample sample : samples) {
+		for (DenseSample sample : samples) {
 			for(int i = 0; i < modelInstance.numTuples; i++) {
 				tupleTruthExp.set(i, tupleTruthExp.get(i) + (sample.getVal(i) ? 1.0 : 0.0));
 			}
@@ -350,7 +350,7 @@ public class ModelInstance {
 			}
 		}
 		
-		for (GroundingSample sample : samples.subList(0,1)) {
+		for (DenseSample sample : samples.subList(0,1)) {
 			out.println(sample.tupleTruthProb());
 			for (int k = 0; k < modelInstance.numGroups; k++) {
 				out.println(sample.groupBeliefProb(k, true));

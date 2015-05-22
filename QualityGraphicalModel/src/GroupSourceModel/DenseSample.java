@@ -11,7 +11,7 @@ import java.util.Map;
  *  
  * @author manasrj
  */
-public class LiveSampleDense {
+public class DenseSample {
 	ModelInstance modelInstance;
 	List<Boolean> tupleTruths;
 	List<List<Boolean>> groupTupleBeliefs;
@@ -37,7 +37,7 @@ public class LiveSampleDense {
 	List<Integer> sourceFalseTrue;
 	List<Integer> sourceFalseFalse;
 	
-	LiveSampleDense(ModelInstance modelInstance) {
+	DenseSample(ModelInstance modelInstance) {
 		this.modelInstance = modelInstance;
 		
 		tupleTrue = 0;
@@ -128,6 +128,45 @@ public class LiveSampleDense {
 			
 			sourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
+	}
+	
+	DenseSample (ModelInstance modelInstance, List<Boolean> tupleTruths, List<List<Boolean>> groupTupleBeliefs,
+			List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs, Integer tupleTrue, Integer tupleFalse, 
+			List<Integer> groupTrueTrue, List<Integer> groupTrueFalse, List<Integer> groupFalseTrue, 
+			List<Integer> groupFalseFalse, List<Integer> sourceTrueTrue, List<Integer> sourceTrueFalse, 
+			List<Integer> sourceFalseTrue, List<Integer> sourceFalseFalse) {
+		this.modelInstance = modelInstance;
+		this.tupleTruths = tupleTruths;
+		this.groupTupleBeliefs = groupTupleBeliefs;
+		this.sourceGroupTupleBeliefs = sourceGroupTupleBeliefs;
+	
+		this.tupleTrue = tupleTrue;
+		this.tupleFalse = tupleFalse;
+		
+		this.groupTrueTrue = groupTrueTrue;
+		this.groupTrueFalse = groupTrueFalse;
+		this.groupFalseTrue = groupFalseTrue;
+		this.groupFalseFalse = groupFalseFalse;
+
+		this.sourceTrueTrue = sourceTrueTrue;
+		this.sourceTrueFalse = sourceTrueFalse;
+		this.sourceFalseTrue = sourceFalseTrue;
+		this.sourceFalseFalse = sourceFalseFalse;
+	}
+	
+	// T_i
+	Boolean getVal (int i) {
+		return tupleTruths.get(i);
+	}
+
+	// G_{k,i}
+	Boolean getVal (int i, int k) {
+		return groupTupleBeliefs.get(k).get(i);
+	}
+
+	// S_{j,k,i}
+	Boolean getVal (int i, int j, int k) {
+		return sourceGroupTupleBeliefs.get(j).get(k).get(i);
 	}
 	
 	// To add: terms for mutually exclusive tuple groups 
@@ -306,8 +345,8 @@ public class LiveSampleDense {
 		}
 	}
 	
-	List<GroundingSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
-		List<GroundingSample> samples = new ArrayList<GroundingSample>();
+	List<DenseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
+		List<DenseSample> samples = new ArrayList<DenseSample>();
 		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				for (int k = 0; k < modelInstance.numGroups; k++) {
@@ -327,7 +366,7 @@ public class LiveSampleDense {
 		return samples;
 	}
 	
-	GroundingSample saveState() {
+	DenseSample saveState() {
 		List<Boolean> gTupleTruths = new ArrayList<Boolean>();
 		List<List<Boolean>> gGroupTupleBeliefs = new ArrayList<List<Boolean>>();
 		List<Map<Integer, List<Boolean>>> gSourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
@@ -349,7 +388,7 @@ public class LiveSampleDense {
 			gSourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
 		
-		return new GroundingSample(modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
+		return new DenseSample (modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
 				tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
 				sourceFalseTrue, sourceFalseFalse);
 	}

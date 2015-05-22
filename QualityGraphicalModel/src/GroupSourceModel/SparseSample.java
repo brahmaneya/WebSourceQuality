@@ -13,7 +13,7 @@ import java.util.Set;
  *  
  * @author manasrj
  */
-public class LiveSampleSparse {
+public class SparseSample {
 	ModelInstance modelInstance;
 	int numTuples;
 	Map<Integer, Boolean> tupleTruths;
@@ -71,7 +71,7 @@ public class LiveSampleSparse {
 	}
 	
 	
-	LiveSampleSparse (ModelInstance modelInstance) {
+	SparseSample (ModelInstance modelInstance) {
 		this.modelInstance = modelInstance;
 		
 		tupleTrue = 0;
@@ -211,7 +211,7 @@ public class LiveSampleSparse {
 		final Double odds = Math.exp(trueWeight - falseWeight);
 		if (Math.random() < odds / (1 + odds)) {
 			if (!tupleTruths.get(i)) {
-				tupleTruths.set(i, true);
+				tupleTruths.put(i, true);
 				tupleTrue++;
 				tupleFalse--;
 				for (int k = 0; k < modelInstance.numGroups; k++) {
@@ -221,7 +221,7 @@ public class LiveSampleSparse {
 			} 
 		} else {
 			if (tupleTruths.get(i)) {
-				tupleTruths.set(i, false);
+				tupleTruths.put(i, false);
 				tupleTrue--;
 				tupleFalse++;
 				for (int k = 0; k < modelInstance.numGroups; k++) {
