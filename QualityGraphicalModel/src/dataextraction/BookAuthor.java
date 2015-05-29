@@ -539,12 +539,13 @@ public class BookAuthor {
 	public static void main (String[] args) throws IOException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
-		ModelInstance modelInstance = createModelInstance(1.0, sources, tuples);
+		ModelInstance modelInstance = createModelInstance(0.02, sources, tuples);
 		DenseSample denseSample = new DenseSample(modelInstance);
-		out.println("Current base truth rate:\t" + denseSample.tupleTruthProb());
-		final int numSamples = 4;
-		final int burnIn = 100000;
-		final int thinFactor = 10000;
+		out.println(modelInstance.getNumTuples());
+		out.println(modelInstance.getNumSources());
+		final int numSamples = 1;
+		final int burnIn = 500000;
+		final int thinFactor = 5000;
 		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
 		for (DenseSample sample : samples.subList(0,1)) {

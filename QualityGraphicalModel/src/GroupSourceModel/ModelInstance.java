@@ -112,6 +112,10 @@ public class ModelInstance {
 		return ans;
 	}
 	
+	public int getNumTuples() {
+		return numTuples;
+	}
+
 	public int getNumGroups() {
 		return numGroups;
 	}
