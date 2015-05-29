@@ -37,7 +37,7 @@ public class DenseSample {
 	List<Integer> sourceFalseTrue;
 	List<Integer> sourceFalseFalse;
 	
-	DenseSample(ModelInstance modelInstance) {
+	public DenseSample(ModelInstance modelInstance) {
 		this.modelInstance = modelInstance;
 		
 		tupleTrue = 0;
@@ -91,7 +91,7 @@ public class DenseSample {
 		}
 		
 		groupTupleBeliefs = new ArrayList<List<Boolean>>();
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				boolean groupTupleBelief;
@@ -108,7 +108,7 @@ public class DenseSample {
 		}
 		
 		sourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
@@ -179,7 +179,7 @@ public class DenseSample {
 		Double falseWeight = 0.0;
 		
 		trueWeight += Math.log(tupleTruthProb());
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			if (groupTupleBeliefs.get(k).get(i)) {
 				trueWeight += Math.log(groupBeliefProb(k, true));
 				falseWeight += Math.log(groupBeliefProb(k, false));
@@ -195,7 +195,7 @@ public class DenseSample {
 				tupleTruths.set(i, true);
 				tupleTrue++;
 				tupleFalse--;
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, 1);
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, -1);
 				}
@@ -205,7 +205,7 @@ public class DenseSample {
 				tupleTruths.set(i, false);
 				tupleTrue--;
 				tupleFalse++;
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, -1);
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, 1);
 				}
@@ -293,11 +293,11 @@ public class DenseSample {
 		}
 	}
 	
-	double tupleTruthProb () {
+	public double tupleTruthProb () {
 		return (tupleTrue + 0.0) / (tupleTrue + tupleFalse);
 	}
 	
-	double groupBeliefProb (int groupId, boolean condition) {
+	public double groupBeliefProb (int groupId, boolean condition) {
 		if (condition) {
 			return (groupTrueTrue.get(groupId) + 0.0) / (groupTrueTrue.get(groupId) + groupFalseTrue.get(groupId));
 		} else {
@@ -305,7 +305,7 @@ public class DenseSample {
 		}
 	}
 	
-	double sourceBeliefProb (int sourceId, boolean condition) {
+	public double sourceBeliefProb (int sourceId, boolean condition) {
 		if (condition) {
 			return (sourceTrueTrue.get(sourceId) + 0.0) / (sourceTrueTrue.get(sourceId) + sourceFalseTrue.get(sourceId));
 		} else {
@@ -345,11 +345,11 @@ public class DenseSample {
 		}
 	}
 	
-	List<DenseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
+	public List<DenseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
 		List<DenseSample> samples = new ArrayList<DenseSample>();
 		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
 			for (int i = 0; i < modelInstance.numTuples; i++) {
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					// Do this in random order to prevent early j's from being true'd first for source-outputs?
 					for (int j : modelInstance.groupSources.get(k)) {
 						changeSourceGroupBelief(i, j, k);
@@ -372,13 +372,13 @@ public class DenseSample {
 		List<Map<Integer, List<Boolean>>> gSourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
 
 		gTupleTruths.addAll(tupleTruths);
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
 			groupTupleBeliefsList.addAll(groupTupleBeliefs.get(k));
 			gGroupTupleBeliefs.add(groupTupleBeliefsList);
 		}
 		
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();

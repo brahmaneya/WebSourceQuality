@@ -18,8 +18,8 @@ import static java.lang.System.out;
 public class ModelInstance {
 	// Instance Size 
 	final int numTuples;
-	final int numGroups;
-	final int numSources;
+	private final int numGroups;
+	private final int numSources;
 	
 	// Instance Structure
 	final List<Set<Integer>> groupSources;
@@ -108,10 +108,18 @@ public class ModelInstance {
 	@Override
 	public String toString () {
 		String ans = "";
-		ans = String.format("%d, %d, %d \n", numTuples, numGroups, numSources);
+		ans = String.format("%d, %d, %d \n", numTuples, getNumGroups(), getNumSources());
 		return ans;
 	}
 	
+	public int getNumGroups() {
+		return numGroups;
+	}
+
+	public int getNumSources() {
+		return numSources;
+	}
+
 	public static void main (String[] args) {
 		final int numTuples = 2000;
 		final int numGroups = 3;
@@ -291,14 +299,14 @@ public class ModelInstance {
 		for(int i = 0; i < modelInstance.numTuples; i++) {
 			tupleTruthExp.add(0.0);
 		}
-		for(int k = 0; k < modelInstance.numGroups; k++) {
+		for(int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Double> tt = new ArrayList<Double>();
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				tt.add(0.0);
 			}
 			groupTupleBeliefExp.add(tt);
 		}
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, List<Double>> tm = new HashMap<Integer, List<Double>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Double> tt = new ArrayList<Double>();
@@ -314,13 +322,13 @@ public class ModelInstance {
 			for(int i = 0; i < modelInstance.numTuples; i++) {
 				tupleTruthExp.set(i, tupleTruthExp.get(i) + (sample.getVal(i) ? 1.0 : 0.0));
 			}
-			for(int k = 0; k < modelInstance.numGroups; k++) {
+			for(int k = 0; k < modelInstance.getNumGroups(); k++) {
 				List<Double> tt = groupTupleBeliefExp.get(k);
 				for (int i = 0; i < modelInstance.numTuples; i++) {
 					tt.set(i, tt.get(i) + (sample.getVal(i, k) ? 1.0 : 0.0));
 				}
 			}
-			for (int j = 0; j < modelInstance.numSources; j++) {
+			for (int j = 0; j < modelInstance.getNumSources(); j++) {
 				Map<Integer, List<Double>> tm = sourceGroupTupleBeliefExp.get(j); 
 				for (int k : modelInstance.sourceGroups.get(j)) {
 					List<Double> tt = tm.get(k); 
@@ -334,13 +342,13 @@ public class ModelInstance {
 		for(int i = 0; i < modelInstance.numTuples; i++) {
 			tupleTruthExp.set(i, tupleTruthExp.get(i) / numSamples);
 		}
-		for(int k = 0; k < modelInstance.numGroups; k++) {
+		for(int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Double> tt = groupTupleBeliefExp.get(k);
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				tt.set(i, tt.get(i) / numSamples);
 			}
 		}
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, List<Double>> tm = sourceGroupTupleBeliefExp.get(j); 
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Double> tt = tm.get(k); 
@@ -352,11 +360,11 @@ public class ModelInstance {
 		
 		for (DenseSample sample : samples.subList(0,1)) {
 			out.println(sample.tupleTruthProb());
-			for (int k = 0; k < modelInstance.numGroups; k++) {
+			for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 				out.println(sample.groupBeliefProb(k, true));
 				out.println(1 - sample.groupBeliefProb(k, false));				
 			}
-			for (int j = 0; j < modelInstance.numSources; j++) {
+			for (int j = 0; j < modelInstance.getNumSources(); j++) {
 				out.println(sample.sourceBeliefProb(j, true));
 				out.println(1 - sample.sourceBeliefProb(j, false));				
 			}
@@ -379,17 +387,17 @@ public class ModelInstance {
 		out.println("false acc:\t" + (ff/(ff+tf)));
 
 		Map<Integer, Integer> trueSourceCount = new HashMap<Integer, Integer>();
-		for (int j = 0; j <= modelInstance.numSources; j++) {
+		for (int j = 0; j <= modelInstance.getNumSources(); j++) {
 			trueSourceCount.put(j,0);
 		}
 		
 		Map<Integer, Integer> falseSourceCount = new HashMap<Integer, Integer>();
-		for (int j = 0; j <= modelInstance.numSources; j++) {
+		for (int j = 0; j <= modelInstance.getNumSources(); j++) {
 			falseSourceCount.put(j,0);
 		}
 		for (int i = 0; i < numTuples; i++) {
 			int sourceCount = 0;
-			for (int j = 0; j < modelInstance.numSources; j++) {
+			for (int j = 0; j < modelInstance.getNumSources(); j++) {
 				if (sourceOutputs.get(j).contains(i)) {
 					sourceCount++;
 				}

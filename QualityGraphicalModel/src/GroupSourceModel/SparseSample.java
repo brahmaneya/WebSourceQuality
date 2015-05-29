@@ -100,10 +100,10 @@ public class SparseSample {
 		for (int i  = 0; i < modelInstance.numTuples; i++) {
 			outputGroups.put(i, new HashSet<Integer>());
 		}
-		for (int k  = 0; k < modelInstance.numGroups; k++) {
+		for (int k  = 0; k < modelInstance.getNumGroups(); k++) {
 			groupOutputs.put(k, new HashSet<Integer>());
 		}
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			for (int i : modelInstance.sourceOutputs.get(j)) {
 				for (int k : modelInstance.sourceGroups.get(j)) {
 					outputGroups.get(i).add(k);
@@ -141,7 +141,7 @@ public class SparseSample {
 		}
 		
 		groupTupleBeliefs = new ArrayList<Map<Integer, Boolean>>();
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
 			for (int i = 0; i < modelInstance.numTuples; i++) {
 				boolean groupTupleBelief;
@@ -162,7 +162,7 @@ public class SparseSample {
 		}
 		
 		sourceGroupTupleBeliefs = new ArrayList<Map<Integer, Map<Integer, Boolean>>>();
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, Map<Integer, Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, Map<Integer, Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
@@ -198,7 +198,7 @@ public class SparseSample {
 		Double falseWeight = 0.0;
 		
 		trueWeight += Math.log(tupleTruthProb());
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			if (groupTupleBeliefs.get(k).get(i)) {
 				trueWeight += Math.log(groupBeliefProb(k, true));
 				falseWeight += Math.log(groupBeliefProb(k, false));
@@ -214,7 +214,7 @@ public class SparseSample {
 				tupleTruths.put(i, true);
 				tupleTrue++;
 				tupleFalse--;
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, 1);
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, -1);
 				}
@@ -224,7 +224,7 @@ public class SparseSample {
 				tupleTruths.put(i, false);
 				tupleTrue--;
 				tupleFalse++;
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), true, -1);
 					updateGroupCount(k, groupTupleBeliefs.get(k).get(i), false, 1);
 				}
@@ -252,7 +252,7 @@ public class SparseSample {
 		final Double odds = Math.exp(trueWeight - falseWeight);
 		if (Math.random() < odds / (1 + odds)) {
 			if (!groupTupleBeliefs.get(k).get(i)) {
-				groupTupleBeliefs.get(k).set(i, true);
+				groupTupleBeliefs.get(k).put(i, true);
 				updateGroupCount(k, true, tupleTruths.get(i), 1);
 				updateGroupCount(k, false, tupleTruths.get(i), -1);
 				for (int j : modelInstance.groupSources.get(k)) {
@@ -262,7 +262,7 @@ public class SparseSample {
 			} 
 		} else {
 			if (groupTupleBeliefs.get(k).get(i)) {
-				groupTupleBeliefs.get(k).set(i, false);
+				groupTupleBeliefs.get(k).put(i, false);
 				updateGroupCount(k, true, tupleTruths.get(i), -1);
 				updateGroupCount(k, false, tupleTruths.get(i), 1);
 				for (int j : modelInstance.groupSources.get(k)) {
@@ -299,13 +299,13 @@ public class SparseSample {
 		final Double odds = Math.exp(trueWeight - falseWeight);
 		if (Math.random() < odds / (1 + odds)) {
 			if (!sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
-				sourceGroupTupleBeliefs.get(j).get(k).set(i, true);
+				sourceGroupTupleBeliefs.get(j).get(k).put(i, true);
 				updateSourceCount(j, true, groupTupleBeliefs.get(k).get(i), 1);
 				updateSourceCount(j, false, groupTupleBeliefs.get(k).get(i), -1);
 			}
 		} else {
 			if (sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
-				sourceGroupTupleBeliefs.get(j).get(k).set(i, false);
+				sourceGroupTupleBeliefs.get(j).get(k).put(i, false);
 				updateSourceCount(j, true, groupTupleBeliefs.get(k).get(i), -1);
 				updateSourceCount(j, false, groupTupleBeliefs.get(k).get(i), 1);
 			}
@@ -364,11 +364,11 @@ public class SparseSample {
 		}
 	}
 	
-	List<GroundingSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
-		List<GroundingSample> samples = new ArrayList<GroundingSample>();
+	List<SparseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
+		List<SparseSample> samples = new ArrayList<SparseSample>();
 		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
 			for (int i = 0; i < modelInstance.numTuples; i++) {
-				for (int k = 0; k < modelInstance.numGroups; k++) {
+				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					// Do this in random order to prevent early j's from being true'd first for source-outputs?
 					for (int j : modelInstance.groupSources.get(k)) {
 						changeSourceGroupBelief(i, j, k);
@@ -385,30 +385,31 @@ public class SparseSample {
 		return samples;
 	}
 	
-	GroundingSample saveState() {
+	SparseSample saveState() {
 		List<Boolean> gTupleTruths = new ArrayList<Boolean>();
 		List<List<Boolean>> gGroupTupleBeliefs = new ArrayList<List<Boolean>>();
 		List<Map<Integer, List<Boolean>>> gSourceGroupTupleBeliefs = new ArrayList<Map<Integer, List<Boolean>>>();
 
-		gTupleTruths.addAll(tupleTruths);
-		for (int k = 0; k < modelInstance.numGroups; k++) {
+		//gTupleTruths.addAll(tupleTruths);
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
-			groupTupleBeliefsList.addAll(groupTupleBeliefs.get(k));
+			//groupTupleBeliefsList.addAll(groupTupleBeliefs.get(k));
 			gGroupTupleBeliefs.add(groupTupleBeliefsList);
 		}
 		
-		for (int j = 0; j < modelInstance.numSources; j++) {
+		for (int j = 0; j < modelInstance.getNumSources(); j++) {
 			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
-				groupTupleBeliefsList.addAll(sourceGroupTupleBeliefs.get(j).get(k));
+				//groupTupleBeliefsList.addAll(sourceGroupTupleBeliefs.get(j).get(k));
 				sourceGroupTupleBeliefsMap.put(k, groupTupleBeliefsList);
 			}
 			gSourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
 		
-		return new GroundingSample(modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
-				tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
-				sourceFalseTrue, sourceFalseFalse);
+		//return new SparseSample(modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
+		//		tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
+		//		sourceFalseTrue, sourceFalseFalse);
+		return null;
 	}
 }

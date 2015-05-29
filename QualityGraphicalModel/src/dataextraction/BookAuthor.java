@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import GroupSourceModel.DenseSample;
 import GroupSourceModel.ModelInstance;
 import static java.lang.System.out;
 
@@ -133,7 +134,7 @@ public class BookAuthor {
 			}
 			final String sourceId = fields[0];
 			if (sourceBlackList.contains(sourceId)) {
-				continue;
+				//continue;
 			}
 			final String bookId = fields[1];
 			final String authorString = fields[3];
@@ -168,9 +169,9 @@ public class BookAuthor {
 			String[] fields = s.split("\t");
 			final String bookId = fields[0];
 			final String authorString = fields[1];
-			String[] authors = authorString.split(" ;  ");
+			String[] authors = authorString.split(";  ");
 			for (int i = 0; i < authors.length; i++) {
-				authors[i] = canonicalize(authors[i]);
+				authors[i] = canonicalize(authors[i].trim());
 				trueTuples.add(bookId + "\t" + authors[i]);
 			}
 		}
@@ -188,18 +189,117 @@ public class BookAuthor {
 		Map<String, Set<String>> sourceOutputStrings = new HashMap<String, Set<String>>();
 		Set<String> trueTuples = new HashSet<String>();
 		parseData(sourceOutputStrings, trueTuples);
-		
 		Map<String, Integer> sourceIds = new HashMap<String, Integer>(); // inverse of sources.
 		Map<String, Integer> tupleIds = new HashMap<String, Integer>(); // inverse of tuples.
 		
-		final List<Set<Integer>> groupSources = new ArrayList<Set<Integer>>();
-		final List<Set<Integer>> sourceOutputs = new ArrayList<Set<Integer>>();
+		final List<List<Integer>> groupSources = new ArrayList<List<Integer>>();
+		final List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
 		final Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
 		
 		for (String source : sourceOutputStrings.keySet()) {
 			if (Math.random() > sampleFraction) {
 				continue;
 			}
+			final Integer sourceId = sourceIds.keySet().size(); 
+			sources.add(source);
+			sourceIds.put(source, sourceId);
+			final List<Integer> currentSourceOutputs = new ArrayList<Integer>();
+			sourceOutputs.add(currentSourceOutputs);
+			
+			final Set<String> outputs = sourceOutputStrings.get(source);
+			for (String output : outputs) {
+				Integer id;
+				if (!tupleIds.containsKey(output)) {
+					id = tupleIds.keySet().size();
+					tupleIds.put(output, id);
+					tuples.add(output);
+				} else {
+					id = tupleIds.get(output);
+				}
+				currentSourceOutputs.add(id);
+			}
+ 		}
+		
+
+		Map<String, Set<String>> bookAuthors = new HashMap<String, Set<String>>();
+		for (String output : trueTuples) {
+			String[] splitString = output.split("\t");
+			final String book = splitString[0];
+			final String author = splitString[1];
+			if (!bookAuthors.containsKey(book)) {
+				bookAuthors.put(book, new HashSet<String>());
+			}
+			bookAuthors.get(book).add(author);
+		}
+		
+		for (String tuple : tupleIds.keySet()) {
+			final Integer tupleId = tupleIds.get(tuple);
+			String[] splitString = tuple.split("\t");
+			final String book = splitString[0];
+			final String author = splitString[1];
+			
+			if (bookAuthors.containsKey(book)) {
+				if (bookAuthors.get(book).contains(author)) {
+					tupleTruth.put(tupleId, true);
+				} else {
+					tupleTruth.put(tupleId, false);
+				}
+			}
+		}
+		
+		int numTuples = tuples.size();
+		int numSources = sources.size();
+		int numGroups = 1;
+		
+		{
+			List<Integer> allSources = new ArrayList<Integer>();
+			for (int i = 0; i < numSources; i++) {
+				allSources.add(i);
+			}
+			groupSources.add(allSources);
+		}
+		
+		List<Integer> groupTrueTrueInit = new ArrayList<Integer>();
+		List<Integer> groupTrueFalseInit = new ArrayList<Integer>();
+		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
+		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
+		for (int groupId = 0; groupId < numGroups; groupId++) {
+			groupTrueTrueInit.add(2);
+			groupTrueFalseInit.add(1);
+			groupFalseTrueInit.add(1);
+			groupFalseFalseInit.add(3);
+		}
+		
+		// groupTupleBelief-sourceGroupTupleBelief pair value counts 
+		List<Integer> sourceTrueTrueInit = new ArrayList<Integer>();
+		List<Integer> sourceTrueFalseInit = new ArrayList<Integer>();
+		List<Integer> sourceFalseTrueInit = new ArrayList<Integer>();
+		List<Integer> sourceFalseFalseInit = new ArrayList<Integer>();
+		for (int sourceId = 0; sourceId < numSources; sourceId++) {
+			sourceTrueTrueInit.add(2);
+			sourceTrueFalseInit.add(1);
+			sourceFalseTrueInit.add(1);
+			sourceFalseFalseInit.add(3);
+		}
+		
+		return new ModelInstance(numTuples, numGroups, numSources, groupSources, 
+				sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
+				sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
+		//return null;
+	}
+	
+	static void analyzeData () throws IOException {
+		Map<String, Set<String>> sourceOutputStrings = new HashMap<String, Set<String>>();
+		Set<String> trueTuples = new HashSet<String>();
+		parseData(sourceOutputStrings, trueTuples);
+		Map<String, Integer> sourceIds = new HashMap<String, Integer>(); // inverse of sources.
+		Map<String, Integer> tupleIds = new HashMap<String, Integer>(); // inverse of tuples.
+		List<String> sources = new ArrayList<String>(); 
+		List<String> tuples = new ArrayList<String>();
+		final List<Set<Integer>> sourceOutputs = new ArrayList<Set<Integer>>();
+		final Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
+		
+		for (String source : sourceOutputStrings.keySet()) {
 			final Integer sourceId = sourceIds.keySet().size(); 
 			sources.add(source);
 			sourceIds.put(source, sourceId);
@@ -272,34 +372,64 @@ public class BookAuthor {
 				}
 			}
 		}
+		
 		int trueCount = 0;
 		int falseCount = 0;
+		Map<Integer, Integer> trueSourceCounts = new HashMap<Integer, Integer>();
 		Map<Integer, Integer> falseSourceCounts = new HashMap<Integer, Integer>();
 		for (int tupleId : tupleTruth.keySet()) {
-			if (tupleTruth.get(tupleId)) {
+			final Boolean currentTupleTruth = tupleTruth.get(tupleId);
+			if (currentTupleTruth) {
 				trueCount++;
 			} else {
-				int numFalseSources = 0;
-				String outString = tupleId + "----";
-				for (Integer sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
-					if (sourceOutputs.get(sourceId).contains(tupleId)) {
-						numFalseSources++;
-						outString = outString + " " + sourceId;
-					}
-				}
-				if (numFalseSources > 3) {
-					//out.println(outString);					
-				}
 				falseCount++;
+			}
+			int numTrueSources = 0;
+			int numFalseSources = 0;
+			String outTrueString = tuples.get(tupleId) + "----";
+			String outFalseString = tuples.get(tupleId) + "----";
+			for (Integer sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
+				final Boolean sourceTruth = sourceOutputs.get(sourceId).contains(tupleId);
+				if (sourceTruth && !currentTupleTruth) {
+					numFalseSources++;
+					outFalseString = outFalseString + " " + sources.get(sourceId);
+				} 
+				if (sourceTruth && currentTupleTruth) {
+					numTrueSources++;
+					outTrueString = outTrueString + " " + sources.get(sourceId);
+				}
+			}
+			if (numFalseSources >= 4) {
+				//out.println(outFalseString);
+			}
+			if (numTrueSources >= 4) {
+				//out.println(outTrueString);
+			}
+			if (currentTupleTruth) {
+				if (!trueSourceCounts.containsKey(numTrueSources)) {
+					trueSourceCounts.put(numTrueSources, 1);
+				} else {
+					trueSourceCounts.put(numTrueSources, 1 + trueSourceCounts.get(numTrueSources));
+				}				
+			} else {
 				if (!falseSourceCounts.containsKey(numFalseSources)) {
 					falseSourceCounts.put(numFalseSources, 1);
 				} else {
 					falseSourceCounts.put(numFalseSources, 1 + falseSourceCounts.get(numFalseSources));
-				}
+				}				
 			}
 		}
 		out.println(trueCount + "\t" + falseCount + "\t" + sourceOutputs.size());
-		out.println(falseSourceCounts.toString());
+		//out.println(trueSourceCounts.toString());
+		//out.println(falseSourceCounts.toString());
+		int numBigSources = 0;
+		for (Integer sourceId  = 0; sourceId < sourceOutputs.size(); sourceId++) {
+			if (sourceOutputs.get(sourceId).size() > 1000) {
+				numBigSources++;
+				//out.println(sourceOutputs.get(sourceId).size());				
+			}
+		}
+		//out.println("numBigSources\t" + numBigSources);
 		
 		int sf = 0;
 		List<Set<Integer>> falseTupleSets = new ArrayList<Set<Integer>>();
@@ -325,7 +455,7 @@ public class BookAuthor {
 			}
 			if (f > 5) {
 				sf++;
-				out.println(outString);
+				//out.println(outString);
 			}
 		}
 		
@@ -336,6 +466,10 @@ public class BookAuthor {
 					bookAuthorCount1 += bookAuthorCount.get(book);
 				}
 			}			
+			Double precision1 = ((double)trueTupleSets.get(sourceId1).size()) / ((falseTupleSets.get(sourceId1).size()) + (trueTupleSets.get(sourceId1).size())); 
+			if (!precision1.equals(Double.NaN)) {
+				out.println(precision1);				
+			}
 			Double error1 = ((double)falseTupleSets.get(sourceId1).size()) / sourceOutputs.get(sourceId1).size();
 			Double recall1 = ((double)trueTupleSets.get(sourceId1).size()) / trueCount;
 			Double gecall1 = ((double)trueTupleSets.get(sourceId1).size()) / bookAuthorCount1;
@@ -395,21 +529,36 @@ public class BookAuthor {
 				//out.println(corrSources.toString());
 			}
 			if (!gorrSources.isEmpty()) {
-				out.println(sourceId1 + "\t" + recall1);
-				out.println(gorrSources.toString());
+				//out.println(sourceId1 + "\t" + recall1);
+				//out.println(gorrSources.toString());
 			}
 		}
-		out.println(sf);
-		//return new ModelInstance(numTuples, numGroups, numSources, groupSources, 
-		//		sourceOutputs, groupTrueTrueInit, groupTrueFalseInit, groupFalseTrueInit, groupFalseFalseInit, 
-		//		sourceTrueTrueInit, sourceTrueFalseInit, sourceFalseTrueInit, sourceFalseFalseInit, tupleTruth) ;
-	
-		return null;
+		//out.println(sf);
 	}
 	
 	public static void main (String[] args) throws IOException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
 		ModelInstance modelInstance = createModelInstance(1.0, sources, tuples);
+		DenseSample denseSample = new DenseSample(modelInstance);
+		out.println("Current base truth rate:\t" + denseSample.tupleTruthProb());
+		final int numSamples = 4;
+		final int burnIn = 100000;
+		final int thinFactor = 10000;
+		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
+
+		for (DenseSample sample : samples.subList(0,1)) {
+			out.println(sample.tupleTruthProb());
+			for (int k = 0; k < modelInstance.getNumGroups(); k++) {
+				out.println(sample.groupBeliefProb(k, true));
+				out.println(1 - sample.groupBeliefProb(k, false));				
+			}
+			for (int j = 0; j < modelInstance.getNumSources(); j++) {
+				out.println(sample.sourceBeliefProb(j, true));
+				out.println(1 - sample.sourceBeliefProb(j, false));				
+			}
+			out.println();
+		}
+		
 	}
 }
