@@ -17,7 +17,7 @@ import static java.lang.System.out;
  */
 public class ModelInstance {
 	// Instance Size 
-	final int numTuples;
+	private final int numTuples;
 	private final int numGroups;
 	private final int numSources;
 	
@@ -29,10 +29,10 @@ public class ModelInstance {
 	
 	// Boolean variable counts for conjugate prior
 	// tupleTruth-groupTupleBelief pair value counts 
-	List<Integer> groupTrueTrueInit;
-	List<Integer> groupTrueFalseInit;
-	List<Integer> groupFalseTrueInit;
-	List<Integer> groupFalseFalseInit;
+	final List<Integer> groupTrueTrueInit;
+	final List<Integer> groupTrueFalseInit;
+	final List<Integer> groupFalseTrueInit;
+	final List<Integer> groupFalseFalseInit;
 	
 	// groupTupleBelief-sourceGroupTupleBelief pair value counts 
 	List<Integer> sourceTrueTrueInit;
@@ -41,7 +41,7 @@ public class ModelInstance {
 	List<Integer> sourceFalseFalseInit;
 	
 	// Labelled Data
-	Map<Integer, Boolean> tupleTruth;
+	public Map<Integer, Boolean> tupleTruth;
 	
 	// Probability penalty for having OR_{k} of sourceGroupTupleBeliefs[k][j][i] disagree with sourceOutput[j][i].
 	final Double epsilon = 0.00001;

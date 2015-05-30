@@ -97,7 +97,7 @@ public class SparseSample {
 		
 		groupOutputs = new HashMap<Integer, Set<Integer>>();
 		outputGroups = new HashMap<Integer, Set<Integer>>();
-		for (int i  = 0; i < modelInstance.numTuples; i++) {
+		for (int i  = 0; i < modelInstance.getNumTuples(); i++) {
 			outputGroups.put(i, new HashSet<Integer>());
 		}
 		for (int k  = 0; k < modelInstance.getNumGroups(); k++) {
@@ -114,7 +114,7 @@ public class SparseSample {
 		
 		isFixed = new HashSet<Integer>();
 		tupleTruths = new HashMap<Integer, Boolean>();
-		numTuples = modelInstance.numTuples;
+		numTuples = modelInstance.getNumTuples();
 		for (int i : modelInstance.tupleTruth.keySet()) {
 			isFixed.add(i);
 			tupleTruths.put(i, modelInstance.tupleTruth.get(i));
@@ -124,7 +124,7 @@ public class SparseSample {
 				tupleFalse++;
 			}
 		}
-		for (int i = 0; i < modelInstance.numTuples; i++) {
+		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 			Double tupleTrueProbability = tupleTruthProb(); // Need better way to choose this? (We aren't using it currently)
 			// NOTE: What would happen if we initialized tuples based on number of outputting sources rather than randomly? Closer to equilibrium state, but any local optima problems?
 			final Set<Integer> sources = modelInstance.outputSources.get(i);
@@ -143,7 +143,7 @@ public class SparseSample {
 		groupTupleBeliefs = new ArrayList<Map<Integer, Boolean>>();
 		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
-			for (int i = 0; i < modelInstance.numTuples; i++) {
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				boolean groupTupleBelief;
 				boolean tupleTruth = getVal(i);
 				if (!groupOutputs.get(k).contains(i)) {
@@ -166,7 +166,7 @@ public class SparseSample {
 			Map<Integer, Map<Integer, Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, Map<Integer, Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				Map<Integer, Boolean> groupTupleBeliefsMap = new HashMap<Integer, Boolean>();
-				for (int i = 0; i < modelInstance.numTuples; i++) {
+				for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 					boolean groupTupleBelief = groupTupleBeliefs.get(k).get(i);
 					boolean sourceGroupTupleBelief;
 					if (!modelInstance.sourceOutputs.get(j).contains(i)) {
@@ -367,7 +367,7 @@ public class SparseSample {
 	List<SparseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
 		List<SparseSample> samples = new ArrayList<SparseSample>();
 		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
-			for (int i = 0; i < modelInstance.numTuples; i++) {
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					// Do this in random order to prevent early j's from being true'd first for source-outputs?
 					for (int j : modelInstance.groupSources.get(k)) {

@@ -2,7 +2,13 @@ package dataextraction;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +31,7 @@ import static java.lang.System.out;
 public class BookAuthor {
 	private final static String DATAFILE = "TestDatasets/BookAuthor/book.txt";
 	private final static String LABELLEDDATAFILE = "TestDatasets/BookAuthor/book_truth.txt";
+	private final static String ISBNLABELLEDDATAFILE = "TestDatasets/BookAuthor/isbn_book_truth.txt";
 	
 	/**
 	 * Canonical name for an author is a lowercase version of the author's last name.
@@ -180,6 +187,61 @@ public class BookAuthor {
 	}
 	
 	/**
+	 * Searches books referred to by sources in the site isbnsearch.org, and extracts authors from there. 
+	 */
+	static void createAuthorsFile () throws IOException {
+		BufferedReader dataFile = new BufferedReader(new FileReader(DATAFILE));
+		String inputLine;
+		
+		PrintWriter isbnLabeledDataFile = new PrintWriter(new FileWriter(ISBNLABELLEDDATAFILE));
+		
+		Set<String> books = new HashSet<String>();
+		while ((inputLine = dataFile.readLine()) != null) {
+			if (inputLine.indexOf('\t') == -1) {
+				continue;
+			}
+			String[] fields = inputLine.split("\t");
+			if (fields.length != 4) {
+				continue;
+			}
+			final String bookId = fields[1];
+			if (books.contains(bookId)) {
+				continue;
+			} else {
+				books.add(bookId);
+				String authorString = getAuthorString(bookId);
+				isbnLabeledDataFile.println(bookId + "\t" + authorString);
+				out.println(bookId + "\t" + authorString);
+			}
+		}
+		dataFile.close();
+		isbnLabeledDataFile.close();
+	}
+	
+	static String getAuthorString (String bookId) throws IOException {
+		final String siteString = "http://www.isbnsearch.org/isbn/";
+		final String urlString = siteString + bookId;
+		URL url = new URL(urlString);
+	    URLConnection uc = url.openConnection();
+
+	    InputStreamReader input = new InputStreamReader(uc.getInputStream());
+	    BufferedReader in = new BufferedReader(input);
+		String authorString = "";
+	    String inputLine;
+	    while ((inputLine = in.readLine()) != null) {
+	    	if (inputLine.indexOf("<p><strong>Author") != -1) {
+	    		authorString = inputLine.substring(8 + inputLine.indexOf("strong> "), inputLine.indexOf("</p>"));
+	    	} 
+	    }
+	    authorString = authorString.replaceAll(";", "; ");
+	    authorString = authorString.replaceAll("Ph.D.", "").replaceAll("B.Sc.", "").replaceAll("D.Sc.", "")
+				.replaceAll("Dip.Ed", "").replaceAll("MS  BS.", "");
+		// In addition, there may be long suffixes, such as "employee of..." or "Technical Head..." that need to be removed.
+	    in.close();
+		return authorString;
+	}
+	
+	/**
 	 * The sources and tuples maps get populated by this method, mapping integer ids of the sources/tuples to their
 	 * string descriptions. Samples sampleFraction fraction of the sources, and only considers tuples outputted by those
 	 * (to reduce size of the dataset).
@@ -320,6 +382,13 @@ public class BookAuthor {
 			}
  		}
 		
+		Set<String> books = new HashSet<String>();
+		for (String output : tuples) {
+			String[] splitString = output.split("\t");
+			final String book = splitString[0];
+			books.add(book);
+		}
+		
 		Map<String, Set<String>> bookAuthors = new HashMap<String, Set<String>>();
 		for (String output : trueTuples) {
 			String[] splitString = output.split("\t");
@@ -370,6 +439,12 @@ public class BookAuthor {
 				} else {
 					bookAuthorCount.put(book, 1 + bookAuthorCount.get(book));
 				}
+			}
+		}
+		
+		for (String book : books) {
+			if (!bookAuthors.containsKey(book)) {
+				out.println(book);
 			}
 		}
 		
@@ -457,6 +532,9 @@ public class BookAuthor {
 				sf++;
 				//out.println(outString);
 			}
+			if (trueTupleSet.size() + falseTupleSet.size() > 30) {
+				out.println((trueTupleSet.size() + falseTupleSet.size()) + "\t" + sourceOutputs.get(sourceId).size());				
+			}
 		}
 		
 		for (Integer sourceId1 = 0; sourceId1 < sourceOutputs.size(); sourceId1++) {
@@ -468,7 +546,7 @@ public class BookAuthor {
 			}			
 			Double precision1 = ((double)trueTupleSets.get(sourceId1).size()) / ((falseTupleSets.get(sourceId1).size()) + (trueTupleSets.get(sourceId1).size())); 
 			if (!precision1.equals(Double.NaN)) {
-				out.println(precision1);				
+				//out.println(precision1);				
 			}
 			Double error1 = ((double)falseTupleSets.get(sourceId1).size()) / sourceOutputs.get(sourceId1).size();
 			Double recall1 = ((double)trueTupleSets.get(sourceId1).size()) / trueCount;
@@ -539,10 +617,66 @@ public class BookAuthor {
 	public static void main (String[] args) throws IOException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
-		ModelInstance modelInstance = createModelInstance(0.02, sources, tuples);
+		
+		String s;
+		
+		Set<String> missedBooks = new HashSet<String>();
+		Set<String> isbnTrueTuples = new HashSet<String>();
+		BufferedReader isbnLabelledDataFile = new BufferedReader(new FileReader(ISBNLABELLEDDATAFILE));		
+		while ((s = isbnLabelledDataFile.readLine()) != null) {
+			if (s.indexOf('\t') == -1) {
+				continue;
+			}
+			String[] fields = s.split("\t");
+			if (fields.length == 1) {
+				missedBooks.add(fields[0]);
+				continue;
+			}
+			final String bookId = fields[0];
+			final String authorString = fields[1];
+			String[] authors = authorString.split(";  ");
+			for (int i = 0; i < authors.length; i++) {
+				authors[i] = canonicalize(authors[i].trim());
+				isbnTrueTuples.add(bookId + "\t" + authors[i]);
+			}
+		}
+		isbnLabelledDataFile.close();
+
+		Set<String> trueTuples = new HashSet<String>();
+		BufferedReader labelledDataFile = new BufferedReader(new FileReader(LABELLEDDATAFILE));		
+		while ((s = labelledDataFile.readLine()) != null) {
+			if (s.indexOf('\t') == -1) {
+				continue;
+			}
+			String[] fields = s.split("\t");
+			final String bookId = fields[0];
+			final String authorString = fields[1];
+			String[] authors = authorString.split(";  ");
+			for (int i = 0; i < authors.length; i++) {
+				authors[i] = canonicalize(authors[i].trim());
+				trueTuples.add(bookId + "\t" + authors[i]);
+			}
+		}
+		labelledDataFile.close();
+		
+		for (String trueTuple : trueTuples) {
+			String[] fields = trueTuple.split("\t");
+			final String book = fields[0];
+			if (!isbnTrueTuples.contains(trueTuple)) {
+				if (!missedBooks.contains(book)) {
+					out.println(trueTuple);					
+				}
+			}
+		}
+		
+		System.exit(0);
+		
+		ModelInstance modelInstance = createModelInstance(1.00, sources, tuples);
 		DenseSample denseSample = new DenseSample(modelInstance);
-		out.println(modelInstance.getNumTuples());
-		out.println(modelInstance.getNumSources());
+		out.println("Labels:\t" + modelInstance.tupleTruth.keySet().size());
+		out.println("Tuples:\t" + modelInstance.getNumTuples());
+		out.println("Sources:\t" + modelInstance.getNumSources());
+		
 		final int numSamples = 1;
 		final int burnIn = 500000;
 		final int thinFactor = 5000;

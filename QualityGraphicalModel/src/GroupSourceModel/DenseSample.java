@@ -63,7 +63,7 @@ public class DenseSample {
 		
 		isFixed = new ArrayList<Boolean>();
 		tupleTruths = new ArrayList<Boolean>();
-		for (int i = 0; i < modelInstance.numTuples; i++) {
+		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 			isFixed.add(false);
 			tupleTruths.add(false);
 		}
@@ -76,7 +76,7 @@ public class DenseSample {
 				tupleFalse++;
 			}
 		}
-		for (int i = 0; i < modelInstance.numTuples; i++) {
+		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 			Double tupleTrueProbability = tupleTruthProb();
 			// NOTE: What would happen if we initialized tuples based on number of outputting sources rather than randomly? Closer to equilibrium state, but any local optima problems?
 			if (!isFixed.get(i)) {
@@ -93,7 +93,7 @@ public class DenseSample {
 		groupTupleBeliefs = new ArrayList<List<Boolean>>();
 		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
-			for (int i = 0; i < modelInstance.numTuples; i++) {
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				boolean groupTupleBelief;
 				boolean tupleTruth = tupleTruths.get(i);
 				if (Math.random() < groupBeliefProb(k, tupleTruth)) {
@@ -112,7 +112,7 @@ public class DenseSample {
 			Map<Integer, List<Boolean>> sourceGroupTupleBeliefsMap = new HashMap<Integer, List<Boolean>>();
 			for (int k : modelInstance.sourceGroups.get(j)) {
 				List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
-				for (int i = 0; i < modelInstance.numTuples; i++) {
+				for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 					boolean groupTupleBelief = groupTupleBeliefs.get(k).get(i);
 					boolean sourceGroupTupleBelief;
 					if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
@@ -348,7 +348,7 @@ public class DenseSample {
 	public List<DenseSample> GibbsSampling (final int numSamples, final int burnIn, final int thinFactor) {
 		List<DenseSample> samples = new ArrayList<DenseSample>();
 		for (long iter = 1; iter <= burnIn + (numSamples - 1) * thinFactor; iter++) {
-			for (int i = 0; i < modelInstance.numTuples; i++) {
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 					// Do this in random order to prevent early j's from being true'd first for source-outputs?
 					for (int j : modelInstance.groupSources.get(k)) {
