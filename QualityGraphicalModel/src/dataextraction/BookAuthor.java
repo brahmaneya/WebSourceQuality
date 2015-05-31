@@ -168,7 +168,7 @@ public class BookAuthor {
 		}
 		dataFile.close();
 
-		BufferedReader labelledDataFile = new BufferedReader(new FileReader(LABELLEDDATAFILE));		
+		BufferedReader labelledDataFile = new BufferedReader(new FileReader(ISBNLABELLEDDATAFILE));		
 		while ((s = labelledDataFile.readLine()) != null) {
 			if (s.indexOf('\t') == -1) {
 				continue;
@@ -244,10 +244,10 @@ public class BookAuthor {
 	/**
 	 * The sources and tuples maps get populated by this method, mapping integer ids of the sources/tuples to their
 	 * string descriptions. Samples sampleFraction fraction of the sources, and only considers tuples outputted by those
-	 * (to reduce size of the dataset).
+	 * (to reduce size of the dataset). holdoutFraction specifies the amout of labelled data to hold out (and use for testing later). 
 	 * @throws IOException 
 	 */
-	static ModelInstance createModelInstance(Double sampleFraction, List<String> sources, List<String> tuples) throws IOException {
+	static ModelInstance createModelInstance(Double sampleFraction, Double holdoutFraction, List<String> sources, List<String> tuples) throws IOException {
 		Map<String, Set<String>> sourceOutputStrings = new HashMap<String, Set<String>>();
 		Set<String> trueTuples = new HashSet<String>();
 		parseData(sourceOutputStrings, trueTuples);
@@ -300,7 +300,7 @@ public class BookAuthor {
 			final String book = splitString[0];
 			final String author = splitString[1];
 			
-			if (bookAuthors.containsKey(book)) {
+			if (bookAuthors.containsKey(book) && Math.random() > holdoutFraction) {
 				if (bookAuthors.get(book).contains(author)) {
 					tupleTruth.put(tupleId, true);
 				} else {
@@ -671,7 +671,7 @@ public class BookAuthor {
 		
 		System.exit(0);
 		
-		ModelInstance modelInstance = createModelInstance(1.00, sources, tuples);
+		ModelInstance modelInstance = createModelInstance(1.00, 0.5, sources, tuples);
 		DenseSample denseSample = new DenseSample(modelInstance);
 		out.println("Labels:\t" + modelInstance.tupleTruth.keySet().size());
 		out.println("Tuples:\t" + modelInstance.getNumTuples());
