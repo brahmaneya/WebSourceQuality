@@ -170,10 +170,10 @@ public class BookAuthor {
 
 		BufferedReader labelledDataFile = new BufferedReader(new FileReader(ISBNLABELLEDDATAFILE));		
 		while ((s = labelledDataFile.readLine()) != null) {
-			if (s.indexOf('\t') == -1) {
+			String[] fields = s.split("\t");
+			if (fields.length < 2) {
 				continue;
 			}
-			String[] fields = s.split("\t");
 			final String bookId = fields[0];
 			final String authorString = fields[1];
 			String[] authors = authorString.split(";  ");
@@ -243,11 +243,12 @@ public class BookAuthor {
 	
 	/**
 	 * The sources and tuples maps get populated by this method, mapping integer ids of the sources/tuples to their
-	 * string descriptions. Samples sampleFraction fraction of the sources, and only considers tuples outputted by those
+	 * string descriptions. tupleTruthsAll is populated to include all tuple truth values (while only 1 - holdoutFraction of those are put into the model).
+	 * Samples sampleFraction fraction of the sources, and only considers tuples outputted by those
 	 * (to reduce size of the dataset). holdoutFraction specifies the amout of labelled data to hold out (and use for testing later). 
 	 * @throws IOException 
 	 */
-	static ModelInstance createModelInstance(Double sampleFraction, Double holdoutFraction, List<String> sources, List<String> tuples) throws IOException {
+	static ModelInstance createModelInstance(Double sampleFraction, Double holdoutFraction, List<String> sources, List<String> tuples, Map<Integer, Boolean> tupleTruthsAll) throws IOException {
 		Map<String, Set<String>> sourceOutputStrings = new HashMap<String, Set<String>>();
 		Set<String> trueTuples = new HashSet<String>();
 		parseData(sourceOutputStrings, trueTuples);
@@ -258,7 +259,8 @@ public class BookAuthor {
 		final List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
 		final Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
 		
-		for (String source : sourceOutputStrings.keySet()) {
+		// Randomly samples sources and all tuples outputted by them.
+		/*for (String source : sourceOutputStrings.keySet()) {
 			if (Math.random() > sampleFraction) {
 				continue;
 			}
@@ -280,8 +282,39 @@ public class BookAuthor {
 				}
 				currentSourceOutputs.add(id);
 			}
- 		}
-		
+ 		}*/
+
+		// Randomly samples stuples and sources that have outputted at least one. 
+		Set<String> allTuples = new HashSet<String>();
+		for (String source : sourceOutputStrings.keySet()) {
+			allTuples.addAll(sourceOutputStrings.get(source));
+		}
+		for (String tuple : allTuples) {
+			if (Math.random() > sampleFraction) {
+				continue;
+			}
+			final Integer tupleId = tupleIds.keySet().size();
+			tuples.add(tuple);
+			tupleIds.put(tuple, tupleId);
+		}
+		for (String source : sourceOutputStrings.keySet()) {
+			boolean keepSource = false;
+			final Integer sourceId = sourceIds.keySet().size();
+			final List<Integer> currentSourceOutputs = new ArrayList<Integer>();
+			for (String output : sourceOutputStrings.get(source)) {
+				if (tupleIds.containsKey(output)) {
+					keepSource = true;
+					final Integer tupleId = tupleIds.get(output);
+					currentSourceOutputs.add(tupleId);
+				}
+			}
+			if (keepSource) {
+				sourceIds.put(source, sourceId);
+				sources.add(source);
+				sourceOutputs.add(currentSourceOutputs);
+			}
+		}
+
 
 		Map<String, Set<String>> bookAuthors = new HashMap<String, Set<String>>();
 		for (String output : trueTuples) {
@@ -300,11 +333,17 @@ public class BookAuthor {
 			final String book = splitString[0];
 			final String author = splitString[1];
 			
-			if (bookAuthors.containsKey(book) && Math.random() > holdoutFraction) {
+			if (bookAuthors.containsKey(book)) {
 				if (bookAuthors.get(book).contains(author)) {
-					tupleTruth.put(tupleId, true);
+					if (Math.random() > holdoutFraction) {
+						tupleTruth.put(tupleId, true);
+					}
+					tupleTruthsAll.put(tupleId, true);
 				} else {
-					tupleTruth.put(tupleId, false);
+					if (Math.random() > holdoutFraction) {
+						tupleTruth.put(tupleId, false);
+					}
+					tupleTruthsAll.put(tupleId, false);
 				}
 			}
 		}
@@ -326,10 +365,10 @@ public class BookAuthor {
 		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
 		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
 		for (int groupId = 0; groupId < numGroups; groupId++) {
-			groupTrueTrueInit.add(2);
+			groupTrueTrueInit.add(5);
 			groupTrueFalseInit.add(1);
 			groupFalseTrueInit.add(1);
-			groupFalseFalseInit.add(3);
+			groupFalseFalseInit.add(5);
 		}
 		
 		// groupTupleBelief-sourceGroupTupleBelief pair value counts 
@@ -338,10 +377,10 @@ public class BookAuthor {
 		List<Integer> sourceFalseTrueInit = new ArrayList<Integer>();
 		List<Integer> sourceFalseFalseInit = new ArrayList<Integer>();
 		for (int sourceId = 0; sourceId < numSources; sourceId++) {
-			sourceTrueTrueInit.add(2);
+			sourceTrueTrueInit.add(1);
 			sourceTrueFalseInit.add(1);
-			sourceFalseTrueInit.add(1);
-			sourceFalseFalseInit.add(3);
+			sourceFalseTrueInit.add(30);
+			sourceFalseFalseInit.add(80);
 		}
 		
 		return new ModelInstance(numTuples, numGroups, numSources, groupSources, 
@@ -444,7 +483,7 @@ public class BookAuthor {
 		
 		for (String book : books) {
 			if (!bookAuthors.containsKey(book)) {
-				out.println(book);
+				//out.println(book);
 			}
 		}
 		
@@ -495,8 +534,33 @@ public class BookAuthor {
 			}
 		}
 		out.println(trueCount + "\t" + falseCount + "\t" + sourceOutputs.size());
-		//out.println(trueSourceCounts.toString());
-		//out.println(falseSourceCounts.toString());
+		out.println(trueSourceCounts.toString());
+		out.println(falseSourceCounts.toString());
+
+		for (int threshold = 0; threshold < 10; threshold++) {
+			int tt=0, tf=0, ft=0, ff=0;
+			for (int key : trueSourceCounts.keySet()) {
+				if (key >= threshold) {
+					tt += trueSourceCounts.get(key);
+				} else {
+			 		ft += trueSourceCounts.get(key);
+				}
+			}
+			for (int key : falseSourceCounts.keySet()) {
+				if (key >= threshold) {
+					tf += falseSourceCounts.get(key);
+				} else {
+					ff += falseSourceCounts.get(key);
+				}
+			}
+			out.println("Threshold\t" + threshold);
+			out.println(tt);			
+			out.println(ft);			
+			out.println(tf);			
+			out.println(ff);			
+			out.println();
+		}
+
 		int numBigSources = 0;
 		for (Integer sourceId  = 0; sourceId < sourceOutputs.size(); sourceId++) {
 			if (sourceOutputs.get(sourceId).size() > 1000) {
@@ -533,7 +597,7 @@ public class BookAuthor {
 				//out.println(outString);
 			}
 			if (trueTupleSet.size() + falseTupleSet.size() > 30) {
-				out.println((trueTupleSet.size() + falseTupleSet.size()) + "\t" + sourceOutputs.get(sourceId).size());				
+				//out.println((trueTupleSet.size() + falseTupleSet.size()) + "\t" + sourceOutputs.get(sourceId).size());				
 			}
 		}
 		
@@ -617,83 +681,56 @@ public class BookAuthor {
 	public static void main (String[] args) throws IOException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
+		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
 		
-		String s;
-		
-		Set<String> missedBooks = new HashSet<String>();
-		Set<String> isbnTrueTuples = new HashSet<String>();
-		BufferedReader isbnLabelledDataFile = new BufferedReader(new FileReader(ISBNLABELLEDDATAFILE));		
-		while ((s = isbnLabelledDataFile.readLine()) != null) {
-			if (s.indexOf('\t') == -1) {
-				continue;
-			}
-			String[] fields = s.split("\t");
-			if (fields.length == 1) {
-				missedBooks.add(fields[0]);
-				continue;
-			}
-			final String bookId = fields[0];
-			final String authorString = fields[1];
-			String[] authors = authorString.split(";  ");
-			for (int i = 0; i < authors.length; i++) {
-				authors[i] = canonicalize(authors[i].trim());
-				isbnTrueTuples.add(bookId + "\t" + authors[i]);
-			}
-		}
-		isbnLabelledDataFile.close();
-
-		Set<String> trueTuples = new HashSet<String>();
-		BufferedReader labelledDataFile = new BufferedReader(new FileReader(LABELLEDDATAFILE));		
-		while ((s = labelledDataFile.readLine()) != null) {
-			if (s.indexOf('\t') == -1) {
-				continue;
-			}
-			String[] fields = s.split("\t");
-			final String bookId = fields[0];
-			final String authorString = fields[1];
-			String[] authors = authorString.split(";  ");
-			for (int i = 0; i < authors.length; i++) {
-				authors[i] = canonicalize(authors[i].trim());
-				trueTuples.add(bookId + "\t" + authors[i]);
-			}
-		}
-		labelledDataFile.close();
-		
-		for (String trueTuple : trueTuples) {
-			String[] fields = trueTuple.split("\t");
-			final String book = fields[0];
-			if (!isbnTrueTuples.contains(trueTuple)) {
-				if (!missedBooks.contains(book)) {
-					out.println(trueTuple);					
-				}
-			}
-		}
-		
-		System.exit(0);
-		
-		ModelInstance modelInstance = createModelInstance(1.00, 0.5, sources, tuples);
+		//analyzeData();
+		//System.exit(0);
+		ModelInstance modelInstance = createModelInstance(0.9, 0.5, sources, tuples, tupleTruthsAll);
 		DenseSample denseSample = new DenseSample(modelInstance);
 		out.println("Labels:\t" + modelInstance.tupleTruth.keySet().size());
 		out.println("Tuples:\t" + modelInstance.getNumTuples());
 		out.println("Sources:\t" + modelInstance.getNumSources());
 		
 		final int numSamples = 1;
-		final int burnIn = 500000;
+		final int burnIn = 3;
 		final int thinFactor = 5000;
 		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
-		for (DenseSample sample : samples.subList(0,1)) {
+		int tt = 0, tf = 0, ft = 0, ff = 0;
+		for (DenseSample sample : samples) {
 			out.println(sample.tupleTruthProb());
 			for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 				out.println(sample.groupBeliefProb(k, true));
-				out.println(1 - sample.groupBeliefProb(k, false));				
+				out.println(sample.groupBeliefProb(k, false));				
 			}
 			for (int j = 0; j < modelInstance.getNumSources(); j++) {
-				out.println(sample.sourceBeliefProb(j, true));
-				out.println(1 - sample.sourceBeliefProb(j, false));				
+				out.println(sample.sourceBeliefProb(j, true) + "\t" + modelInstance.sourceOutputs.get(j).size());
+				out.println(sample.sourceBeliefProb(j, false));				
 			}
 			out.println();
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
+				if (modelInstance.tupleTruth.containsKey(i) || !tupleTruthsAll.containsKey(i)) {
+					continue;
+				}
+				if (tupleTruthsAll.get(i)) {
+					if (sample.tupleTruths.get(i)) {
+						tt++;
+					} else {
+						ft++;
+					}
+				} else {
+					if (sample.tupleTruths.get(i)) {
+						tf++;
+					} else {
+						ff++;
+					}
+				}
+			}
 		}
+		out.println(tt);
+		out.println(ft);
+		out.println(tf);
+		out.println(ff);
 		
 	}
 }

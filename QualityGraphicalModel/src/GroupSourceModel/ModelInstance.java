@@ -22,23 +22,23 @@ public class ModelInstance {
 	private final int numSources;
 	
 	// Instance Structure
-	final List<Set<Integer>> groupSources;
-	final List<Set<Integer>> sourceGroups;
-	final List<Set<Integer>> sourceOutputs;
-	final List<Set<Integer>> outputSources;
+	public final List<Set<Integer>> groupSources;
+	public final List<Set<Integer>> sourceGroups;
+	public final List<Set<Integer>> sourceOutputs;
+	public final List<Set<Integer>> outputSources;
 	
 	// Boolean variable counts for conjugate prior
 	// tupleTruth-groupTupleBelief pair value counts 
-	final List<Integer> groupTrueTrueInit;
-	final List<Integer> groupTrueFalseInit;
-	final List<Integer> groupFalseTrueInit;
-	final List<Integer> groupFalseFalseInit;
+	public final List<Integer> groupTrueTrueInit;
+	public final List<Integer> groupTrueFalseInit;
+	public final List<Integer> groupFalseTrueInit;
+	public final List<Integer> groupFalseFalseInit;
 	
 	// groupTupleBelief-sourceGroupTupleBelief pair value counts 
-	List<Integer> sourceTrueTrueInit;
-	List<Integer> sourceTrueFalseInit;
-	List<Integer> sourceFalseTrueInit;
-	List<Integer> sourceFalseFalseInit;
+	public List<Integer> sourceTrueTrueInit;
+	public List<Integer> sourceTrueFalseInit;
+	public List<Integer> sourceFalseTrueInit;
+	public List<Integer> sourceFalseFalseInit;
 	
 	// Labelled Data
 	public Map<Integer, Boolean> tupleTruth;

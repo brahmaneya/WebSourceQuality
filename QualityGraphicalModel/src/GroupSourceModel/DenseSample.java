@@ -12,30 +12,30 @@ import java.util.Map;
  * @author manasrj
  */
 public class DenseSample {
-	ModelInstance modelInstance;
-	List<Boolean> tupleTruths;
-	List<List<Boolean>> groupTupleBeliefs;
-	List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs;
+	public ModelInstance modelInstance;
+	public List<Boolean> tupleTruths;
+	public List<List<Boolean>> groupTupleBeliefs;
+	public List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs;
 	
-	List<Boolean> isFixed;
+	public List<Boolean> isFixed;
 
 	// number of true and false tuples
-	Integer tupleTrue;
-	Integer tupleFalse;
+	public Integer tupleTrue;
+	public Integer tupleFalse;
 	
 	// tupleTruth-groupTupleBelief pair value counts for each group. 
 	// groupXY[k] is the number of times group k believes X when Y is the case.
-	List<Integer> groupTrueTrue;
-	List<Integer> groupTrueFalse;
-	List<Integer> groupFalseTrue;
-	List<Integer> groupFalseFalse;
+	public List<Integer> groupTrueTrue;
+	public List<Integer> groupTrueFalse;
+	public List<Integer> groupFalseTrue;
+	public List<Integer> groupFalseFalse;
 	
 	// groupTupleBelief-sourceGroupTupleBelief pair value counts  for each source
 	// sourceXY[j] is the number of times source j believes X when Y is the case.
-	List<Integer> sourceTrueTrue;
-	List<Integer> sourceTrueFalse;
-	List<Integer> sourceFalseTrue;
-	List<Integer> sourceFalseFalse;
+	public List<Integer> sourceTrueTrue;
+	public List<Integer> sourceTrueFalse;
+	public List<Integer> sourceFalseTrue;
+	public List<Integer> sourceFalseFalse;
 	
 	public DenseSample(ModelInstance modelInstance) {
 		this.modelInstance = modelInstance;
