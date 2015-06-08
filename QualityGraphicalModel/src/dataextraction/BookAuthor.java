@@ -365,10 +365,10 @@ public class BookAuthor {
 		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
 		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
 		for (int groupId = 0; groupId < numGroups; groupId++) {
-			groupTrueTrueInit.add(5);
+			groupTrueTrueInit.add(10);
 			groupTrueFalseInit.add(1);
 			groupFalseTrueInit.add(1);
-			groupFalseFalseInit.add(5);
+			groupFalseFalseInit.add(10);
 		}
 		
 		// groupTupleBelief-sourceGroupTupleBelief pair value counts 
@@ -379,8 +379,8 @@ public class BookAuthor {
 		for (int sourceId = 0; sourceId < numSources; sourceId++) {
 			sourceTrueTrueInit.add(1);
 			sourceTrueFalseInit.add(1);
-			sourceFalseTrueInit.add(30);
-			sourceFalseFalseInit.add(80);
+			sourceFalseTrueInit.add(1);
+			sourceFalseFalseInit.add(1);
 		}
 		
 		return new ModelInstance(numTuples, numGroups, numSources, groupSources, 
@@ -553,11 +553,15 @@ public class BookAuthor {
 					ff += falseSourceCounts.get(key);
 				}
 			}
+			double recall = ((double) tt) / (tt + ft);
+			double precision = ((double) tt) / (tt + tf);
+			double f1 = 2 * precision * recall / (precision + recall);
+
 			out.println("Threshold\t" + threshold);
-			out.println(tt);			
-			out.println(ft);			
-			out.println(tf);			
-			out.println(ff);			
+			
+			out.println(precision);
+			out.println(recall);
+			out.println(f1);
 			out.println();
 		}
 
@@ -685,52 +689,74 @@ public class BookAuthor {
 		
 		//analyzeData();
 		//System.exit(0);
-		ModelInstance modelInstance = createModelInstance(0.9, 0.5, sources, tuples, tupleTruthsAll);
+		ModelInstance modelInstance = createModelInstance(0.9, 0.8, sources, tuples, tupleTruthsAll);
 		DenseSample denseSample = new DenseSample(modelInstance);
 		out.println("Labels:\t" + modelInstance.tupleTruth.keySet().size());
 		out.println("Tuples:\t" + modelInstance.getNumTuples());
 		out.println("Sources:\t" + modelInstance.getNumSources());
-		
-		final int numSamples = 1;
-		final int burnIn = 3;
-		final int thinFactor = 5000;
+
+		final int numSamples = 5;
+		final int burnIn = 10;
+		final int thinFactor = 3;
 		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
-		int tt = 0, tf = 0, ft = 0, ff = 0;
+		List<Double> tupleProbs = new ArrayList<Double>();
+		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
+			tupleProbs.add(0.0);
+		}
 		for (DenseSample sample : samples) {
-			out.println(sample.tupleTruthProb());
+			//out.println(sample.tupleTruthProb());
 			for (int k = 0; k < modelInstance.getNumGroups(); k++) {
-				out.println(sample.groupBeliefProb(k, true));
-				out.println(sample.groupBeliefProb(k, false));				
+				//out.println(sample.groupBeliefProb(k, true));
+				//out.println(sample.groupBeliefProb(k, false));				
 			}
-			for (int j = 0; j < modelInstance.getNumSources(); j++) {
-				out.println(sample.sourceBeliefProb(j, true) + "\t" + modelInstance.sourceOutputs.get(j).size());
-				out.println(sample.sourceBeliefProb(j, false));				
+			for (int j = 0; j < 0.012 * modelInstance.getNumSources(); j++) {
+				//out.println(sample.sourceBeliefProb(j, true) + "\t" + modelInstance.sourceOutputs.get(j).size());
+				//out.println(sample.sourceBeliefProb(j, false));				
 			}
-			out.println();
+			//out.println();
+			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
+				tupleProbs.set(i, (sample.tupleTruths.get(i) ? 1.0 : 0.0) + tupleProbs.get(i));
+			}
+		}
+		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
+			tupleProbs.set(i, tupleProbs.get(i) / numSamples);
+			if (i < 10) {
+				out.print(tupleProbs.get(i) + " ");
+			}
+		}
+
+		int tt = 0, tf = 0, ft = 0, ff = 0;
+		for (double probThreshold = 0.0; probThreshold < 0.9; probThreshold += 0.1) {
+			tt = tf = ft = ff = 0;
 			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				if (modelInstance.tupleTruth.containsKey(i) || !tupleTruthsAll.containsKey(i)) {
 					continue;
 				}
 				if (tupleTruthsAll.get(i)) {
-					if (sample.tupleTruths.get(i)) {
+					if (tupleProbs.get(i) >= probThreshold) {
 						tt++;
 					} else {
 						ft++;
 					}
 				} else {
-					if (sample.tupleTruths.get(i)) {
+					if (tupleProbs.get(i) >= probThreshold) {
 						tf++;
 					} else {
 						ff++;
 					}
 				}
 			}
+			double recall = ((double) tt) / (tt + ft);
+			double precision = ((double) tt) / (tt + tf);
+			double f1 = 2 * precision * recall / (precision + recall);
+			
+			out.println("\n" + probThreshold + ":");
+			out.println(tt + ", " + ft + ", " + tf + ", " + ff);
+			out.println(precision);
+			out.println(recall);
+			out.println(f1);
 		}
-		out.println(tt);
-		out.println(ft);
-		out.println(tf);
-		out.println(ff);
-		
+
 	}
 }

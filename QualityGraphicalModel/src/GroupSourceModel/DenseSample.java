@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.System.out;
+
 /**
  * This class maintains information on the state of different variables during Gibb's sampling. The Gibb's sampling consists
  * of in-place changes in values of the variables. Every so often, we 'save' a snapshot of the current state in a GroundingSample object
@@ -115,7 +117,8 @@ public class DenseSample {
 				for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 					boolean groupTupleBelief = groupTupleBeliefs.get(k).get(i);
 					boolean sourceGroupTupleBelief;
-					if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
+					if (modelInstance.sourceOutputs.get(j).contains(i)) {
+					//if (Math.random() < sourceBeliefProb(j, groupTupleBelief)) {
 						sourceGroupTupleBelief = true;
 					} else {
 						sourceGroupTupleBelief = false;
@@ -125,7 +128,6 @@ public class DenseSample {
 				}
 				sourceGroupTupleBeliefsMap.put(k, groupTupleBeliefsList);
 			}
-			
 			sourceGroupTupleBeliefs.add(sourceGroupTupleBeliefsMap);
 		}
 	}
@@ -257,7 +259,6 @@ public class DenseSample {
 	private void changeSourceGroupBelief(int i, int j, int k) {
 		Double trueWeight = 0.0;
 		Double falseWeight = 0.0;
-		
 		trueWeight += Math.log(sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
 		falseWeight += Math.log(1 - sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
 		
