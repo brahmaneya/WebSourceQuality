@@ -1,5 +1,6 @@
 package GroupSourceModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import static java.lang.System.out;
  *  
  * @author manasrj
  */
-public class DenseSample {
+public class DenseSample implements Serializable {
 	public ModelInstance modelInstance;
 	public List<Boolean> tupleTruths;
 	public List<List<Boolean>> groupTupleBeliefs;
@@ -393,4 +394,5 @@ public class DenseSample {
 				tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
 				sourceFalseTrue, sourceFalseFalse);
 	}
+	
 }

@@ -1,10 +1,14 @@
 package dataextraction;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -350,16 +354,8 @@ public class BookAuthor {
 		
 		int numTuples = tuples.size();
 		int numSources = sources.size();
-		int numGroups = 1;
-		
-		{
-			List<Integer> allSources = new ArrayList<Integer>();
-			for (int i = 0; i < numSources; i++) {
-				allSources.add(i);
-			}
-			groupSources.add(allSources);
-		}
-		
+		int numGroups = addModelGroups(groupSources, sourceOutputs, tupleTruth, "1All");
+
 		List<Integer> groupTrueTrueInit = new ArrayList<Integer>();
 		List<Integer> groupTrueFalseInit = new ArrayList<Integer>();
 		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
@@ -389,6 +385,31 @@ public class BookAuthor {
 		//return null;
 	}
 	
+	/*
+	 * Adds the groups for model, by populating groupSources. The "type" string specifies the scheme to use for grouping.
+	*/
+	static int addModelGroups (List<List<Integer>> groupSources, List<List<Integer>> sourceOutputs, Map<Integer, Boolean> tupleTruth, String type) {
+		if (type.equals("1All")) {
+			List<Integer> allSources = new ArrayList<Integer>();
+			for (int i = 0; i < sourceOutputs.size(); i++) {
+				allSources.add(i);
+			}
+			groupSources.add(allSources);
+			return 1;
+		}
+		if (type.equals("1All2Most")) {
+			List<Integer> allSources = new ArrayList<Integer>();
+			for (int i = 0; i < sourceOutputs.size(); i++) {
+				allSources.add(i);
+			}
+			groupSources.add(allSources);
+			List<Integer> commonSources = new ArrayList<Integer>();
+		
+			return 2;
+		}
+		return -1;	
+	}
+
 	static void analyzeData () throws IOException {
 		Map<String, Set<String>> sourceOutputStrings = new HashMap<String, Set<String>>();
 		Set<String> trueTuples = new HashSet<String>();
@@ -682,23 +703,49 @@ public class BookAuthor {
 		//out.println(sf);
 	}
 	
-	public static void main (String[] args) throws IOException {
+	public static void main (String[] args) throws IOException, ClassNotFoundException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
 		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
 		
 		//analyzeData();
 		//System.exit(0);
-		ModelInstance modelInstance = createModelInstance(0.9, 0.8, sources, tuples, tupleTruthsAll);
+		ModelInstance modelInstance = createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
 		DenseSample denseSample = new DenseSample(modelInstance);
+
+		final int numSamples = 5;
+		final int burnIn = 5;
+		final int thinFactor = 3;
+		Boolean createNew = false; // True means create new samples and save them. Otherwise, we just read samples from file.
+		String saveFileName = "samples.ser";
+		List<DenseSample> samples;
+
+		if (createNew) {
+			samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
+			FileOutputStream fileOut = new FileOutputStream(saveFileName);
+			ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+			objOut.writeObject(samples);
+			objOut.writeObject(modelInstance);
+			objOut.writeObject(sources);
+			objOut.writeObject(tuples);
+			objOut.writeObject(tupleTruthsAll);
+			objOut.close();
+			fileOut.close();
+		} else {
+			FileInputStream fileIn = new FileInputStream(saveFileName);
+			ObjectInputStream objIn = new ObjectInputStream(fileIn);
+			samples = (List<DenseSample>) objIn.readObject();
+			modelInstance = (ModelInstance) objIn.readObject();
+			sources = (List<String>) objIn.readObject();
+			tuples = (List<String>) objIn.readObject();
+			tupleTruthsAll = (Map<Integer, Boolean>) objIn.readObject();
+			objIn.close();
+			fileIn.close();
+		}
+
 		out.println("Labels:\t" + modelInstance.tupleTruth.keySet().size());
 		out.println("Tuples:\t" + modelInstance.getNumTuples());
 		out.println("Sources:\t" + modelInstance.getNumSources());
-
-		final int numSamples = 5;
-		final int burnIn = 10;
-		final int thinFactor = 3;
-		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
 		List<Double> tupleProbs = new ArrayList<Double>();
 		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
@@ -721,9 +768,6 @@ public class BookAuthor {
 		}
 		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 			tupleProbs.set(i, tupleProbs.get(i) / numSamples);
-			if (i < 10) {
-				out.print(tupleProbs.get(i) + " ");
-			}
 		}
 
 		int tt = 0, tf = 0, ft = 0, ff = 0;

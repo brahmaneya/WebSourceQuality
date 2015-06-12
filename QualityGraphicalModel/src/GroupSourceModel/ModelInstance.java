@@ -1,5 +1,6 @@
 package GroupSourceModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ import static java.lang.System.out;
  * Conventions: i is always an index over tuples, j over sources, and k over groups.
  * @author manasrj
  */
-public class ModelInstance {
+public class ModelInstance implements Serializable {
 	// Instance Size 
 	private final int numTuples;
 	private final int numGroups;
