@@ -25,7 +25,7 @@
 0321428900	Alfred V. Aho;  Monica S. Lam;  Ravi Sethi;  Jeffrey D. Ullman
 1576761053	David Galles
 0805327304	Michael Wolfe
-0805321667	Charles N. Fischer;  Richard J. LeBlanc Jr.
+0805321667	Charles N. Fischer;  Richard J. LeBlanc 
 0201100886	Alfred V. Aho;  Ravi Sethi;  Jeffrey D. Ullman
 0201612534	John D. Carpinelli
 0321112296	Nick Rozanski;  Eóin Woods
@@ -43,7 +43,7 @@
 0321116291	David Benyon;  Phil Turner;  Susan Turner
 0321197860	Ben Shneiderman;  Catherine Plaisant
 0321181433	Soren Lauesen
-0201758679	Doug A. Bowman;  Ernst Kruijff;  Joseph J. LaViola Jr.;  Ivan Poupyrev
+0201758679	Doug A. Bowman;  Ernst Kruijff;  Joseph J. LaViola ;  Ivan Poupyrev
 0201704471	John M. Carroll
 0201379376	Jef Raskin
 0201483548	Joseph J. Lazzaro
@@ -278,7 +278,7 @@
 0201761769	Stuart McClure;  Saumil Shah;  Shreeraj Shah
 0201615991	Richard E. Smith
 020172152X	John Viega;  Gary McGraw
-0201707195	Warren G. Kruse II;  Jay G. Heiser
+0201707195	Warren G. Kruse ;  Jay G. Heiser
 0201719568	T. J. Klevinsky;  Scott Laliberte;  Ajay Gupta
 020173723X	Julia H. Allen
 0201616475	H. X. Mel;  Doris M. Baker
@@ -299,7 +299,7 @@
 0321227352	James F. Kurose;  Keith W. Ross
 0201781344	Jorg Liebeherr;  Magda El Zarki
 0201398184	Fred Halsall
-0321427610	Lillian Goleniewski;  Kitty Wilson Jarrett (editor)
+0321427610	Lillian Goleniewski;  Kitty Wilson Jarrett 
 0201738279	Roderick W. Smith
 0201719363	Elfriede Dustin;  Jeff Rashka;  Douglas McDiarmid
 0201760320	Lillian Goleniewski
@@ -314,11 +314,11 @@
 0321262514	Tom Clark
 0321200985	Harlan Carvey
 032112698X	Dilip C. Naik
-0321166469	Honeynet Project  The
+0321166469	The Honeynet Project 
 0321136500	Tom Clark
 0201752794	Fred Chris Smith;  Rebecca Gurley Bace
 0321122445	Aviva Garrett;  Gary Drenan;  Cris Morris;  Juniper® Networks
-0201775921	Thomas M. Thomas II;  Doris Pavlichek;  Lawrence H. Dwyer III;  Rajah Chowbay;  Wayne W. Downing III;  James Sonderegger
+0201775921	Thomas M. Thomas ;  Doris Pavlichek;  Lawrence H. Dwyer ;  Rajah Chowbay;  Wayne W. Downing ;  James Sonderegger
 020178792X	Brian Arkills
 0321133455	Chris Wolf
 0201604647	Douglas Schmidt;  Stephen D. Huston
@@ -332,7 +332,7 @@
 0201634481	Radia Perlman
 0201657589	Rob Weltman;  Tony Dahbura
 0201433192	J. Scott Haugdahl
-0201379511	John W. Stewart III
+0201379511	John W. Stewart 
 0201379538	Darryl P. Black
 0201379562	Andrew F. Ward
 0201695847	J. Scott Marcus
@@ -384,7 +384,7 @@
 032142672X	Eric Clayberg;  Dan Rubel
 0321349806	Ken Arnold;  James Gosling;  David Holmes
 0321304780	Patrick Chan;  Rosanna Lee
-0321246780	James Gosling;  Bill Joy;  Guy L. Steele Jr.;  Gilad Bracha
+0321246780	James Gosling;  Bill Joy;  Guy L. Steele;  Gilad Bracha
 032133678X	Joshua Bloch;  Neal Gafter
 0321205219	Inderjeet Singh;  Sean Brydon;  Greg Murray;  Vijay Ramachandran;  Thierry Violleau;  Beth Stearns
 0321228472	Eric Clayberg;  Dan Rubel
@@ -417,14 +417,14 @@
 0201705028	Rosanna Lee;  Scott Seligman
 0201703297	Zhiqun Chen
 0201716232	
-0201310082	James Gosling;  Bill Joy;  Guy L. Steele Jr.;  Gilad Bracha
+0201310082	James Gosling;  Bill Joy;  Guy L. Steele ;  Gilad Bracha
 0201704331	Ken Arnold;  James Gosling;  David Holmes
 0201616467	Peter Haggar
 0201485524	Patrick Chan;  Rosanna Lee;  Douglas Kramer
 0201325772	Sheng Liang
 0201485583	Mary Campione;  Kathy Walrath;  Alison Huml;  Tutorial Team
 0201432943	Tim Lindholm;  Frank Yellin
-0201615630	Carlton Egremont III
+0201615630	Carlton Egremont
 0201309726	Joshua Engel
 0201310031	Patrick Chan;  Rosanna Lee
 0201634562	Jonni Kanerva
@@ -606,7 +606,7 @@
 9780072254631	Inc. Triad Interactive
 9780072255539	Adrian Kingsley-Hughes
 9780072944846	
-9780073212227	Ferdinand Beer;  Jr.,E. Russell Johnston;  Elliot Eisenberg;  William Clausen;  David Mazurek;  Phillip Cornwell
+9780073212227	Ferdinand Beer;  E. Russell Johnston;  Elliot Eisenberg;  William Clausen;  David Mazurek;  Phillip Cornwell
 9780070379909	Seymour Lipschutz
 9780071409278	Mark Balch
 9780073528328	Paul De Palma
@@ -730,7 +730,7 @@
 0750681853	Stephen Morris
 0750667311	Colin Combe
 0123695317	Sergios Theodoridis;  Konstantinos Koutroumbas
-0127425039	Pawel Plaszczak;  Richard Wellner  Jr. Jr.
+0127425039	Pawel Plaszczak;  Richard Wellner 
 1558608893	Ron Goldman;  Richard P. Gabriel
 075066455X	John McManus
 0750663510	Margi Levy;  Philip Powell
@@ -747,8 +747,8 @@
 1555582893	Andrew S. Wigosky
 1558609172	Dave McComb
 1558609199	Terry Halpin;  Ken Evans;  Pat Hallock;  Bill Maclean
-1555583067	John Rittinghouse  PhD  CISM;  William M. Hancock  PhD  CISSP  CISM
-0750676566	Gerald L. Kovacich CFE  CPP  CISSP
+1555583067	John Rittinghouse ;  William M. Hancock
+0750676566	Gerald L. Kovacich 
 1558609164	David Loshin
 1555582605	Paul Fortier ;  Howard Michel
 155558277X	Duane Sharp
@@ -762,10 +762,10 @@
 1555582907	Michael Erbschloe
 1555582648	Alan Winston
 155558263X	Jeffrey Peel
-1555582567	Charles Breakfield MBA  MCSE;  Roxanne Burkey MBA
+1555582567	Charles Breakfield ;  Roxanne Burkey 
 0080439977	R.M. Mason
 012449983X	Bennet Lientz;  Kathryn Rea
-1555582516	Thomas Redman PhD
+1555582516	Thomas Redman 
 0124499686	Bennet Lientz;  Kathryn Rea
 0124499775	Bennet Lientz;  Kathryn Rea
 0124499805	Bennet Lientz;  Kathryn Rea
@@ -844,7 +844,7 @@
 0123116333	Jan L. Harrington
 1558608346	Markus Hofmann;  Leland R. Beaumont
 0120884771	George Varghese
-012715051X	Jean-Philippe Vasseur M.S. in Computer Science;  Mario Pickavet;  Piet Demeester
+012715051X	Jean-Philippe Vasseur ;  Mario Pickavet;  Piet Demeester
 1558609148	Feng Zhao;  Leonidas Guibas
 0125571895	Michal Pioro;  Deepankar Medhi
 0124287514	Anurag Kumar;  D. Manjunath;  Joy Kuri
@@ -976,7 +976,7 @@
 1555581595	Ruth Goldenberg
 1555582745	Martin Moore;  Steven Hancock
 1555582796	Michael D Duffy
-1555582532	Gary Mauler Fellow Engineer with Northrop Grumman. Mauler has been designing and implementing clustered systems since the early eighties.;  Milt Beebe MCSE  MCT
+1555582532	Gary Mauler Fellow Engineer with Northrop Grumman. Mauler has been designing and implementing clustered systems since the early eighties.;  Milt Beebe 
 1555582559	Matthew Cheek;  Scott Fafrak;  Steven Hancock;  Martin Moore;  Gregory Yates
 012251341X	Jesse Feiler
 0750673540	Craig Peacock
@@ -991,23 +991,23 @@
 1555581269	Joginder Sethi
 1555581234	Mike Gancarz
 0750679999	Robert Pearson
-0750679298	Gerald L. Kovacich CFE  CPP  CISSP;  William C. Boni CISA  MBA
+0750679298	Gerald L. Kovacich ;  William C. Boni 
 155558344X	XYPRO Technology Corp
-1555583393	John Rittinghouse  PhD  CISM;  James F. Ransome  PhD  CISM  CISSP
+1555583393	John Rittinghouse ;  James F. Ransome 
 0750678038	Carl Roper;  Dr. Lynn Fischer;  Joseph A. Grau
 0124730515	John G. Clement;  Murray K. Marks
-1555583385	John Rittinghouse  PhD  CISM;  James F. Ransome  PhD  CISM  CISSP
+1555583385	John Rittinghouse  ;  James F. Ransome 
 0750677465	Praphul Chandra
 1555583342	Ron Ben Natan
 0750677953	Andy Jones;  Debi Ashenden
 1555582974	John R. Vacca;  Scott Ellis
-1555583326	James F. Ransome  PhD  CISM  CISSP;  John Rittinghouse  PhD  CISM
+1555583326	James F. Ransome ;  John Rittinghouse 
 0121631052	Monique Ferraro;  Eoghan Casey
 0750678488	Michael Erbschloe
-0121631044	Eoghan Casey BS  MA
+0121631044	Eoghan Casey 
 1555582834	Jan De Clercq
 0127427511	Jason R. Weiss
-1555583172	John Rittinghouse  PhD  CISM;  James F. Ransome  PhD  CISM  CISSP
+1555583172	John Rittinghouse ;  James F. Ransome 
 1555583121	Michael Erbschloe
 1555583148	XYPRO Technology Corp
 1555582982	Tim Speed;  Juanita Ellis
@@ -1048,7 +1048,7 @@
 0120121611	Marvin Zelkowitz   
 1555583156	Fiach Reid
 0750660988	Kenneth Barclay;  John Savage
-155558313X	John Rittinghouse  PhD  CISM
+155558313X	John Rittinghouse  
 0750656832	Rob Pooley;  Pauline Wilcox
 1555583075	Robert Charles Metzger
 1558608362	Robert Brunner
@@ -1062,8 +1062,8 @@
 0120121565	
 1558606394	Serge Demeyer;  Stéphane Ducasse;  Oscar Nierstrasz
 1558607455	Berthold Daum;  Udo Merten
-0750674032	Ron Schmitt Former Director of Electrical Engineering Sensor Research and Development Corp. Orono  Maine
-1555582494	Norman Lawrence PhD  MEd
+0750674032	Ron Schmitt 
+1555582494	Norman Lawrence 
 1558608265	Michael J. Donahoo;  Kenneth L. Calvert
 1558606858	Kenneth L. Calvert;  Michael J. Donahoo
 1558607366	Gregory D. Speegle
@@ -1167,7 +1167,7 @@
 0131227068	Moshe F. Rubinstein;  Iris R. Firstenberg
 0130920657	Jay Singelmann
 0132320495	Y. Daniel Liang
-0131857576	Harvey & Paul) Deitel & Deitel
+0131857576
 0131426605	Harvey M. Deitel;  Paul Deitel
 0131857584	Paul Deitel
 0134373774	Harvey M. Deitel;  Paul J. Deitel
@@ -1221,7 +1221,7 @@
 0131821067	James Holmes
 0130481904	Thomas Pittman;  James Peters
 0130351180	Hong Zhang;  Y. Daniel Liang
-0131496700	Francis S Hill  Jr.;  Stephen M Kelley
+0131496700	Francis S Hill ;  Stephen M Kelley
 0131452541	Steve Cunningham
 0130153907	Donald D. Hearn;  M. Pauline Baker
 0130411612	Daniel D. McCracken;  Rosalee J. Wolfe;  Jared M. Spool

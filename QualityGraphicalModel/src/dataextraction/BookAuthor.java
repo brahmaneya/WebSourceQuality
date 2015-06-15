@@ -263,31 +263,6 @@ public class BookAuthor {
 		final List<List<Integer>> sourceOutputs = new ArrayList<List<Integer>>();
 		final Map<Integer, Boolean> tupleTruth = new HashMap<Integer, Boolean>();
 		
-		// Randomly samples sources and all tuples outputted by them.
-		/*for (String source : sourceOutputStrings.keySet()) {
-			if (Math.random() > sampleFraction) {
-				continue;
-			}
-			final Integer sourceId = sourceIds.keySet().size(); 
-			sources.add(source);
-			sourceIds.put(source, sourceId);
-			final List<Integer> currentSourceOutputs = new ArrayList<Integer>();
-			sourceOutputs.add(currentSourceOutputs);
-			
-			final Set<String> outputs = sourceOutputStrings.get(source);
-			for (String output : outputs) {
-				Integer id;
-				if (!tupleIds.containsKey(output)) {
-					id = tupleIds.keySet().size();
-					tupleIds.put(output, id);
-					tuples.add(output);
-				} else {
-					id = tupleIds.get(output);
-				}
-				currentSourceOutputs.add(id);
-			}
- 		}*/
-
 		// Randomly samples stuples and sources that have outputted at least one. 
 		Set<String> allTuples = new HashSet<String>();
 		for (String source : sourceOutputStrings.keySet()) {
@@ -298,6 +273,15 @@ public class BookAuthor {
 				continue;
 			}
 			final Integer tupleId = tupleIds.keySet().size();
+			tuples.add(tuple);
+			tupleIds.put(tuple, tupleId);
+		}
+		Integer numEmptyTuples = 0000; // An empty tuple is a false tuple that isn't outputted by any source.
+		final String emptyTupleBook = "EMPTYTUPLE";
+		for (int i = 0; i < numEmptyTuples; i++) {
+			final String tuple = emptyTupleBook + "\t" + i;
+			final Integer tupleId = tupleIds.keySet().size();
+			allTuples.add(tuple);
 			tuples.add(tuple);
 			tupleIds.put(tuple, tupleId);
 		}
@@ -337,6 +321,12 @@ public class BookAuthor {
 			final String book = splitString[0];
 			final String author = splitString[1];
 			
+			if (book.equals(emptyTupleBook)) {
+				tupleTruth.put(tupleId, false);
+				tupleTruthsAll.put(tupleId, false);
+				continue;
+			}
+
 			if (bookAuthors.containsKey(book)) {
 				if (bookAuthors.get(book).contains(author)) {
 					if (Math.random() > holdoutFraction) {
@@ -354,7 +344,7 @@ public class BookAuthor {
 		
 		int numTuples = tuples.size();
 		int numSources = sources.size();
-		int numGroups = addModelGroups(groupSources, sourceOutputs, tupleTruth, "1All");
+		int numGroups = addModelGroups(groupSources, sourceOutputs, tupleTruth, "1All2Most");
 
 		List<Integer> groupTrueTrueInit = new ArrayList<Integer>();
 		List<Integer> groupTrueFalseInit = new ArrayList<Integer>();
@@ -404,8 +394,55 @@ public class BookAuthor {
 			}
 			groupSources.add(allSources);
 			List<Integer> commonSources = new ArrayList<Integer>();
-		
+			Integer maxSourceId = -1;		
+			int maxSourceSize = -1;
+			for (int sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
+				if (sourceOutputs.get(sourceId).size() > maxSourceSize) {
+					maxSourceId = sourceId;
+					maxSourceSize = sourceOutputs.get(sourceId).size();
+				}
+			}
+			out.println(maxSourceSize);
+			for (int sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
+				int intersection = 0;
+				for (int output : sourceOutputs.get(sourceId)) {
+					if (sourceOutputs.get(maxSourceId).contains(output)) {
+						intersection++;
+					}
+				}
+				if (intersection > sourceOutputs.get(sourceId).size() * 0.1) {
+					commonSources.add(sourceId);
+				}
+			}
+			out.println(commonSources.size());
+
+			groupSources.add(commonSources);
 			return 2;
+		}
+		if (type.equals("ManyFull")) {
+			int numGroups = 4;
+			List<Integer> allSources = new ArrayList<Integer>();
+			for (int i = 0; i < sourceOutputs.size(); i++) {
+				allSources.add(i);
+			}
+			for (int k = 0; k < numGroups; k++) {
+				groupSources.add(allSources);
+			}
+			return numGroups;	
+		}
+		if (type.equals("ManyRandom")) {
+			int numGroups = 5;
+			double density = 0.5;
+			for (int k = 0; k < numGroups; k++) {
+				List<Integer> sources = new ArrayList<Integer>();
+				for (int i = 0; i < sourceOutputs.size(); i++) {
+					if (Math.random() < density) {
+						sources.add(i);
+					}
+				}
+				groupSources.add(sources);
+			}
+			return numGroups;	
 		}
 		return -1;	
 	}
@@ -534,8 +571,8 @@ public class BookAuthor {
 					outTrueString = outTrueString + " " + sources.get(sourceId);
 				}
 			}
-			if (numFalseSources >= 4) {
-				//out.println(outFalseString);
+			if (numFalseSources >= 12) {
+				out.println(outFalseString);
 			}
 			if (numTrueSources >= 4) {
 				//out.println(outTrueString);
@@ -577,13 +614,15 @@ public class BookAuthor {
 			double recall = ((double) tt) / (tt + ft);
 			double precision = ((double) tt) / (tt + tf);
 			double f1 = 2 * precision * recall / (precision + recall);
+			double accuracy = ((double)(tt + ff)) / (tt + ff + tf + ft);
 
-			out.println("Threshold\t" + threshold);
+			//out.println("Threshold\t" + threshold);
 			
-			out.println(precision);
-			out.println(recall);
-			out.println(f1);
-			out.println();
+			//out.println(precision);
+			//out.println(recall);
+			//out.println(f1);
+			//out.println(accuracy);
+			//out.println();
 		}
 
 		int numBigSources = 0;
@@ -708,19 +747,20 @@ public class BookAuthor {
 		List<String> tuples = new ArrayList<String>();
 		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
 		
-		//analyzeData();
-		//System.exit(0);
-		ModelInstance modelInstance = createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
-		DenseSample denseSample = new DenseSample(modelInstance);
-
+		analyzeData();
+		System.exit(0);
+		ModelInstance modelInstance;
+ 
 		final int numSamples = 5;
-		final int burnIn = 5;
+		final int burnIn = 9;
 		final int thinFactor = 3;
-		Boolean createNew = false; // True means create new samples and save them. Otherwise, we just read samples from file.
+		Boolean createNew = true; // True means create new samples and save them. Otherwise, we just read samples from file.
 		String saveFileName = "samples.ser";
 		List<DenseSample> samples;
 
 		if (createNew) {
+			modelInstance = createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
+			DenseSample denseSample = new DenseSample(modelInstance);
 			samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 			FileOutputStream fileOut = new FileOutputStream(saveFileName);
 			ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
@@ -794,12 +834,14 @@ public class BookAuthor {
 			double recall = ((double) tt) / (tt + ft);
 			double precision = ((double) tt) / (tt + tf);
 			double f1 = 2 * precision * recall / (precision + recall);
+			double accuracy = ((double)(tt + ff)) / (tt + ff + tf + ft);
 			
 			out.println("\n" + probThreshold + ":");
 			out.println(tt + ", " + ft + ", " + tf + ", " + ff);
 			out.println(precision);
 			out.println(recall);
 			out.println(f1);
+			out.println(accuracy);
 		}
 
 	}

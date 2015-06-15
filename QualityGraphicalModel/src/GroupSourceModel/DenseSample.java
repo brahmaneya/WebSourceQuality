@@ -217,6 +217,9 @@ public class DenseSample implements Serializable {
 	}
 	
 	private void changeGroupBelief(int i, int k) {
+		if (isFixed.get(i)) {
+			//return;
+		}
 		Double trueWeight = 0.0;
 		Double falseWeight = 0.0;
 		
