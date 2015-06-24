@@ -80,7 +80,7 @@ public class DenseSample implements Serializable {
 			}
 		}
 		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
-			Double tupleTrueProbability = tupleTruthProb();
+			final Double tupleTrueProbability = tupleTruthProb();
 			// NOTE: What would happen if we initialized tuples based on number of outputting sources rather than randomly? Closer to equilibrium state, but any local optima problems?
 			if (!isFixed.get(i)) {
 				if (Math.random() < tupleTrueProbability) {
@@ -94,6 +94,15 @@ public class DenseSample implements Serializable {
 		}
 		
 		groupTupleBeliefs = new ArrayList<List<Boolean>>();
+		Map<Integer, List<Integer>> outputSources = new HashMap<Integer, List<Integer>>();
+		for (Integer sourceId = 0; sourceId < modelInstance.sourceOutputs.size(); sourceId++) {
+			for (Integer tupleId : modelInstance.sourceOutputs.get(sourceId)) {
+				if (!outputSources.containsKey(tupleId)) {
+					outputSources.put(tupleId, new ArrayList<Integer>());
+				}
+				outputSources.get(tupleId).add(sourceId);
+			}
+		}
 		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 			List<Boolean> groupTupleBeliefsList = new ArrayList<Boolean>();
 			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
@@ -103,6 +112,10 @@ public class DenseSample implements Serializable {
 					groupTupleBelief = true;
 				} else {
 					groupTupleBelief = false;
+				}
+				//groupTupleBelief = (outputSources.get(i).size() > 4);
+				if (isFixed.get(i)) {
+					//groupTupleBelief = tupleTruth;
 				}
 				groupTupleBeliefsList.add(groupTupleBelief);
 				updateGroupCount(k, groupTupleBelief, tupleTruth, 1);
@@ -137,7 +150,7 @@ public class DenseSample implements Serializable {
 			List<Map<Integer, List<Boolean>>> sourceGroupTupleBeliefs, Integer tupleTrue, Integer tupleFalse, 
 			List<Integer> groupTrueTrue, List<Integer> groupTrueFalse, List<Integer> groupFalseTrue, 
 			List<Integer> groupFalseFalse, List<Integer> sourceTrueTrue, List<Integer> sourceTrueFalse, 
-			List<Integer> sourceFalseTrue, List<Integer> sourceFalseFalse) {
+			List<Integer> sourceFalseTrue, List<Integer> sourceFalseFalse, List<Boolean> isFixed) {
 		this.modelInstance = modelInstance;
 		this.tupleTruths = tupleTruths;
 		this.groupTupleBeliefs = groupTupleBeliefs;
@@ -155,6 +168,8 @@ public class DenseSample implements Serializable {
 		this.sourceTrueFalse = sourceTrueFalse;
 		this.sourceFalseTrue = sourceFalseTrue;
 		this.sourceFalseFalse = sourceFalseFalse;
+
+		this.isFixed = isFixed;
 	}
 	
 	// T_i
@@ -395,7 +410,116 @@ public class DenseSample implements Serializable {
 		
 		return new DenseSample (modelInstance, gTupleTruths, gGroupTupleBeliefs, gSourceGroupTupleBeliefs, tupleTrue, 
 				tupleFalse, groupTrueTrue, groupTrueFalse, groupFalseTrue, groupFalseFalse, sourceTrueTrue, sourceTrueFalse, 
-				sourceFalseTrue, sourceFalseFalse);
+				sourceFalseTrue, sourceFalseFalse, isFixed);
+	}
+
+	public double groupBeliefProbActual (int groupId, boolean condition, Map<Integer, Boolean> tupleTruthsAll) {
+		int trues = 0;
+		int falses = 0;
+		for (int tupleId = 0; tupleId < modelInstance.getNumTuples(); tupleId++) {
+			if (tupleTruthsAll.containsKey(tupleId) && tupleTruthsAll.get(tupleId) == condition) {
+				if (groupTupleBeliefs.get(groupId).get(tupleId)) {
+					trues++;
+				} else {
+					falses++;
+				}
+			}
+		}
+		return ((double) trues) / (trues + falses);
 	}
 	
+	public double sourceOutputProbActual (int sourceId, boolean condition, Map<Integer, Boolean> tupleTruthsAll) {
+		int trues = 0;
+		int falses = 0;
+		for (int tupleId = 0; tupleId < modelInstance.getNumTuples(); tupleId++) {
+			if (tupleTruthsAll.containsKey(tupleId) && tupleTruthsAll.get(tupleId) == condition) {
+				if (modelInstance.sourceOutputs.get(sourceId).contains(tupleId)) {
+					trues++;
+				} else {
+					falses++;
+				}
+			}
+		}
+		return ((double) trues) / (trues + falses);
+	}
+	
+	public double sourceOutputProb (int sourceId, boolean condition) {
+		int trues = 0;
+		int falses = 0;
+		for (int tupleId = 0; tupleId < modelInstance.getNumTuples(); tupleId++) {
+			if (tupleTruths.get(tupleId) == condition) {
+				if (modelInstance.sourceOutputs.get(sourceId).contains(tupleId)) {
+					trues++;
+				} else {
+					falses++;
+				}
+			}
+		}
+		return ((double) trues) / (trues + falses);
+	}
+
+	public double tupleTruthGlobalProb (int i) {
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		trueWeight += Math.log(tupleTruthProb());
+		for (int k = 0; k < modelInstance.getNumGroups(); k++) {
+			if (groupTupleBeliefs.get(k).get(i)) {
+				trueWeight += Math.log(groupBeliefProb(k, true));
+				falseWeight += Math.log(groupBeliefProb(k, false));
+			} else {
+				trueWeight += Math.log(1 - groupBeliefProb(k, true));
+				falseWeight += Math.log(1 - groupBeliefProb(k, false));				
+			}
+		}
+		
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		return odds / (odds + 1);
+	}
+
+	public double groupBeliefGlobalProb (int k, int i) {
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		
+		trueWeight += Math.log(groupBeliefProb(k, tupleTruths.get(i)));
+		falseWeight += Math.log(1 - groupBeliefProb(k, tupleTruths.get(i)));
+		
+		for (int j : modelInstance.groupSources.get(k)) {
+			if (sourceGroupTupleBeliefs.get(j).get(k).get(i)) {
+				trueWeight += Math.log(sourceBeliefProb(j, true));
+				falseWeight += Math.log(sourceBeliefProb(j, false));
+			} else {
+				trueWeight += Math.log(1 - sourceBeliefProb(j, true));
+				falseWeight += Math.log(1 - sourceBeliefProb(j, false));				
+			}
+		}
+	
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		return odds / (odds + 1);
+	}
+
+	public double sourceGroupBeliefGlobalProb (int j, int k, int i) {
+		Double trueWeight = 0.0;
+		Double falseWeight = 0.0;
+		trueWeight += Math.log(sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
+		falseWeight += Math.log(1 - sourceBeliefProb(j, groupTupleBeliefs.get(k).get(i)));
+		
+		boolean falseOr = false; // The Or of all other beliefs for this source-tuple pair
+		final boolean trueOr = true;
+		for (int kk : modelInstance.sourceGroups.get(j)) {
+			if (kk == k) {
+				continue;
+			}
+			if (sourceGroupTupleBeliefs.get(j).get(kk).get(i)) {
+				falseOr = true;
+				break;
+			}
+		}
+		
+		// Below: change 0.001 to epsilon, a parameter set in the modelInstance.
+		trueWeight += Math.log(trueOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : modelInstance.epsilon);
+		falseWeight += Math.log(falseOr == modelInstance.sourceOutputs.get(j).contains(i) ? 1.0 : modelInstance.epsilon);
+
+		final Double odds = Math.exp(trueWeight - falseWeight);
+		return odds / (odds + 1);
+	}	
 }

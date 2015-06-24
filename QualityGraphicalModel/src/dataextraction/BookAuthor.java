@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,16 +39,20 @@ public class BookAuthor {
 	private final static String LABELLEDDATAFILE = "TestDatasets/BookAuthor/book_truth.txt";
 	private final static String ISBNLABELLEDDATAFILE = "TestDatasets/BookAuthor/isbn_book_truth.txt";
 	
+
+	public static String removeAccents(String text) {
+		return text == null ? null : Normalizer.normalize(text, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+	}
 	/**
 	 * Canonical name for an author is a lowercase version of the author's last name.
 	 */
 	private static String canonicalize (String authorName) {
 		if (authorName.contains(",")) {
-			return authorName.substring(0, authorName.indexOf(',')).toLowerCase();
+			return removeAccents(authorName.substring(0, authorName.indexOf(',')).toLowerCase());
 		} else if( authorName.contains(" ")) {
-			return authorName.substring(authorName.lastIndexOf(' ') + 1, authorName.length()).toLowerCase();
+			return removeAccents(authorName.substring(authorName.lastIndexOf(' ') + 1, authorName.length()).toLowerCase());
 		} else {
-			return authorName.toLowerCase();
+			return removeAccents(authorName.toLowerCase());
 		}
 	}
 	
@@ -276,7 +282,7 @@ public class BookAuthor {
 			tuples.add(tuple);
 			tupleIds.put(tuple, tupleId);
 		}
-		Integer numEmptyTuples = 0000; // An empty tuple is a false tuple that isn't outputted by any source.
+		Integer numEmptyTuples = 7500; // An empty tuple is a false tuple that isn't outputted by any source.
 		final String emptyTupleBook = "EMPTYTUPLE";
 		for (int i = 0; i < numEmptyTuples; i++) {
 			final String tuple = emptyTupleBook + "\t" + i;
@@ -344,17 +350,17 @@ public class BookAuthor {
 		
 		int numTuples = tuples.size();
 		int numSources = sources.size();
-		int numGroups = addModelGroups(groupSources, sourceOutputs, tupleTruth, "1All2Most");
+		int numGroups = addModelGroups(groupSources, sourceOutputs, tupleTruth, "1All");
 
 		List<Integer> groupTrueTrueInit = new ArrayList<Integer>();
 		List<Integer> groupTrueFalseInit = new ArrayList<Integer>();
 		List<Integer> groupFalseTrueInit = new ArrayList<Integer>();
 		List<Integer> groupFalseFalseInit = new ArrayList<Integer>();
 		for (int groupId = 0; groupId < numGroups; groupId++) {
-			groupTrueTrueInit.add(10);
+			groupTrueTrueInit.add(20000);
 			groupTrueFalseInit.add(1);
 			groupFalseTrueInit.add(1);
-			groupFalseFalseInit.add(10);
+			groupFalseFalseInit.add(20000);
 		}
 		
 		// groupTupleBelief-sourceGroupTupleBelief pair value counts 
@@ -393,31 +399,55 @@ public class BookAuthor {
 				allSources.add(i);
 			}
 			groupSources.add(allSources);
-			List<Integer> commonSources = new ArrayList<Integer>();
-			Integer maxSourceId = -1;		
-			int maxSourceSize = -1;
-			for (int sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
-				if (sourceOutputs.get(sourceId).size() > maxSourceSize) {
-					maxSourceId = sourceId;
-					maxSourceSize = sourceOutputs.get(sourceId).size();
-				}
-			}
-			out.println(maxSourceSize);
-			for (int sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
-				int intersection = 0;
-				for (int output : sourceOutputs.get(sourceId)) {
-					if (sourceOutputs.get(maxSourceId).contains(output)) {
-						intersection++;
+			Map<Integer, List<Integer>> outputSources = new HashMap<Integer, List<Integer>>();
+			for (Integer sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
+				for (Integer tupleId : sourceOutputs.get(sourceId)) {
+					if (!outputSources.containsKey(tupleId)) {
+						outputSources.put(tupleId, new ArrayList<Integer>());
 					}
-				}
-				if (intersection > sourceOutputs.get(sourceId).size() * 0.1) {
-					commonSources.add(sourceId);
+					outputSources.get(tupleId).add(sourceId);
 				}
 			}
-			out.println(commonSources.size());
-
+			Set<Integer> commonSourceSet = new HashSet<Integer>();
+			List<Integer> commonSources = new ArrayList<Integer>();
+			int threshold = 49;
+			for (Integer tupleId : outputSources.keySet()) {
+				if (outputSources.get(tupleId).size() > threshold) {
+					commonSourceSet.addAll(outputSources.get(tupleId));
+				}
+			}
+			commonSources.addAll(commonSourceSet);
 			groupSources.add(commonSources);
-			return 2;
+			//allSources.removeAll(commonSources);
+			out.println(commonSources.size());
+			return groupSources.size();
+		}
+		if (type.equals("ManyTupleBased")) {
+			List<Integer> allSources = new ArrayList<Integer>();
+			for (int i = 0; i < sourceOutputs.size(); i++) {
+				allSources.add(i);
+			}
+			groupSources.add(allSources);
+			Map<Integer, List<Integer>> outputSources = new HashMap<Integer, List<Integer>>();
+			for (Integer sourceId = 0; sourceId < sourceOutputs.size(); sourceId++) {
+				for (Integer tupleId : sourceOutputs.get(sourceId)) {
+					if (!outputSources.containsKey(tupleId)) {
+						outputSources.put(tupleId, new ArrayList<Integer>());
+					}
+					outputSources.get(tupleId).add(sourceId);
+				}
+			}
+			Set<Integer> commonSourceSet = new HashSet<Integer>();
+			List<Integer> commonSources = new ArrayList<Integer>();
+			int threshold = 49;
+			for (Integer tupleId : outputSources.keySet()) {
+				if (outputSources.get(tupleId).size() > threshold) {
+					groupSources.add(outputSources.get(tupleId));
+				}
+			}
+			//allSources.removeAll(commonSources);
+			out.println(groupSources.size());
+			return groupSources.size();
 		}
 		if (type.equals("ManyFull")) {
 			int numGroups = 4;
@@ -571,8 +601,8 @@ public class BookAuthor {
 					outTrueString = outTrueString + " " + sources.get(sourceId);
 				}
 			}
-			if (numFalseSources >= 12) {
-				out.println(outFalseString);
+			if (numFalseSources >= 4) {
+				//out.println(outFalseString);
 			}
 			if (numTrueSources >= 4) {
 				//out.println(outTrueString);
@@ -616,13 +646,13 @@ public class BookAuthor {
 			double f1 = 2 * precision * recall / (precision + recall);
 			double accuracy = ((double)(tt + ff)) / (tt + ff + tf + ft);
 
-			//out.println("Threshold\t" + threshold);
+			out.println("Threshold\t" + threshold);
 			
-			//out.println(precision);
-			//out.println(recall);
-			//out.println(f1);
-			//out.println(accuracy);
-			//out.println();
+			out.println(precision);
+			out.println(recall);
+			out.println(f1);
+			out.println(accuracy);
+			out.println();
 		}
 
 		int numBigSources = 0;
@@ -747,23 +777,25 @@ public class BookAuthor {
 		List<String> tuples = new ArrayList<String>();
 		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
 		
-		analyzeData();
-		System.exit(0);
+		//analyzeData();
+		//System.exit(0);
 		ModelInstance modelInstance;
  
 		final int numSamples = 5;
-		final int burnIn = 9;
-		final int thinFactor = 3;
-		Boolean createNew = true; // True means create new samples and save them. Otherwise, we just read samples from file.
+		final int burnIn = 25;
+		final int thinFactor = 5;
+		Boolean createNew = !false; // True means create new samples and save them. Otherwise, we just read samples from file.
 		String saveFileName = "samples.ser";
+		DenseSample denseSample;
 		List<DenseSample> samples;
 
 		if (createNew) {
 			modelInstance = createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
-			DenseSample denseSample = new DenseSample(modelInstance);
+			denseSample = new DenseSample(modelInstance);
 			samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 			FileOutputStream fileOut = new FileOutputStream(saveFileName);
 			ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+			objOut.writeObject(denseSample);
 			objOut.writeObject(samples);
 			objOut.writeObject(modelInstance);
 			objOut.writeObject(sources);
@@ -774,6 +806,7 @@ public class BookAuthor {
 		} else {
 			FileInputStream fileIn = new FileInputStream(saveFileName);
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);
+			denseSample = (DenseSample) objIn.readObject();
 			samples = (List<DenseSample>) objIn.readObject();
 			modelInstance = (ModelInstance) objIn.readObject();
 			sources = (List<String>) objIn.readObject();
@@ -791,11 +824,41 @@ public class BookAuthor {
 		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 			tupleProbs.add(0.0);
 		}
+		Map<Integer, List<Integer>> outputSources = new HashMap<Integer, List<Integer>>();
+		for (Integer sourceId = 0; sourceId < modelInstance.sourceOutputs.size(); sourceId++) {
+			for (Integer tupleId : modelInstance.sourceOutputs.get(sourceId)) {
+				if (!outputSources.containsKey(tupleId)) {
+					outputSources.put(tupleId, new ArrayList<Integer>());
+				}
+				outputSources.get(tupleId).add(sourceId);
+			}
+		}
+		for (int tupleId : outputSources.keySet()) {
+			if (outputSources.get(tupleId).size() > 2 && outputSources.get(tupleId).size() < 8) {
+				if (Math.random() > 0.02) {
+					continue;
+				}
+				DenseSample sample = denseSample;//samples.get(0);
+				if (true || !sample.groupTupleBeliefs.get(0).get(tupleId)) {
+					out.println(outputSources.get(tupleId).size() + "\t" + tupleTruthsAll.get(tupleId));
+					out.println(sample.groupBeliefGlobalProb(0, tupleId));
+					for (int sourceId : outputSources.get(tupleId)) {
+						out.print(modelInstance.sourceOutputs.get(sourceId).size() + "\t");
+						out.print(sample.sourceBeliefProb(sourceId, true)/sample.sourceBeliefProb(sourceId, false) + "\t");
+						out.print(sample.sourceOutputProb(sourceId, true) + "," + sample.sourceOutputProb(sourceId, false) + "\t");
+						out.println(sample.sourceOutputProbActual(sourceId, true, tupleTruthsAll)/sample.sourceOutputProbActual(sourceId, false, tupleTruthsAll));
+					}
+					out.println();
+				}
+			}
+		}
 		for (DenseSample sample : samples) {
 			//out.println(sample.tupleTruthProb());
 			for (int k = 0; k < modelInstance.getNumGroups(); k++) {
 				//out.println(sample.groupBeliefProb(k, true));
 				//out.println(sample.groupBeliefProb(k, false));				
+				out.println(sample.groupBeliefProbActual(k, true, tupleTruthsAll));
+				out.println(sample.groupBeliefProbActual(k, false, tupleTruthsAll));
 			}
 			for (int j = 0; j < 0.012 * modelInstance.getNumSources(); j++) {
 				//out.println(sample.sourceBeliefProb(j, true) + "\t" + modelInstance.sourceOutputs.get(j).size());
@@ -803,7 +866,8 @@ public class BookAuthor {
 			}
 			//out.println();
 			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
-				tupleProbs.set(i, (sample.tupleTruths.get(i) ? 1.0 : 0.0) + tupleProbs.get(i));
+				//tupleProbs.set(i, (sample.tupleTruths.get(i) ? 1.0 : 0.0) + tupleProbs.get(i));
+				tupleProbs.set(i, (sample.groupTupleBeliefs.get(0).get(i) ? 1.0 : 0.0) + tupleProbs.get(i));
 			}
 		}
 		for (int i = 0; i < modelInstance.getNumTuples(); i++) {
@@ -811,7 +875,7 @@ public class BookAuthor {
 		}
 
 		int tt = 0, tf = 0, ft = 0, ff = 0;
-		for (double probThreshold = 0.0; probThreshold < 0.9; probThreshold += 0.1) {
+		for (double probThreshold = 0.0; probThreshold < 0.9; probThreshold += 0.2) {
 			tt = tf = ft = ff = 0;
 			for (int i = 0; i < modelInstance.getNumTuples(); i++) {
 				if (modelInstance.tupleTruth.containsKey(i) || !tupleTruthsAll.containsKey(i)) {
@@ -843,6 +907,5 @@ public class BookAuthor {
 			out.println(f1);
 			out.println(accuracy);
 		}
-
 	}
 }

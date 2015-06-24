@@ -293,7 +293,7 @@ public class ModelInstance implements Serializable {
 		DenseSample denseSample = new DenseSample(modelInstance);
 		out.println("Current base truth rate:\t" + denseSample.tupleTruthProb());
 		final int numSamples = 4;
-		final int burnIn = 100000;
+		final int burnIn = 10000;
 		final int thinFactor = 10000;
 		List<DenseSample> samples = denseSample.GibbsSampling(numSamples, burnIn, thinFactor);
 
