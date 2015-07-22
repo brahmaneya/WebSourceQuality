@@ -18,9 +18,9 @@ import static java.lang.System.out;
  */
 public class ModelInstance implements Serializable {
 	// Instance Size 
-	private final int numTuples;
-	private final int numGroups;
-	private final int numSources;
+	public final int numTuples;
+	public final int numGroups;
+	public final int numSources;
 	
 	// Instance Structure
 	public final List<Set<Integer>> groupSources;
