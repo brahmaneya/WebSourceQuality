@@ -5,7 +5,7 @@ import random
 import numpy as np 
 
 initializationTuples = 0 # tuples used for prior of beta distribution
-N = 40000 + initializationTuples # total number of tuples
+N = 40 + initializationTuples # total number of tuples
 pTrainPos = 0.2 # probability that a positive tuple is in training data
 pTrainNeg = 0.2 # probability that a negative tuple is in training data
 T_p = 0.5 # base tuple truth rate
