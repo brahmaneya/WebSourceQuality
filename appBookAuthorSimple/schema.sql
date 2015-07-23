@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS tuples_input CASCADE;
 CREATE TABLE tuples_input(
   book_id int,
-  author_id int,
+  author_id int
   )
   DISTRIBUTED BY (book_id);
 
@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS source_book_authors CASCADE;
 CREATE TABLE source_book_authors(
   source_id int,
   book_id int,
-  author_id
+  author_id int
   )
   DISTRIBUTED BY (book_id);
 
@@ -52,7 +52,7 @@ CREATE TABLE source_outputs(
   source_id int,
   tuple_id text,
   source_tuple_id text, -- unique identifier for source_outputs
-  is_true boolean, -- whether the source did output the tuple
+  is_true boolean -- whether the source did output the tuple
   )
   DISTRIBUTED BY (source_tuple_id);
 

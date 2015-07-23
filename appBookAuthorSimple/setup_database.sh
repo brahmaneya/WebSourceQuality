@@ -2,9 +2,9 @@
 
 # Check the data files
 if ! [ -d data ] \
-  || ! [ -f data/source_book_author.csv ] \
-  || ! [ -f data/book_author.csv ] \
-  || ! [ -f data/labeled_book_author.csv ]; then
+  || ! [ -f data/srcBookAuthor.csv ] \
+  || ! [ -f data/bookAuthor.csv ] \
+  || ! [ -f data/bookAuthorTrue.csv ]; then
   echo "ERROR: Data files do not exist."
   exit 1;
 fi
