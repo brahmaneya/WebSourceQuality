@@ -47,7 +47,12 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    I<target name="BookAuthor">
+    <target name="DataExtraction">
+        <java classname="dataextraction.DataExtraction" failonerror="true" fork="yes">
+            <classpath refid="QualityGraphicalModel.classpath"/>
+        </java>
+    </target>
+    <target name="BookAuthor">
         <java classname="dataextraction.BookAuthor" failonerror="true" fork="yes">
             <classpath refid="QualityGraphicalModel.classpath"/>
         </java>
