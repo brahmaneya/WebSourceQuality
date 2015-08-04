@@ -251,6 +251,123 @@ public class BookAuthor {
 		return authorString;
 	}
 	
+	static void createSourceFeaturesFile (List<String> sources, String outputFile) throws IOException {
+		PrintWriter outputFileStream = new PrintWriter(new FileWriter(outputFile));
+		for (String source : sources) {
+			String sourceURL = source;
+			out.println(source);
+			sourceURL = sourceURL.replaceAll(" ", "");
+			if (sourceURL.indexOf(".") == -1) {
+				sourceURL = sourceURL + ".com";
+			}
+			try{
+				Map<String, String> features = getSourceFeatures(sourceURL);
+				outputFileStream.println(source + "\t" + features.toString());
+			} catch (Exception e) {
+				out.println(e.toString());
+			}
+		}
+		outputFileStream.close();
+	}
+	
+	/**
+	 * Gets features for source website, from alexa. <Those are given next to the feature value itself.
+	 */
+	static Map<String, String> getSourceFeatures (String sourceURL) throws IOException {
+		final Map<String, String> features = new HashMap<String, String>();
+		final String siteString = "http://www.alexa.com/siteinfo/";
+		final String urlString = siteString + sourceURL;
+		URL url  = new URL(urlString);
+		URLConnection uc = url.openConnection();
+		InputStreamReader input = new InputStreamReader(uc.getInputStream());
+	    BufferedReader in = new BufferedReader(input);
+		String inputLine;
+	    while ((inputLine = in.readLine()) != null) {
+	    	
+	    	// Rank
+	    	if (inputLine.indexOf("Global rank icon") != -1) {
+	    		for (int i = 0; i < 2; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String rank = inputLine.substring(0, inputLine.indexOf('<'));
+	    		rank = rank.replaceAll(",", "");
+	    		features.put("Rank", rank);
+	    	}
+
+	    	// Rank in Country
+	    	if (inputLine.indexOf("The rank by country is calculated using a combination") != -1) {
+	    		for (int i = 0; i < 9; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String cRank = inputLine.substring(0, inputLine.indexOf('<'));
+	    		cRank = cRank.replaceAll(",", "");
+	    		features.put("Country Rank", cRank);
+	    	}
+
+	    	// Country
+	    	if (inputLine.indexOf("<strong>Estimated Pageviews</strong>") != -1) {
+	    		for (int i = 0; i < 8; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String country = inputLine.substring(inputLine.indexOf("<span class='text-inline'>") + "<span class='text-inline'>".length(), inputLine.indexOf("</span></span></td>"));
+	    		features.put("Country", country);
+	    	}
+
+	    	// Bounce Rate
+	    	if (inputLine.indexOf("Bounce Rate</h4>") != -1) {
+	    		for (int i = 0; i < 3; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String bounceRate = inputLine.substring(0, inputLine.indexOf('%'));
+	    		bounceRate = bounceRate.replaceAll(",", "");
+	    		features.put("Bounce Rate", bounceRate);
+	    	}
+
+	    	// Daily Pageviews per visitor
+	    	if (inputLine.indexOf("Daily Pageviews per Visitor</h4>") != -1) {
+	    		for (int i = 0; i < 3; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String pageViews = inputLine.substring(0, inputLine.indexOf('<'));
+	    		pageViews = pageViews.replaceAll(",", "");
+	    		features.put("Daily Page Views Per Visitor", pageViews);
+	    	}
+
+	    	// Daily Time on Site per visitor
+	    	if (inputLine.indexOf("Daily Time on Site</h4>") != -1) {
+	    		for (int i = 0; i < 3; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String time = inputLine.substring(0, inputLine.indexOf('<'));
+	    		time = time.replaceAll(",", "");
+	    		features.put("Daily Time On Site", time);
+	    	}
+
+	    	// Search Visits
+	    	if (inputLine.indexOf("Search Visits</h4>") != -1) {
+	    		for (int i = 0; i < 3; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String visits = inputLine.substring(0, inputLine.indexOf("%"));
+	    		visits = visits.replaceAll(",", "");
+	    		features.put("Search Visits", visits);
+	    	}
+
+	    	// Total Sites Linking In
+	    	if (inputLine.indexOf("Total Sites Linking In</h5>") != -1) {
+	    		for (int i = 0; i < 1; i++) {
+	    			inputLine = in.readLine();
+	    		}
+	    		String links = inputLine.substring(inputLine.indexOf(">") + 1, inputLine.indexOf("</span>"));
+	    		links = links.replaceAll(",", "");
+	    		features.put("Total Sites Linking In", links);
+	    	}	    	
+	    }
+		in.close();
+		
+	    return features;
+	}
+	
 	/**
 	 * The sources and tuples maps get populated by this method, mapping integer ids of the sources/tuples to their
 	 * string descriptions. tupleTruthsAll is populated to include all tuple truth values (while only 1 - holdoutFraction of those are put into the model).
@@ -771,14 +888,37 @@ public class BookAuthor {
 		}
 		//out.println(sf);
 	}
+
+	public static List<String> getStockSources () throws IOException {
+		Set<String> sources = new HashSet<String>();
+		BufferedReader br = new BufferedReader(new FileReader("TestDatasets/clean_stock/stock-2011-07-11.txt"));
+		String line;
+		while ((line = br.readLine()) != null) {
+			String[] words = line.split("\t");
+			String source = words[0].replaceAll("-","");
+			if (source.endsWith("com")) {
+				source = source.substring(0, source.length() - 3) + ".com";
+			}
+			sources.add(source);
+		}
+		br.close();
+		return new ArrayList<String>(sources);
+		
+	}
 	
 	public static void main (String[] args) throws IOException, ClassNotFoundException {
 		List<String> sources = new ArrayList<String>();
 		List<String> tuples = new ArrayList<String>();
 		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
+	
+		sources = getStockSources();
+		createSourceFeaturesFile(sources, "TestDatasets/clean_stock/stock_source_features.txt");	
+		
+		//createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
+		//createSourceFeaturesFile(sources, "TestDatasets/BookAuthor/book_source_features.txt");
 		
 		//analyzeData();
-		//System.exit(0);
+		System.exit(0);
 		ModelInstance modelInstance;
  
 		final int numSamples = 5;
