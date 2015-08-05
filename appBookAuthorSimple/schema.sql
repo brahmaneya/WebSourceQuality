@@ -23,7 +23,7 @@ CREATE TABLE source_outputs_input(
   DISTRIBUTED BY (book_id);
 
 DROP TABLE IF EXISTS source_features CASCADE;
-CREATE TABLE tuples_input(
+CREATE TABLE source_features(
   source_id int,
   feature text
   )
