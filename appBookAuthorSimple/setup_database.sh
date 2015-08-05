@@ -14,3 +14,4 @@ export APP_HOME=`cd $(dirname $0)/; pwd`
 deepdive sql "copy source_outputs_input from STDIN CSV;" < $APP_HOME/data/srcBookAuthor.csv
 deepdive sql "copy tuples_input from STDIN CSV;" < $APP_HOME/data/bookAuthor.csv
 deepdive sql "copy labeled_tuples_input from STDIN CSV;" < $APP_HOME/data/bookAuthorTrue.csv
+deepdive sql "copy source_features from STDIN CSV;" < $APP_HOME/data/srcFeatures.csv
