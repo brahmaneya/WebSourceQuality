@@ -270,6 +270,25 @@ public class BookAuthor {
 		outputFileStream.close();
 	}
 	
+	public static Map<String, Map<String, String>> createSourceFeaturesMap (List<String> sources) {
+		Map<String, Map<String, String>> sourceFeatures = new HashMap<String, Map<String, String>>();
+		for (String source : sources) {
+			String sourceURL = source;
+			out.println(source);
+			sourceURL = sourceURL.replaceAll(" ", "");
+			if (sourceURL.indexOf(".") == -1) {
+				sourceURL = sourceURL + ".com";
+			}
+			try{
+				Map<String, String> features = getSourceFeatures(sourceURL);
+				sourceFeatures.put(source, features);
+			} catch (Exception e) {
+				out.println(e.toString());
+			}
+		}
+		return sourceFeatures;
+	}
+	
 	/**
 	 * Gets features for source website, from alexa. <Those are given next to the feature value itself.
 	 */
@@ -911,11 +930,11 @@ public class BookAuthor {
 		List<String> tuples = new ArrayList<String>();
 		Map<Integer, Boolean> tupleTruthsAll = new HashMap<Integer, Boolean>();
 	
-		sources = getStockSources();
-		createSourceFeaturesFile(sources, "TestDatasets/clean_stock/stock_source_features.txt");	
+		//sources = getStockSources();
+		//createSourceFeaturesFile(sources, "TestDatasets/clean_stock/stock_source_features.txt");	
 		
-		//createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
-		//createSourceFeaturesFile(sources, "TestDatasets/BookAuthor/book_source_features.txt");
+		createModelInstance(1.0, 0.5, sources, tuples, tupleTruthsAll);
+		createSourceFeaturesFile(sources, "TestDatasets/BookAuthor/book_source_features.txt");
 		
 		//analyzeData();
 		System.exit(0);

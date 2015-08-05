@@ -36,9 +36,14 @@ import static java.lang.System.out;
  */
 public class DataExtraction {
 	private final static String DATAFILE = "TestDatasets/BookAuthor/book.txt";
+	private final static String FEATURESFILE = "TestDatasets/BookAuthor/book_source_features.txt";
 	private final static String ISBNTRUTHFILE = "TestDatasets/BookAuthor/isbn_book_truth.txt";
 	
-
+	public static boolean isNumeric(String str)
+	{
+	  return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+	}
+	
 	public static String removeAccents(String text) {
 		return text == null ? null : Normalizer.normalize(text, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
 	}
@@ -188,6 +193,31 @@ public class DataExtraction {
 		dataFile.close();
 	}
 	
+	static void parseFeatures(Set<String> sources, Map<String, Set<String>> sourceFeatures) throws IOException {
+		Map<String, Map<String, String>> sourceFeatureMap = BookAuthor.createSourceFeaturesMap(new ArrayList<String>(sources));
+		for (String source : sourceFeatureMap.keySet()) {
+			Map<String, String> featureMap = sourceFeatureMap.get(source);
+			Set<String> features = new HashSet<String>();
+			for (String key : featureMap.keySet()) {
+				String value = featureMap.get(key);
+				out.println(value);
+				value = value.trim();
+				if (value.indexOf(":") != -1) {
+					value = value.substring(0, value.indexOf(":"));
+				}
+				if (isNumeric(value)) {
+					out.println(value + "------");
+					
+					Double d = Double.parseDouble(value);
+					Integer intVal = (int)(Math.log(d) / Math.log(2));
+					value = intVal.toString();
+				}
+				features.add(key + "=" + value);
+			}
+			sourceFeatures.put(source, features);
+		}
+	}
+	
 	static void parseTrueData(Map<String, Set<String>> trueBookAuthors) throws IOException{
 		BufferedReader dataFile = new BufferedReader(new FileReader(ISBNTRUTHFILE));
 									
@@ -218,16 +248,21 @@ public class DataExtraction {
 		parseData(sourceOutputStrings);
 		Map<String, Set<String>> trueBookAuthors = new HashMap<String, Set<String>>();
 		parseTrueData(trueBookAuthors);		
-						
+		Map<String, Set<String>> sourceFeatures = new HashMap<String, Set<String>>();
+		parseFeatures(sourceOutputStrings.keySet(), sourceFeatures);
+		
+		Integer srcId  = 0;
 		Integer bookId = 0;
 		Integer authId = 0;		
 		Map<String, Integer> bookIdMap = new HashMap<String,Integer>();
 		Map<String, Integer> authIdMap = new HashMap<String,Integer>();
+		Map<String, Integer> sourceIdMap = new HashMap<String,Integer>();
 		
 		
-		//Iterate over sources  and generate book author ids		
-		
+		//Iterate over sources  and generate source book author ids		
 		for (String s : sourceOutputStrings.keySet()) {			
+			sourceIdMap.put(s, srcId);
+			srcId++;
 			Set<String> bookTuples = sourceOutputStrings.get(s);
 			for (String bTuple : bookTuples) {
 				//Split bookid author token
@@ -278,7 +313,6 @@ public class DataExtraction {
 		
 		//Iterate over sources and print source, bookid, author_id, is_true
 		PrintWriter writer2 = new PrintWriter("srcBookAuthor.csv");
-		int srcId = 0;
 		for (String s : sourceOutputStrings.keySet()) {
 			Map<String, Set<String>> srcBookAuthors = new HashMap<String, Set<String>>();
 			Set<String> bookTuples = sourceOutputStrings.get(s);
@@ -298,10 +332,9 @@ public class DataExtraction {
 			//write source info
 			for (String b : srcBookAuthors.keySet()) {
 				for (String a : srcBookAuthors.get(b)) {					
-						writer2.println(srcId+","+bookIdMap.get(b).toString()+","+authIdMap.get(a).toString()+",true");				
+						writer2.println(sourceIdMap.get(s)+","+bookIdMap.get(b).toString()+","+authIdMap.get(a).toString()+",true");				
 				}
 			}
-			srcId+=1;
 		}
 		writer2.close();
 		
@@ -336,5 +369,12 @@ public class DataExtraction {
 		}
 		writer3.close();
 				
+		PrintWriter writer4 = new PrintWriter("srcFeatures.csv");
+		for (String s : sourceFeatures.keySet()) {
+			for (String feature : sourceFeatures.get(s)) {
+				writer4.println(sourceIdMap.get(s) + "," + feature);
+			}
+		}
+		writer4.close();
 	}
 }
