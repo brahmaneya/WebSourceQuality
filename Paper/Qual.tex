@@ -1,0 +1,127 @@
+\documentclass{sig-alternate}
+\usepackage{graphicx}
+\usepackage{balance}  % for  \balance command ON LAST PAGE  (only there!)
+\usepackage{enumitem}
+\usepackage{times}
+\usepackage{subfigure}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx,color}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{framed}
+\usepackage[normalem]{ulem}
+\usepackage[export]{adjustbox}
+\usepackage{pifont} % may have type 3 fonts.
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage[font={small,it}]{caption}
+
+\renewcommand{\baselinestretch}{1.0}
+
+\renewcommand*\ttdefault{cmvtt}
+\usepackage[T1]{fontenc}
+
+% \usepackage{floatrow}
+% \floatsetup[table]{font=scriptsize}
+% \renewcommand\FBbskip{-10pt}
+
+
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{example}[definition]{Example}
+\newcounter{prob}
+\newtheorem{problem}[prob]{Problem}
+
+\newcommand{\agp}[1]{\textcolor{green}{Aditya: #1}}
+\newcommand{\mrj}[1]{\textcolor{red}{#1}}
+\newcommand{\mrjdel}[1]{\textcolor{red}{\sout{#1}}}
+\newcommand{\logit}{\mathrm{logit}}
+
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}
+      \setlength{\parsep}{2pt}
+      \setlength{\topsep}{2pt}
+      \setlength{\partopsep}{0pt}
+    }
+}
+\newcommand{\stitle}[1]{\vspace{0.5em}\noindent\textbf{#1}}
+\newcommand{\squishend}{\end{list}}
+\newcommand{\eat}[1]{}
+\newcommand{\papertext}[1]{#1}
+\newcommand{\techreporttext}[1]{}
+
+\newcommand{\calD}{\mathcal{D}\xspace}
+
+\newenvironment{denselist}{
+    \begin{list}{\small{$\bullet$}}%
+    {\setlength{\itemsep}{0ex} \setlength{\topsep}{0ex}
+    \setlength{\parsep}{0pt} \setlength{\itemindent}{0pt}
+    \setlength{\leftmargin}{1.5em}
+    \setlength{\partopsep}{0pt}}}%
+    {\end{list}}
+
+\makeatletter
+\def\@copyrightspace{\relax}
+\makeatother
+
+\begin{document}
+
+\title{Domain-Aware Quality Analysis}
+\numberofauthors{5} 
+\author{
+\alignauthor
+Manas Joglekar\\
+       \affaddr{Stanford University}\\
+%       \affaddr{353 Serra Mall}\\
+%    \affaddr{Stanford, California 94305}\\
+       \email{manasrj@stanford.edu}
+\alignauthor
+Thodoris Rekatsinas\\
+       \affaddr{Stanford University}\\
+%       \affaddr{353 Serra Mall}\\
+%    \affaddr{Stanford, California 94305}\\
+       \email{thodrek@stanford.edu}
+\alignauthor
+Hector Garcia-Molina\\
+       \affaddr{Stanford University}\\
+%       \affaddr{353 Serra Mall}\\
+%    \affaddr{Stanford, California 94305}\\
+       \email{hector@cs.stanford.edu}
+\and
+\alignauthor 
+Aditya Parameswaran\\
+       \affaddr{University of Illinois (UIUC)}\\
+%       \affaddr{Champaign, Illinois 61820}\\
+       \email{adityagp@illinois.edu}
+\alignauthor
+Christopher R\'e\\
+       \affaddr{Stanford University}\\
+%       \affaddr{353 Serra Mall}\\
+%    \affaddr{Stanford, California 94305}\\
+       \email{chrismre@cs.stanford.edu}
+}
+\maketitle
+
+\section{System Motivation}
+
+\stitle{Context for Quality:} Recall of particular thing. Precision. Novelty. Therefore, let user specify what he means by quality for his particular application. 
+
+\stitle{Domain Specific Quality Indicators:} Method in biology is important. In some fields, high citation is not good, due to probability of exhaggeration of results. Longevity of paper more important than sudden burst of citations. 
+
+\stitle{Sparse sources:} When a source has only a small number of outputs, techniques based on weighted majority voting, or expectation maximisation, don't work as well, because there is not enough data about any individual source to determine its quality. However, we often have metadata available about the source. If the source is a research paper, then the metadata can include the paper's authors, journals, funding source, method used for experiments, and so on. This metadata can help us estimate source quality. We refer to metadata as {\em features} of the source. 
+
+\section{System Outline} 
+%Related problem we are not solving: What to crawl. Related because, we'll take user input on what is quality, and we'll tel them how to associate their features with quality. They can use this to get info on ``what properties of the abstract indicate good quality?'' After that, they'd have to mine for themselves.
+
+The user has to set up a database $D$ to run our system.
+
+
+\end{document}

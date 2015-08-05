@@ -200,14 +200,11 @@ public class DataExtraction {
 			Set<String> features = new HashSet<String>();
 			for (String key : featureMap.keySet()) {
 				String value = featureMap.get(key);
-				out.println(value);
 				value = value.trim();
 				if (value.indexOf(":") != -1) {
 					value = value.substring(0, value.indexOf(":"));
 				}
 				if (isNumeric(value)) {
-					out.println(value + "------");
-					
 					Double d = Double.parseDouble(value);
 					Integer intVal = (int)(Math.log(d) / Math.log(2));
 					value = intVal.toString();
