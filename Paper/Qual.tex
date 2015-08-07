@@ -110,13 +110,16 @@ Christopher R\'e\\
 }
 \maketitle
 
+\section{Terms}
+A data {\em source} is a journal paper, or webpage. 
+
 \section{System Motivation}
 
-\stitle{Context for Quality:} Recall of particular thing. Precision. Novelty. Therefore, let user specify what he means by quality for his particular application. 
+\stitle{Context for Quality:} The meaning of quality differs across applications. The quality of a source could mean any of precision, recall, novelty, freshness and so on. Our system allows the user to specify what quality means in the context of his application.
+
+\stitle{Sparse sources:} Most existing work evaluates the precision of a source by looking at the information extracted from the source. This becomes difficult when each source contains only a small amount of information.  only a small number of outputs, techniques based on weighted majority voting, or expectation maximisation, don't work as well, because there is not enough data about any individual source to determine its quality. However, we often have metadata available about the source. If the source is a research paper, then the metadata can include the paper's authors, journals, funding source, method used for experiments, and so on. This metadata can help us estimate source quality. We refer to metadata as {\em features} of the source. 
 
 \stitle{Domain Specific Quality Indicators:} Method in biology is important. In some fields, high citation is not good, due to probability of exhaggeration of results. Longevity of paper more important than sudden burst of citations. 
-
-\stitle{Sparse sources:} When a source has only a small number of outputs, techniques based on weighted majority voting, or expectation maximisation, don't work as well, because there is not enough data about any individual source to determine its quality. However, we often have metadata available about the source. If the source is a research paper, then the metadata can include the paper's authors, journals, funding source, method used for experiments, and so on. This metadata can help us estimate source quality. We refer to metadata as {\em features} of the source. 
 
 \section{System Outline} 
 %Related problem we are not solving: What to crawl. Related because, we'll take user input on what is quality, and we'll tel them how to associate their features with quality. They can use this to get info on ``what properties of the abstract indicate good quality?'' After that, they'd have to mine for themselves.
