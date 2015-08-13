@@ -247,6 +247,7 @@ public class DataExtraction {
 		parseTrueData(trueBookAuthors);		
 		Map<String, Set<String>> sourceFeatures = new HashMap<String, Set<String>>();
 		parseFeatures(sourceOutputStrings.keySet(), sourceFeatures);
+		boolean usefeatures = true;
 		
 		Integer srcId  = 0;
 		Integer bookId = 0;
@@ -256,10 +257,25 @@ public class DataExtraction {
 		Map<String, Integer> sourceIdMap = new HashMap<String,Integer>();
 		
 		
-		//Iterate over sources  and generate source book author ids		
-		for (String s : sourceOutputStrings.keySet()) {			
-			sourceIdMap.put(s, srcId);
-			srcId++;
+		//Iterate over sources  and generate source book author ids
+		Set <String> availSources = new HashSet<String>();
+		if (usefeatures)
+			for (String s : sourceFeatures.keySet()) {
+				if (sourceFeatures.get(s).size() > 0) {
+					availSources.add(s);
+					sourceIdMap.put(s, srcId);
+					srcId++;
+				}				
+			}			
+		else {
+			for (String s : sourceOutputStrings.keySet()) {									
+					sourceIdMap.put(s, srcId);
+					srcId++;				
+			}
+			availSources = sourceOutputStrings.keySet();
+		}			
+		
+		for (String s : availSources) {						
 			Set<String> bookTuples = sourceOutputStrings.get(s);
 			for (String bTuple : bookTuples) {
 				//Split bookid author token
@@ -281,7 +297,7 @@ public class DataExtraction {
 		//Iterate over sources and grab all authors for each book
 		Map<String, Set<String>> bookAuthors = new HashMap<String, Set<String>>();		
 		
-		for (String s : sourceOutputStrings.keySet()) {			
+		for (String s : availSources) {			
 			Set<String> bookTuples = sourceOutputStrings.get(s);
 			for (String bTuple : bookTuples) {
 				//Split bookid author token
@@ -310,7 +326,7 @@ public class DataExtraction {
 		
 		//Iterate over sources and print source, bookid, author_id, is_true
 		PrintWriter writer2 = new PrintWriter("srcBookAuthor.csv");
-		for (String s : sourceOutputStrings.keySet()) {
+		for (String s : availSources) {
 			Map<String, Set<String>> srcBookAuthors = new HashMap<String, Set<String>>();
 			Set<String> bookTuples = sourceOutputStrings.get(s);
 			for (String bTuple : bookTuples) {
