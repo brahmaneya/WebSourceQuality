@@ -170,12 +170,12 @@ for src in sourcesInput:
 srcObservations.close()
 
 # Print source features
-srcFreatures = open('data/srcFeatures.csv','w')
+srcFeaturesOut = open('data/srcFeatures.csv','w')
 for src in srcFeatures:
     for k in srcFeatures[src]:
         newline = str(src)+","+k+"="+srcFeatures[src][k]+"\n"
-        srcFeatures.write(newline)
-srcFeatures.close()
+        srcFeaturesOut.write(newline)
+srcFeaturesOut.close()
 
 
 
