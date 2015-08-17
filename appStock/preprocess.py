@@ -146,10 +146,10 @@ for l in truthInput.readlines():
 truthInput.close()
 
 # Print stock symbol volumes
-stockVolumes = open('data/stockVolumes.tsv','w')
+stockVolumes = open('data/stockVolumes.csv','w')
 for s in stockSymbols:
     for v in stockSymbols[s]:
-        newline = str(s)+"\t"+str(v)+"\t"
+        newline = str(s)+","+str(v)+","
         if s in symbolTruth:
             if v == symbolTruth[s]:
                 newline += "true\n"
@@ -160,12 +160,12 @@ for s in stockSymbols:
         stockVolumes.write(newline)
 stockVolumes.close()
 
-srcObservations = open('data/srcStockVolumes.tsv','w')
+srcObservations = open('data/srcStockVolumes.csv','w')
 
 # Print source stock symbol volumes
 for src in sourcesInput:
     for s in sourcesInput[src]:
-        newline = str(src)+"\t"+str(s)+"\t"+str(sourcesInput[src][s])+"\ttrue\n"
+        newline = str(src)+","+str(s)+","+str(sourcesInput[src][s])+",true\n"
         srcObservations.write(newline)
 srcObservations.close()
 
