@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS source_stock_truth CASCADE;
 CREATE TABLE source_stock_truth(
   source_id varchar(100),
   stock_tuple_id text, -- unique identifier for source_outputs
-  is_true boolean -- whether the source did output the tuple
+  is_true boolean, -- whether the source did output the tuple
   id bigint -- reserved for deepdive
   )
   DISTRIBUTED BY (stock_tuple_id);
