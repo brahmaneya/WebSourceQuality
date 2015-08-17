@@ -36,7 +36,7 @@ def getFeatures(srcId, srcName):
             if inputLine.find("<strong>Estimated Pageviews</strong>") != -1:
                 lidx += 8
                 inputLine = pageLines[lidx]
-                country = inputLine[:inputLine.index("<span class='text-inline'>")]
+                country = inputLine[inputLine.index("<span class='text-inline'>")+len("<span class='text-inline'>"):inputLine.index("</span></span></td>")]
                 srcFeatures[srcId]['Country'] = country
 
             # Bounce rate
