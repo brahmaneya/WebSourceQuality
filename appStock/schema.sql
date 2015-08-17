@@ -23,7 +23,7 @@ CREATE TABLE source_features(
   DISTRIBUTED BY (source_id);
 
 DROP TABLE IF EXISTS stock_truth CASCADE;
-CREATE TABLE tuple_truth(
+CREATE TABLE stock_truth(
   stock_tuple_id text,
   is_true boolean, -- whether tuple is true
   id bigint -- reserved for deepdive
