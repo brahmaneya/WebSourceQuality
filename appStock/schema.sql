@@ -24,6 +24,7 @@ CREATE TABLE source_features(
 
 DROP TABLE IF EXISTS stock_truth CASCADE;
 CREATE TABLE stock_truth(
+  stock_symbol varchar(10),
   stock_tuple_id text,
   is_true boolean, -- whether tuple is true
   id bigint -- reserved for deepdive
@@ -34,8 +35,7 @@ DROP TABLE IF EXISTS source_stock_truth CASCADE;
 CREATE TABLE source_stock_truth(
   source_id varchar(100),
   stock_tuple_id text, -- unique identifier for source_outputs
-  is_true boolean, -- whether the source did output the tuple
-  id bigint -- reserved for deepdive
+  is_true boolean -- whether the source did output the tuple
   )
   DISTRIBUTED BY (stock_tuple_id);
 
