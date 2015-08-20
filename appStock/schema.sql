@@ -39,3 +39,9 @@ CREATE TABLE source_stock_truth(
   )
   DISTRIBUTED BY (stock_tuple_id);
 
+
+DROP TABLE IF EXISTS source_train CASCADE;
+CREATE TABLE stock_train(
+  stock_symbol varchar(10)
+  ) 
+  DISTRIBUTED BY (stock_symbol);
