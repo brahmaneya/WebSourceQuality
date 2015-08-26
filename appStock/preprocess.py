@@ -163,14 +163,17 @@ for l in rawInput.readlines():
             if l[6].find('k') != -1:
                 volume = l[6].replace('k','0').replace('.','')
             elif l[6].find('vol.') != -1:
-                volume = l[6].replace('vol.','').lstrip(' ').replace(',','').rstrip(".00")
+                volume = l[6].replace('vol.','').lstrip(' ').replace(',','').replace(".00","")
             elif l[6].find('mil') != -1:
                 l[6] = l[6].replace('mil','').rstrip(' ')+'0000'
                 volume = l[6].replace('.','')
-            elif l[6].find('m') != -1 and l[6].find('mil') == -1:
-                volume = l[6].replace('m','0000').replace('.','')
+            elif l[6].find('m') != -1 and l[6].find('mil') == -1 and l[0] == 'barrons':
+                volume = l[6].replace('m','000').replace('.','')
+	    elif l[6].find('m') != -1 and l[6].find('mil') == -1:
+                print l[6]
+		volume = l[6].replace('m','0000').replace('.','')
             else:
-                volume = l[6].replace(',','').rstrip(".00")
+                volume = l[6].replace(',','').replace(".00","")
 
             sourcesInput[l[0]][symbol]= volume
             if symbol not in stockSymbols:
