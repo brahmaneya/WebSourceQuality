@@ -1,7 +1,5 @@
 personal-wealth-biz	http://www.personalwealth.biz/
 howthemarketworks	http://www.howthemarketworks.com/
-msn-money	http://www.msn.com/en-us/money
-google-finance	https://www.google.com/finance
 cio-com	http://www.cio.com/
 stocknod	http://www.stocknod.com/
 investopedia	http://www.investopedia.com/
@@ -29,14 +27,11 @@ advfn	http://www.advfn.com/
 thestree	http://www.thestreet.com/
 updown	http://www.updown.com/
 eresearch-fidelity-com	https://eresearch.fidelity.com/eresearch/landing.jhtml
-yahoo-finance	http://finance.yahoo.com/
 predictwallstreet	http://www.predictwallstreet.com/
 insidestocks	http://pegasus.barchart.com/
-bloomberg	http://www.bloomberg.com/
 easystockalterts	http://www.easystockalerts.com/
 finance-abc7chicago-com	http://abc7chicago.com/topic/finance/
 finance-abc7-com	http://abc7.com/tag/finance/
-nasdaq-com	http://www.nasdaq.com/
 chron	http://www.chron.com/
 finviz	http://finviz.com/
 tickerspy	http://www.tickerspy.com/

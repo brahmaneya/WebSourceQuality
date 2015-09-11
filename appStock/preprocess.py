@@ -119,6 +119,7 @@ def getFeatures(srcId, srcName):
 
         return 0
     except:
+	print "Unexpected error:", sys.exc_info()[0]
         return -1
 
 
@@ -222,7 +223,7 @@ for src in srcFeatures:
     for k in srcFeatures[src]:
         if k != 'Country':
             fValue = round((srcFeatures[src][k] - minF[k])*10/(maxF[k] - minF[k]))
-        else:
+	else:
             fValue = srcFeatures[src][k]
         newline = str(src)+","+k+"="+str(fValue)+"\n"
         srcFeaturesOut.write(newline)
