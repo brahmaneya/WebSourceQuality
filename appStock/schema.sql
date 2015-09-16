@@ -45,3 +45,16 @@ CREATE TABLE stock_train(
   stock_symbol varchar(10)
   ) 
   DISTRIBUTED BY (stock_symbol);
+
+DROP TABLE IF EXISTS feature_source_counts CASCADE;
+CREATE TABLE feature_source_counts(
+  feature text,
+  count int
+  ) 
+  DISTRIBUTED BY (feature);
+
+DROP TABLE IF EXISTS feature_metadata CASCADE;
+CREATE TABLE feature_metadata(
+  feature text,
+  metadata text
+  ) 

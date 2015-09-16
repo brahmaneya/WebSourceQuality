@@ -79,6 +79,7 @@ ge,51560771,N/A
 ge,54571725,N/A
 ge,4746121,N/A
 ge,52336562,N/A
+ge,50239797,N/A
 ge,316867,N/A
 ge,49839968,N/A
 ge,45859153,N/A
@@ -341,6 +342,7 @@ mrk,120692,N/A
 mrk,8410000,N/A
 mrk,9705000,N/A
 mrk,9705405,N/A
+mrk,8456459,N/A
 mrk,8758042,N/A
 mrk,9705705,N/A
 cprt,20088,N/A
@@ -366,6 +368,7 @@ ibm,4313638,N/A
 ibm,4651211,N/A
 ibm,2834758,N/A
 ibm,5026000,N/A
+ibm,4512325,N/A
 ibm,4530771,N/A
 ibm,4500000,N/A
 ibm,4500368,N/A
@@ -552,6 +555,7 @@ aly,6861077,N/A
 aly,23559,N/A
 aly,535,N/A
 aly,1385000,N/A
+aly,10887089,N/A
 aly,6860000,N/A
 nwl,4186886,N/A
 nwl,4321040,N/A
@@ -562,8 +566,9 @@ nwl,4321000,N/A
 nwl,137661,N/A
 nwl,4323447,N/A
 cost,2071661,false
-cost,15310,false
 cost,2066029,false
+cost,15310,false
+cost,2055587,false
 cost,1896847,false
 cost,1595832,false
 cost,1687399,false
@@ -661,6 +666,7 @@ zixi,1027874,N/A
 zixi,1040000,N/A
 zixi,1027374,N/A
 zixi,1041000,N/A
+zixi,1029974,N/A
 zixi,1041101,N/A
 zixi,13227,N/A
 nee,1372720,N/A
@@ -838,6 +844,7 @@ clny,6023,N/A
 clny,5559,N/A
 clny,231380,N/A
 seno,96244,N/A
+seno,738,N/A
 seno,18726967,N/A
 seno,96240,N/A
 seno,30332,N/A
@@ -852,6 +859,7 @@ kss,3690000,N/A
 kss,3662341,N/A
 kss,3685000,N/A
 ipgp,989,N/A
+ipgp,348374,N/A
 ipgp,64350,N/A
 ipgp,348740,N/A
 ipgp,348744,N/A
@@ -876,6 +884,7 @@ cern,947601,false
 cern,948001,false
 cern,932931,false
 cern,824362,false
+cern,949001,false
 sjw,51280,N/A
 sjw,51275,N/A
 sjw,51829,N/A
@@ -1143,6 +1152,7 @@ cnsl,296999,N/A
 wmt,7976363,N/A
 wmt,8896179,N/A
 wmt,8262803,N/A
+wmt,8642252,N/A
 wmt,9358835,N/A
 wmt,9005263,N/A
 wmt,727637,N/A
@@ -1370,6 +1380,7 @@ pfe,30390787,N/A
 pfe,27399380,N/A
 pfe,30405000,N/A
 pfe,24562562,N/A
+pfe,26884318,N/A
 pfe,30405703,N/A
 pfe,30402296,N/A
 pfe,26904379,N/A
@@ -1392,6 +1403,7 @@ pccc,271,N/A
 pccc,66446,N/A
 pccc,64874,N/A
 pccc,64174,N/A
+dis,8294052,N/A
 dis,8110858,N/A
 dis,9204963,N/A
 dis,62590,N/A
@@ -1466,9 +1478,10 @@ glad,116038,N/A
 glad,118970,N/A
 glad,118965,N/A
 me,9230223,N/A
-me,8178110,N/A
-me,1400,N/A
+me,14624858,N/A
 me,50500,N/A
+me,1400,N/A
+me,8178110,N/A
 me,9230000,N/A
 tecua,38578,N/A
 tecua,47444,N/A
@@ -1542,6 +1555,7 @@ cat,9127537,N/A
 cat,7847126,N/A
 cat,8824074,N/A
 cat,7975434,N/A
+cat,8669782,N/A
 cat,8600000,N/A
 cat,8600915,N/A
 cat,7552212,N/A
@@ -1701,6 +1715,7 @@ xom,15057367,N/A
 xom,13833032,N/A
 xom,15352413,N/A
 xom,158720,N/A
+xom,14989764,N/A
 xom,5168977,N/A
 xom,1406886,N/A
 xom,16898776,N/A
@@ -2042,6 +2057,7 @@ scmp,22553,N/A
 scmp,22353,N/A
 scmp,3422,N/A
 ulta,520638,N/A
+ulta,520218,N/A
 ulta,3540,N/A
 ulta,516780,N/A
 ulta,519818,N/A
@@ -2278,6 +2294,7 @@ jnj,46856,N/A
 jnj,9054435,N/A
 jnj,8232767,N/A
 jnj,8653527,N/A
+jnj,7957187,N/A
 jnj,7930000,N/A
 jnj,7931082,N/A
 jnj,7309364,N/A
@@ -2358,6 +2375,7 @@ lm,3539,N/A
 lm,1794000,N/A
 csco,50320181,false
 csco,56437224,false
+csco,56318085,false
 csco,53907113,false
 csco,56495137,false
 csco,56439850,false
@@ -2402,6 +2420,7 @@ praa,7522,N/A
 praa,3152,N/A
 praa,88468,N/A
 praa,75661,N/A
+praa,75861,N/A
 onb,453981,N/A
 onb,453980,N/A
 onb,454571,N/A
@@ -2486,6 +2505,7 @@ goog,3190596,false
 goog,314719,false
 goog,3183997,false
 goog,3590000,false
+goog,3587705,false
 goog,3585000,false
 goog,3584675,false
 goog,3584875,false
@@ -2590,10 +2610,11 @@ mxl,147833,N/A
 mxl,147200,N/A
 mxl,147204,N/A
 mxl,145052,N/A
-cml,974576,N/A
 cml,607501,N/A
 cml,10036530,N/A
 cml,974580,N/A
+cml,1227348,N/A
+cml,974576,N/A
 cml,119208,N/A
 rwt,22801,N/A
 rwt,339971,N/A
@@ -3015,6 +3036,7 @@ nvax,301549,N/A
 nvax,2930000,N/A
 nvax,2875674,N/A
 nvax,2926664,N/A
+nvax,2914004,N/A
 nvax,2949141,N/A
 nvax,2930439,N/A
 nvax,2927000,N/A
@@ -3088,8 +3110,10 @@ ajg,566184,N/A
 nty,1292573,N/A
 nty,323721,N/A
 nty,1300,N/A
+nty,35348,N/A
 sbp,734342,N/A
 sbp,9400,N/A
+sbp,21778,N/A
 sbp,20878,N/A
 sbp,20880,N/A
 rli,95481,N/A
@@ -3138,6 +3162,7 @@ mmm,4330077,N/A
 mmm,4256709,N/A
 mmm,4192151,N/A
 mmm,3515608,N/A
+mmm,4255246,N/A
 mmm,4351558,N/A
 mmm,4545798,N/A
 mmm,4351000,N/A
@@ -3207,6 +3232,7 @@ rloc,214808,N/A
 rloc,7186,N/A
 cvx,5855228,N/A
 cvx,5855000,N/A
+cvx,5667650,N/A
 cvx,5854528,N/A
 cvx,5854728,N/A
 cvx,6525697,N/A
@@ -3317,6 +3343,7 @@ trv,3317073,N/A
 trv,3613441,N/A
 trv,3330000,N/A
 trv,3463180,N/A
+trv,3316973,N/A
 trv,3023896,N/A
 trv,362567,N/A
 trv,3463032,N/A
@@ -3358,6 +3385,7 @@ kft,5800757,N/A
 kft,18345,N/A
 kft,5800557,N/A
 kft,5787000,N/A
+kft,5046289,N/A
 kft,5209199,N/A
 kft,5269916,N/A
 kft,5016296,N/A
@@ -3434,6 +3462,7 @@ mvis,540891,N/A
 mvis,525807,N/A
 crmt,76387,N/A
 crmt,71664,N/A
+crmt,72064,N/A
 crmt,1383,N/A
 crmt,67700,N/A
 crmt,7222,N/A
@@ -3451,6 +3480,7 @@ eqy,16765,N/A
 eqy,501703,N/A
 ddmx,114440,N/A
 ddmx,16469,N/A
+ddmx,132417,N/A
 ddmx,50000,N/A
 vnda,84812,N/A
 vnda,94517,N/A
@@ -3587,6 +3617,7 @@ akam,4994102,false
 akam,5000957,false
 akam,4992911,false
 akam,4985584,false
+akam,4762515,false
 akam,4861357,false
 akam,5003397,false
 akam,4993611,false
@@ -3629,6 +3660,7 @@ auxl,623897,N/A
 auxl,665836,N/A
 stu,718950,N/A
 stu,718946,N/A
+stu,725319,N/A
 stu,1005,N/A
 stu,1004,N/A
 stu,327037,N/A
@@ -3743,6 +3775,7 @@ sti,3938340,N/A
 sti,3937440,N/A
 ebay,12828947,false
 ebay,12828347,false
+ebay,12847772,false
 ebay,12842033,false
 ebay,12875741,false
 ebay,12902982,false
@@ -3760,6 +3793,7 @@ ebay,1231461,false
 ebay,12834000,false
 bez,97672,N/A
 bez,7066,N/A
+bez,181421,N/A
 bez,116990,N/A
 bez,116994,N/A
 bez,1160000,N/A
@@ -3907,6 +3941,7 @@ aapl,15447286,true
 aapl,15057417,false
 aapl,15450575,false
 aapl,15444515,false
+aapl,15447186,false
 aapl,15447526,false
 aapl,15436910,false
 aapl,15444855,false
@@ -3946,6 +3981,7 @@ mcd,27534,N/A
 mcd,5798257,N/A
 mcd,4912921,N/A
 mcd,4649660,N/A
+mcd,5342244,N/A
 mcd,5798000,N/A
 mcd,5485778,N/A
 mcd,5326115,N/A
@@ -4015,6 +4051,7 @@ qdel,4773,N/A
 qdel,131570,N/A
 biib,1619554,false
 biib,1659275,false
+biib,1669057,false
 biib,31811,false
 biib,1669457,false
 biib,1652889,false
@@ -4191,6 +4228,7 @@ icog,375632,N/A
 icog,498395,N/A
 icog,54210,N/A
 icog,399800,N/A
+icog,380332,N/A
 icog,351532,N/A
 icog,399802,N/A
 icog,405742,N/A
@@ -4226,27 +4264,28 @@ axs,1037896,N/A
 axs,2414,N/A
 axs,1040000,N/A
 axs,1040310,N/A
-axp,5394855,N/A
 axp,5593387,N/A
-axp,5343400,N/A
+axp,5592187,N/A
+axp,5592387,N/A
+axp,5593787,N/A
+axp,4320234,N/A
 axp,5582668,N/A
 axp,6204696,N/A
-axp,5561958,N/A
 axp,5597176,N/A
-axp,5363893,N/A
-axp,5594000,N/A
 axp,591672,N/A
-axp,4320234,N/A
-axp,5592187,N/A
 axp,5594294,N/A
-axp,5592387,N/A
-axp,39747,N/A
 axp,7579002,N/A
-axp,5593787,N/A
 axp,5593587,N/A
+axp,5394855,N/A
+axp,5343400,N/A
+axp,5363893,N/A
 axp,5340000,N/A
-axp,4642101,N/A
+axp,5385788,N/A
 axp,6217553,N/A
+axp,39747,N/A
+axp,5561958,N/A
+axp,5594000,N/A
+axp,4642101,N/A
 nihd,978392,false
 nihd,974852,false
 nihd,223925,false
@@ -4474,6 +4513,7 @@ nuva,1051442,N/A
 nuva,1048980,N/A
 nuva,1044344,N/A
 ca,3149705,false
+ca,3173446,false
 ca,3153505,false
 ca,45233,false
 ca,3015114,false
@@ -4693,6 +4733,7 @@ dd,5263410,N/A
 dd,5225761,N/A
 dd,4813944,N/A
 dd,4543707,N/A
+dd,5069057,N/A
 dd,51591,N/A
 dd,496957,N/A
 dd,5229761,N/A
@@ -4723,11 +4764,12 @@ mgm,18540000,N/A
 mgm,18538665,N/A
 mgm,18536900,N/A
 mgm,1518461,N/A
-adct,102135,N/A
 adct,917202,N/A
-adct,1796,N/A
-adct,500,N/A
 adct,917200,N/A
+adct,102135,N/A
+adct,1796,N/A
+adct,917002,N/A
+adct,500,N/A
 uvv,233521,N/A
 uvv,3912,N/A
 uvv,236523,N/A
@@ -4739,6 +4781,7 @@ uvv,233314,N/A
 hig,4568658,N/A
 hig,4596000,N/A
 hig,4596358,N/A
+hig,4596158,N/A
 hig,4610000,N/A
 hig,314126,N/A
 hig,4612558,N/A
@@ -4868,6 +4911,7 @@ cra,57931,N/A
 cra,321500,N/A
 cra,854910,N/A
 cra,854913,N/A
+cra,994750,N/A
 cra,128234,N/A
 cra,994700,N/A
 bac,118200578,N/A
@@ -4877,6 +4921,7 @@ bac,132015835,N/A
 bac,132064910,N/A
 bac,12748060,N/A
 bac,291798,N/A
+bac,127349262,N/A
 bac,256379505,N/A
 bac,132065810,N/A
 bac,132011183,N/A
@@ -4898,6 +4943,7 @@ crn,142500,N/A
 crn,209090,N/A
 crn,1,N/A
 crn,209085,N/A
+crn,242797,N/A
 crn,250,N/A
 crn,20640,N/A
 orcc,107340,N/A
@@ -4981,6 +5027,7 @@ plfe,78371,N/A
 plfe,83587,N/A
 plfe,3140,N/A
 plfe,93804,N/A
+plfe,90664,N/A
 plfe,90760,N/A
 plfe,5502,N/A
 plfe,90764,N/A
@@ -5388,6 +5435,7 @@ dtv,3351002,false
 dtv,3681634,false
 dtv,3680934,false
 dtv,3093169,false
+dtv,3682428,false
 dtv,3681000,false
 dtv,3683228,true
 dtv,3672308,false
@@ -5457,6 +5505,7 @@ ctxs,1659407,true
 ctxs,1659207,false
 ctxs,41323,false
 ctxs,1658448,false
+ctxs,1658873,false
 expd,1130000,false
 expd,1119000,false
 expd,272810,false
@@ -5506,6 +5555,7 @@ aa,17455913,N/A
 aa,17872953,N/A
 aa,17873853,N/A
 aa,17879000,N/A
+aa,17512324,N/A
 aa,17245471,N/A
 dm,284152,N/A
 dm,284150,N/A
@@ -5741,6 +5791,7 @@ wtsla,1362349,N/A
 wtsla,270086,N/A
 wtsla,1307000,N/A
 acv,3981123,N/A
+acv,6821754,N/A
 acv,762069,N/A
 acv,92782,N/A
 acv,353,N/A
@@ -5757,6 +5808,7 @@ cbg,3110000,N/A
 pg,8651330,N/A
 pg,8186928,N/A
 pg,9608849,N/A
+pg,8206291,N/A
 pg,9574576,N/A
 pg,611727,N/A
 pg,7113901,N/A
@@ -6030,6 +6082,7 @@ loop,494562,N/A
 mxim,67820,false
 mxim,533801,false
 mxim,1646943,false
+mxim,1652143,false
 mxim,1647833,false
 mxim,1651643,false
 mxim,1648433,false
@@ -6079,6 +6132,7 @@ jpm,27729588,N/A
 jpm,71804,N/A
 jpm,28440000,N/A
 jpm,29714000,N/A
+jpm,28577666,N/A
 jpm,2816664,N/A
 jpm,28786037,N/A
 jpm,29714285,N/A
@@ -6211,6 +6265,7 @@ vz,14614752,N/A
 vz,14715340,N/A
 vz,14663047,N/A
 vz,129829,N/A
+vz,13104048,N/A
 vz,12092198,N/A
 vz,14615000,N/A
 vz,14719905,N/A
@@ -6368,11 +6423,12 @@ drl,59491,N/A
 drl,904706,N/A
 drl,903990,N/A
 drl,903985,N/A
-abii,1,N/A
-abii,389467,N/A
 abii,594534,N/A
-abii,389470,N/A
+abii,421142,N/A
+abii,1,N/A
 abii,195385,N/A
+abii,389467,N/A
+abii,389470,N/A
 adpi,101208,N/A
 adpi,18468,N/A
 adpi,99208,N/A
@@ -6731,6 +6787,7 @@ hal,8447647,N/A
 hal,8412000,N/A
 hal,8451409,N/A
 hal,7967657,N/A
+adp,2951343,false
 adp,2755058,false
 adp,2950193,false
 adp,2924787,false
@@ -6801,6 +6858,7 @@ utx,4442436,N/A
 utx,4442820,N/A
 utx,4587833,N/A
 utx,4050000,N/A
+utx,4027582,N/A
 utx,4433636,N/A
 utx,28424,N/A
 utx,4174758,N/A
@@ -6916,10 +6974,11 @@ aray,469240,N/A
 aray,13322,N/A
 aray,459457,N/A
 aray,460457,N/A
-tmrk,229100,N/A
 tmrk,197210,N/A
 tmrk,3521,N/A
+tmrk,229100,N/A
 tmrk,24226,N/A
+tmrk,100,N/A
 tmrk,197208,N/A
 jakk,109275,N/A
 jakk,120813,N/A
@@ -7081,6 +7140,7 @@ t,18196877,N/A
 t,18260633,N/A
 t,18262077,N/A
 t,17726576,N/A
+t,17568628,N/A
 t,18261351,N/A
 t,18274440,N/A
 t,18262185,N/A
@@ -7415,6 +7475,7 @@ ba,2933497,N/A
 ba,38100,N/A
 ba,3250000,N/A
 ba,3282035,N/A
+ba,3274202,N/A
 ba,3394957,N/A
 ba,3395000,N/A
 ba,3395432,N/A
@@ -7567,6 +7628,7 @@ wern,550389,N/A
 wern,91568,N/A
 wern,529732,N/A
 wern,567629,N/A
+wern,552089,N/A
 wern,557261,N/A
 wern,558265,N/A
 wern,546909,N/A
@@ -7629,6 +7691,7 @@ bgs,355251,N/A
 bgs,9875,N/A
 bgs,80318,N/A
 crai,32042,N/A
+crai,32541,N/A
 crai,1403,N/A
 crai,33944,N/A
 crai,34370,N/A
@@ -7693,6 +7756,7 @@ payx,2011000,false
 gbdc,71360,N/A
 gbdc,73791,N/A
 gbdc,73390,N/A
+gbdc,72060,N/A
 gbdc,1931,N/A
 gbdc,5553,N/A
 gbdc,83557,N/A
@@ -7718,6 +7782,7 @@ intc,35198000,false
 intc,35310810,false
 intc,14119846,false
 intc,35313186,false
+intc,35359587,false
 intc,35470586,false
 intc,35364863,true
 intc,35364980,false
@@ -7806,6 +7871,7 @@ pgti,20222,N/A
 pgti,20220,N/A
 pgti,1200,N/A
 pgti,17622,N/A
+pgti,19222,N/A
 vlgea,13210,N/A
 vlgea,11754,N/A
 vlgea,1056,N/A
@@ -7828,6 +7894,7 @@ fast,2933422,false
 fast,2900109,false
 fast,2928650,false
 fast,318498,false
+fast,2905050,false
 fast,2895957,false
 fast,2930000,false
 fast,2555475,false
@@ -8028,6 +8095,7 @@ isrg,228598,false
 isrg,227649,false
 isrg,227498,false
 isrg,228489,true
+hd,8940051,N/A
 hd,8676805,N/A
 hd,9680316,N/A
 hd,8970127,N/A
@@ -8103,6 +8171,7 @@ bidu,6832350,false
 bidu,7024304,false
 bidu,7198000,false
 bidu,477623,false
+bidu,7198121,false
 bidu,7195721,false
 bidu,8524,false
 uti,148728,N/A
@@ -8257,6 +8326,7 @@ ko,7180000,N/A
 ko,8190740,N/A
 ko,7333845,N/A
 ko,7290103,N/A
+ko,7140411,N/A
 ko,8189940,N/A
 ko,5899331,N/A
 ko,148350,N/A
@@ -8465,6 +8535,7 @@ hpq,14711068,false
 hpq,14024668,false
 hpq,14764468,false
 hpq,12128733,false
+hpq,13682736,false
 hpq,13023991,false
 hpq,14764168,false
 hpq,1400011,false
@@ -8492,6 +8563,7 @@ nal,251173,N/A
 nal,398163,N/A
 nal,398160,N/A
 nal,480900,N/A
+nal,480910,N/A
 nal,13812,N/A
 nal,294899,N/A
 hpt,962660,N/A
@@ -8536,10 +8608,11 @@ dbtk,1290000,N/A
 atvi,2831317,false
 atvi,3462758,false
 atvi,3428656,false
-atvi,3427556,false
+atvi,3150714,false
 atvi,3264300,false
 atvi,3428756,true
 atvi,3416727,false
+atvi,3427556,false
 atvi,1736688,false
 atvi,89794,false
 atvi,3428256,false
