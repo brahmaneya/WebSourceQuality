@@ -1,4 +1,5 @@
 import sys
+import random
 from sets import Set
 import urllib2
 
@@ -211,22 +212,30 @@ stockVolumes.close()
 srcObservations = open('data/srcStockVolumes.csv','w')
 
 # Print source stock symbol volumes
+outputsPerSource = 30
 for src in sourcesInput:
     for s in sourcesInput[src]:
-        newline = str(src)+","+str(s)+","+str(sourcesInput[src][s])+",true\n"
-        srcObservations.write(newline)
+        print (str(src) + "," + str(len(sourcesInput[src])))
+        if random.random() < 1.0: #300.0 / len(sourcesInput[src]):
+            newline = str(src)+","+str(s)+","+str(sourcesInput[src][s])+",true\n"
+            srcObservations.write(newline)
 srcObservations.close()
 
 # Print source features
+numMaxFeatures = 5
 srcFeaturesOut = open('data/srcFeatures.csv','w')
 for src in srcFeatures:
+    print (len(srcFeatures[src]))
+    featureNum = 0
     for k in srcFeatures[src]:
+        featureNum = featureNum + 1
         if k != 'Country':
             fValue = round((srcFeatures[src][k] - minF[k])*10/(maxF[k] - minF[k]))
 	else:
             fValue = srcFeatures[src][k]
         newline = str(src)+","+k+"="+str(fValue)+"\n"
-        srcFeaturesOut.write(newline)
+        if featureNum > 3 and featureNum < numMaxFeatures + 1:
+            srcFeaturesOut.write(newline)
 srcFeaturesOut.close()
 
 
