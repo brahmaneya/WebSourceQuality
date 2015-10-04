@@ -222,7 +222,7 @@ for src in sourcesInput:
 srcObservations.close()
 
 # Print source features
-numMaxFeatures = 5
+numMaxFeatures = 9
 srcFeaturesOut = open('data/srcFeatures.csv','w')
 for src in srcFeatures:
     print (len(srcFeatures[src]))
@@ -234,7 +234,7 @@ for src in srcFeatures:
 	else:
             fValue = srcFeatures[src][k]
         newline = str(src)+","+k+"="+str(fValue)+"\n"
-        if featureNum > 3 and featureNum < numMaxFeatures + 1:
+        if featureNum > 0 and featureNum < numMaxFeatures + 1:
             srcFeaturesOut.write(newline)
 srcFeaturesOut.close()
 

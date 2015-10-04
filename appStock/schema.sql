@@ -57,4 +57,38 @@ DROP TABLE IF EXISTS feature_metadata CASCADE;
 CREATE TABLE feature_metadata(
   feature text,
   metadata text
-  ) 
+  )
+  DISTRIBUTED BY (feature);
+  
+DROP TABLE IF EXISTS feature_counts CASCADE;
+CREATE TABLE feature_counts(
+  feature text,
+  count int
+  )
+  DISTRIBUTED BY (feature);
+
+DROP TABLE IF EXISTS feature_pair_sources CASCADE;
+CREATE TABLE feature_pair_sources(
+  feature1 text,
+  feature2 text,
+  source_id varchar(100)
+  )
+  DISTRIBUTED BY (feature1, feature2);
+
+DROP TABLE IF EXISTS feature_pair_counts CASCADE;
+CREATE TABLE feature_pair_counts(
+  feature1 text,
+  feature2 text,
+  count1 int,
+  count2 int,
+  count12 int
+  )
+  DISTRIBUTED BY (feature1, feature2);
+
+DROP TABLE IF EXISTS feature_feature_correlations CASCADE;
+CREATE TABLE feature_feature_correlations(
+  feature1 text,
+  feature2 text,
+  correlation real
+  )
+  DISTRIBUTED BY (feature1, feature2);
