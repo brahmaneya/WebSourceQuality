@@ -92,3 +92,10 @@ CREATE TABLE feature_feature_correlations(
   correlation real
   )
   DISTRIBUTED BY (feature1, feature2);
+
+DROP TABLE IF EXISTS source_features2 CASCADE;
+CREATE TABLE source_features2(
+  source_id varchar(100),
+  feature text
+  )
+  DISTRIBUTED BY (source_id);
