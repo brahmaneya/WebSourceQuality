@@ -146,6 +146,7 @@ for f in featureValues:
 rawInput = open('data/stock-2011-07-01.txt','r')
 sourcesInput = {}
 stockSymbols = {}
+symbolTruth = {}
 for l in rawInput.readlines():
     l = l.rstrip("\n")
     l = l.split("\t")
@@ -175,18 +176,21 @@ for l in rawInput.readlines():
             if symbol not in stockSymbols:
                 stockSymbols[symbol] = Set([])
             stockSymbols[symbol].add(volume)
-
+    if l[0] == 'nasdaq-com': 
+	symbol = l[1]
+	volume = l[6].replace(',','').replace(".00","")
+	symbolTruth[symbol] = volume
 
 # grab symbol truth
-symbolTruth = {}
-truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
-for l in truthInput.readlines():
-    l = l.rstrip("\n")
-    l = l.split("\t")
-    symbol = l[0]
-    volume = l[5].replace(',','')
-    symbolTruth[symbol] = volume
-truthInput.close()
+#symbolTruth = {}
+#truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
+#for l in truthInput.readlines():
+#    l = l.rstrip("\n")
+#    l = l.split("\t")
+#    symbol = l[0]
+#    volume = l[5].replace(',','')
+#    symbolTruth[symbol] = volume
+#truthInput.close()
 
 # Print stock symbol volumes
 stockVolumes = open('data/stockVolumes.csv','w')
