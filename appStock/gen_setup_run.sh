@@ -2,7 +2,7 @@
 rm -r run/
 deepdive initdb
 ./setup_database.sh #Loads data into tables
-deepdive run
+deepdive run -c confsForExps/sources_only.conf
 #deepdive sql "DROP TABLE feature_counts"
 #deepdive sql "CREATE TABLE feature_counts (feature text, count int) DISTRIBUTED BY (feature);"
 #deepdive sql "INSERT INTO feature_counts SELECT feature, COUNT(*) FROM source_features GROUP BY feature"
