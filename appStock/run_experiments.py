@@ -20,7 +20,7 @@ commands.getstatusoutput('mkdir expResults')
 logger = logging.getLogger("exps")
 logger.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_gibbs.log"),"w")
+fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_test_gibbs.log"),"w")
 fh.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
 fh.setFormatter(formatter)
@@ -45,14 +45,14 @@ for h in holdoutSizes:
 	logger.info('START experiments: SOURCES ONLY w. HOLDOUT '+str(h))
 	
 	# Set holdout set
-	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_only.conf')
+	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_only_test.conf')
 	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_only.conf')
 	# init dd
 	logger.info('Initializing and cleaning DD')
 	initDD()
 	logger.info('DONE')
 	start = timeit.default_timer()
-	commands.getstatusoutput('deepdive run -c confsForExps/sources_only.conf')
+	commands.getstatusoutput('deepdive run -c confsForExps/sources_only_test.conf')
 	stop = timeit.default_timer()
 	logger.info('DONE running SOURCES ONLY. Total run time = '+str(round(stop-start,2))+" secs")
 	# Print results 
@@ -68,15 +68,13 @@ for h in holdoutSizes:
 	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)\n'+output[1])
 	# Evaluate assingments to true for threshold 0.5
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned True\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket >= 5 group by is_true order by is_true"')
-	logger.debug('EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)\n'+output[1])
-	logger.info('END experiments: SOURCES ONLY')
+	logger.debug('EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)\n'+output[1])	
 	# Evaluate assingments to false for threshold 0.3
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned False\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket < 3 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)\n'+output[1])
 	# Evaluate assingments to true for threshold 0.7
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned True\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket >= 7 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)\n'+output[1])
-	logger.info('END experiments: SOURCES ONLY')
 	# Evaluate assingments to false for threshold 0.1
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned False\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket < 1 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)\n'+output[1])
@@ -93,7 +91,7 @@ for h in holdoutSizes:
 	logger.info('START experiments: WITH FEATURES ONLY w. HOLDOUT '+str(h))
 
 	# Set holdout set
-	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_w_features.conf')
+	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_w_features_test.conf')
 	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_w_features.conf')
 	# init dd
 	logger.info('Initializing and cleaning DD')
@@ -101,7 +99,7 @@ for h in holdoutSizes:
 	logger.info('DONE')
 
 	start = timeit.default_timer()
-	commands.getstatusoutput('deepdive run -c confsForExps/sources_w_features.conf')
+	commands.getstatusoutput('deepdive run -c confsForExps/sources_w_features_test.conf')
 	stop = timeit.default_timer()
 	logger.info('DONE running WITH FEATURES. Total run time = '+str(round(stop-start,2))+" secs")
 	# Print results 
@@ -127,7 +125,6 @@ for h in holdoutSizes:
 	# Evaluate assingments to true for threshold 0.7
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned True\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket >= 7 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)\n'+output[1])
-	logger.info('END experiments: SOURCES ONLY')
 	# Evaluate assingments to false for threshold 0.1
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned False\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket < 1 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)\n'+output[1])
@@ -137,4 +134,4 @@ for h in holdoutSizes:
 	logger.info('END experiments: WITH FEATURES')
 
 # backup 
-commands.getstatusoutput('cp stock_experiments_gibbs.log expResults/.')
+commands.getstatusoutput('cp stock_experiments_test_gibbs.log expResults/.')
