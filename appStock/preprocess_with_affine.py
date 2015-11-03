@@ -226,7 +226,7 @@ featureId = 0
 for src in sources:
     for k in srcFeatures[src]: 
         if k != 'Country':
-            fValue = round((srcFeatures[src][k] - minF[k])*5/(maxF[k] - minF[k]))
+            fValue = round((srcFeatures[src][k] - minF[k])*3/(maxF[k] - minF[k]))
 	    if k not in allFeatures:
 		allFeatures[k] = featureId
 		id2Feature[featureId] = k
