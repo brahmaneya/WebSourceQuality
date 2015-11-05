@@ -122,17 +122,16 @@ def getFeatures(srcId, srcName):
 
 # Read sources and extract features
 sources = {}
-sFile = open('data/sourceSites.txt','r')
+sFile = open('data/sources.csv','r')
 for l in sFile.readlines():
     l = l.rstrip("\n")
-    l = l.split("\t")
-    print l[0]
+    print l
     # l[0] -> id in raw dataset
     # l[1] -> website for alexa crawling
-    srcFeatures[l[0]] = {}
-    status = getFeatures(l[0],l[1])
+    srcFeatures[l] = {}
+    status = getFeatures(l,l)
     if status == 0:
-        sources[l[0]] = l[1]
+        sources[l] = l
 
 
 # Examine features
@@ -140,84 +139,6 @@ for f in featureValues:
     if f != 'Country':
         maxF[f] = max(featureValues[f])
         minF[f] = min(featureValues[f])
-
-
-# Read raw input
-rawInput = open('data/stock-2011-07-01.txt','r')
-sourcesInput = {}
-stockSymbols = {}
-symbolTruth = {}
-for l in rawInput.readlines():
-    l = l.rstrip("\n")
-    l = l.split("\t")
-    # check if source in sources to consider
-    if l[0] in sources:
-        if l[0] not in sourcesInput:
-            sourcesInput[l[0]] = {}
-        # grab stock symbol
-        symbol = l[1]
-        # grab source volume info
-        if l[6] != '' and l[6].find('+') == -1 and l[6]!= '0' and l[6] != '0.00' and l[6] != 'null' and l[6] != 'vol.  0' and l[6].find('-') == -1:
-            if l[6].find('k') != -1:
-                volume = l[6].replace('k','0').replace('.','')
-            elif l[6].find('vol.') != -1:
-                volume = l[6].replace('vol.','').lstrip(' ').replace(',','').replace(".00","")
-            elif l[6].find('mil') != -1:
-                l[6] = l[6].replace('mil','').rstrip(' ')+'0000'
-                volume = l[6].replace('.','')
-            elif l[6].find('m') != -1 and l[6].find('mil') == -1 and l[0] == 'barrons':
-                volume = l[6].replace('m','000').replace('.','')
-	    elif l[6].find('m') != -1 and l[6].find('mil') == -1:
-		volume = l[6].replace('m','0000').replace('.','')
-            else:
-                volume = l[6].replace(',','').replace(".00","")
-
-            sourcesInput[l[0]][symbol]= volume
-            if symbol not in stockSymbols:
-                stockSymbols[symbol] = Set([])
-            stockSymbols[symbol].add(volume)
-    if l[0] == 'nasdaq-com': 
-	symbol = l[1]
-	volume = l[6].replace(',','').replace(".00","")
-	symbolTruth[symbol] = volume
-
-# grab symbol truth
-#symbolTruth = {}
-#truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
-#for l in truthInput.readlines():
-#    l = l.rstrip("\n")
-#    l = l.split("\t")
-#    symbol = l[0]
-#    volume = l[5].replace(',','')
-#    symbolTruth[symbol] = volume
-#truthInput.close()
-
-# Print stock symbol volumes
-stockVolumes = open('data/stockVolumes.csv','w')
-for s in stockSymbols:
-    for v in stockSymbols[s]:
-        newline = str(s)+","+str(v)+","
-        if s in symbolTruth:
-            if v == symbolTruth[s]:
-                newline += "true\n"
-            else:
-                newline += "false\n"
-        else:
-            newline += "N/A\n"
-        stockVolumes.write(newline)
-stockVolumes.close()
-
-srcObservations = open('data/srcStockVolumes.csv','w')
-
-# Print source stock symbol volumes
-outputsPerSource = 30
-for src in sourcesInput:
-    for s in sourcesInput[src]:
-        print (str(src) + "," + str(len(sourcesInput[src])))
-        if random.random() < 1.0: #300.0 / len(sourcesInput[src]):
-            newline = str(src)+","+str(s)+","+str(sourcesInput[src][s])+",true\n"
-            srcObservations.write(newline)
-srcObservations.close()
 
 # Preprocess source features
 allFeatures = {}
@@ -261,8 +182,7 @@ for src in sources:
 			if allFeatures[f] in featuresToUse:
 				newline = src+","+f+"="+str(srcFeatures[src][f])+"\n"
 				srcFeaturesOut.write(newline)
-				usedFeats += 1
-	print src,usedFeats,len(srcFeatures[src])
+                usedFeats += 1
 srcFeaturesOut.close()
 
 
