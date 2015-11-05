@@ -20,7 +20,7 @@ commands.getstatusoutput('mkdir expResults')
 logger = logging.getLogger("exps")
 logger.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_gibbs_test.log"),"w")
+fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_gibbs_perf.log"),"w")
 fh.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
 fh.setFormatter(formatter)
@@ -36,8 +36,7 @@ logger.addHandler(ch)
 
 # Define different holdout sizes
 
-holdoutSizes = [0.8, 0.6, 0.4, 0.2]
-#holdoutSizes = [0.8,0.2]
+holdoutSizes = [0.95, 0.8, 0.6, 0.4, 0.2, 0.1]
 
 # Run experiments for truth disdovery without features
 logger.info('EXPERIMENTS: SOURCES ONLY')
@@ -47,7 +46,7 @@ for h in holdoutSizes:
 	
  	# Set holdout set
 	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_only_gibbs.conf')
- 	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_only.conf')
+ 	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_only_gibbs.conf')
  	# init dd
  	logger.info('Initializing and cleaning DD')
  	initDD()
@@ -64,6 +63,89 @@ for h in holdoutSizes:
  	# Compute buckets and assignments
  	output = commands.getstatusoutput('deepdive sql "select bucket, is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL group by bucket, is_true order by bucket, is_true"')
  	logger.debug('BUCKETS:\n'+output[1])
+ 	# Compute confusion matrix for threshold 0.5
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 5 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 5 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+		values = output[1]
+ 		values = values.split('\n')
+ 		confMatrixEntries = {}
+ 		confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.5')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:
+		logger.info('Problem with confusion matrix')
+
+
+ 	# Compute confusion matrix for threshold 0.7
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 7 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 7 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+	 	values = output[1]
+	 	values = values.split('\n')
+	 	confMatrixEntries = {}
+	 	confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.7')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:	
+		logger.info('Problem with confusion matrix')
+ 	# Compute confusion matrix for threshold 0.9
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 9 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 9 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+	 	values = output[1]
+	 	values = values.split('\n')
+	 	confMatrixEntries = {}
+	 	confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.7')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:	
+		logger.info('Problem with confusion matrix')
  	# Evaluate assingments to false for threshold 0.5
  	output = commands.getstatusoutput('deepdive sql "select \'Assigned False\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket < 5 group by is_true order by is_true"')
  	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)\n'+output[1])
@@ -93,7 +175,7 @@ for h in holdoutSizes:
 
 	# Set holdout set
 	commands.getstatusoutput('sed -i \'s/calibration.holdout_fraction: [0-9].[0-9]/calibration.holdout_fraction: '+str(h)+'/g\' confsForExps/sources_w_features_gibbs.conf')
-	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_w_features.conf')
+	#commands.getstatusoutput('sed -i \'s/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT [0-9]\+)/calibration.holdout_query: "INSERT INTO dd_graph_variables_holdout(variable_id) SELECT id FROM stock_truth WHERE stock_symbol in (SELECT DISTINCT stock_symbol FROM stock_truth WHERE is_true ORDER BY stock_symbol LIMIT '+str(int(round(h*907)))+')/g\' confsForExps/sources_w_features_gibbs.conf')
 	# init dd
 	logger.info('Initializing and cleaning DD')
 	initDD()
@@ -114,6 +196,90 @@ for h in holdoutSizes:
 	# Compute buckets and assignments
 	output = commands.getstatusoutput('deepdive sql "select bucket, is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL group by bucket, is_true order by bucket, is_true"')
 	logger.debug('BUCKETS:\n'+output[1])
+	# Compute confusion matrix for threshold 0.5
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 5 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 5 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+	 	values = output[1]
+	 	values = values.split('\n')
+	 	confMatrixEntries = {}
+	 	confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.7')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:	
+		logger.info('Problem with confusion matrix')
+
+
+ 	# Compute confusion matrix for threshold 0.7
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 7 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 7 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+	 	values = output[1]
+	 	values = values.split('\n')
+	 	confMatrixEntries = {}
+	 	confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.7')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:	
+		logger.info('Problem with confusion matrix')
+
+ 	# Compute confusion matrix for threshold 0.9
+ 	output = commands.getstatusoutput('deepdive sql "select \'f\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket < 9 group by is_true union select \'t\' as assigned, is_true, count(*) as c from stock_truth_is_true_inference_bucketed where is_true is not null and bucket >= 9 group by is_true"');
+ 	# Parse output and grab values
+ 	try:
+	 	values = output[1]
+	 	values = values.split('\n')
+	 	confMatrixEntries = {}
+	 	confMatrixEntries['tt'] = 0
+	 	confMatrixEntries['ft'] = 0
+	 	confMatrixEntries['tf'] = 0
+	 	confMatrixEntries['ff'] = 0
+	 	for vidx in [2,3,4,5]:
+	 		cur_line = values[vidx]
+	 		cur_line = cur_line.replace(' ','').split('|')
+	 		confMatrixEntries[cur_line[0]+cur_line[1]] = float(cur_line[2])
+	 	# Compute Precision, Recall, F1
+	 	precision = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['tf'])
+	 	recall = confMatrixEntries['tt']/(confMatrixEntries['tt'] + confMatrixEntries['ft'])
+	 	acc = (confMatrixEntries['tt'] + confMatrixEntries['ff'])/(confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'] + confMatrixEntries['ff'])
+	 	f1 = (2.0*confMatrixEntries['tt'])/(2*confMatrixEntries['tt'] + confMatrixEntries['tf'] + confMatrixEntries['ft'])
+	 	logger.info('\nPERFORMANCE FOR Threshold 0.7')
+	 	logger.info('Precision: '+str(precision))
+	 	logger.info('Recall: '+str(recall))
+	 	logger.info('Acc: '+str(acc))
+	 	logger.info('F1: '+str(f1))
+	except:	
+		logger.info('Problem with confusion matrix')
 	# Evaluate assingments to false for threshold 0.5
 	output = commands.getstatusoutput('deepdive sql "select \'Assigned False\', is_true, count(*) from stock_truth_is_true_inference_bucketed where is_true IS NOT NULL and bucket < 5 group by is_true order by is_true"')
 	logger.debug('EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)\n'+output[1])
@@ -135,4 +301,4 @@ for h in holdoutSizes:
 	logger.info('END experiments: WITH FEATURES')
 
 # backup 
-commands.getstatusoutput('cp stock_experiments_gibbs_test.log expResults/.')
+commands.getstatusoutput('cp stock_experiments_gibbs_perf.log expResults/.')

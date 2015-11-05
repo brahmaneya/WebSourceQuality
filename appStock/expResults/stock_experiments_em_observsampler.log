@@ -1,0 +1,737 @@
+exps - INFO - EXPERIMENTS: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.8
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.8
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 443.22 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.400354325180631
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  5236
+      0 | t       |   196
+      1 | f       |     2
+      1 | t       |     2
+      2 | f       |    12
+      2 | t       |     3
+      4 | f       |     1
+      5 | f       |     1
+      5 | t       |     1
+      6 | f       |     1
+      6 | t       |     7
+      7 | f       |    77
+      7 | t       |   518
+(13 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5251
+ Assigned False | t       |   201
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    79
+ Assigned True | t       |   526
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5250
+ Assigned False | t       |   201
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    77
+ Assigned True | t       |   518
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5236
+ Assigned False | t       |   196
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+ ?column? | is_true | count 
+----------+---------+-------
+(0 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.6
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.6
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 399.55 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.389696672498427
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  3994
+      0 | t       |   141
+      1 | f       |     1
+      2 | f       |    32
+      2 | t       |     1
+      3 | t       |     1
+      4 | t       |     2
+      5 | f       |     1
+      5 | t       |     4
+      6 | t       |     3
+      7 | f       |    59
+      7 | t       |   380
+      9 | t       |     3
+(13 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  4027
+ Assigned False | t       |   145
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    60
+ Assigned True | t       |   390
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  4027
+ Assigned False | t       |   142
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    59
+ Assigned True | t       |   383
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3994
+ Assigned False | t       |   141
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | t       |     3
+(1 row)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.4
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.4
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 366.41 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.375965281775033
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  2649
+      0 | t       |    92
+      1 | f       |     2
+      1 | t       |     1
+      2 | f       |    31
+      2 | t       |     3
+      3 | t       |     1
+      4 | t       |     1
+      5 | t       |     1
+      6 | f       |     1
+      7 | f       |    39
+      7 | t       |   275
+      9 | t       |     6
+(13 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2682
+ Assigned False | t       |    98
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    40
+ Assigned True | t       |   282
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2682
+ Assigned False | t       |    96
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    39
+ Assigned True | t       |   281
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2649
+ Assigned False | t       |    92
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | t       |     6
+(1 row)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.2
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.2
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 388.0 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.405863984990094
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  1249
+      0 | t       |    54
+      2 | f       |     7
+      3 | t       |     1
+      4 | t       |     1
+      6 | t       |     1
+      7 | f       |    15
+      7 | t       |   129
+      9 | f       |     1
+      9 | t       |     1
+(10 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1256
+ Assigned False | t       |    56
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    16
+ Assigned True | t       |   131
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1256
+ Assigned False | t       |    54
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    16
+ Assigned True | t       |   130
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1249
+ Assigned False | t       |    54
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |     1
+ Assigned True | t       |     1
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - EXPERIMENTS: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.8
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.8
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 2205.37 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt       
+------------------
+ 0.49509817140076
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+             feature              |  weight   
+----------------------------------+-----------
+ Daily Time on Site=0.0           |   1.28839
+ Search Visits=3.0                |   1.28021
+ Total Sites Linking In=5.0       |   1.09324
+ Country Rank=2.0                 |   1.04891
+ Daily Time on Site=2.0           |  0.979713
+ Country Rank=0.0                 |  0.941552
+ Total Sites Linking In=1.0       |  0.861764
+ Daily Page Views Per Visitor=1.0 |  0.794753
+ Daily Page Views Per Visitor=4.0 |  0.788216
+ Rank=1.0                         |  0.701522
+ Total Sites Linking In=3.0       |  0.651358
+ Bounce Rate=0.0                  |  0.581802
+ Rank=0.0                         |  0.533676
+ Daily Page Views Per Visitor=5.0 |  0.523401
+ Search Visits=4.0                |  0.466549
+ Bounce Rate=5.0                  |  0.453179
+ Daily Page Views Per Visitor=2.0 |  0.418246
+ Bounce Rate=1.0                  |  0.342483
+ Search Visits=2.0                |  0.271891
+ Total Sites Linking In=2.0       |   0.23576
+ Search Visits=1.0                |  0.221812
+ Total Sites Linking In=0.0       |   0.20252
+ Country Rank=1.0                 |  0.161574
+ Daily Time on Site=5.0           |   0.14778
+ Bounce Rate=3.0                  |  0.121093
+ Search Visits=0.0                | 0.0737215
+ Daily Time on Site=1.0           |         0
+ Daily Time on Site=4.0           |         0
+ Country Rank=5.0                 |         0
+ Daily Page Views Per Visitor=3.0 |         0
+ Daily Page Views Per Visitor=0.0 |         0
+ Bounce Rate=2.0                  | -0.134584
+ Bounce Rate=4.0                  |  -0.19752
+ Search Visits=5.0                | -0.258558
+ Daily Time on Site=3.0           | -0.393747
+(35 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  2918
+      0 | t       |   105
+      1 | t       |     2
+      2 | f       |  2364
+      2 | t       |   119
+      3 | t       |     1
+      4 | f       |     2
+      4 | t       |     3
+      5 | t       |     1
+      6 | f       |     2
+      6 | t       |     4
+      7 | f       |    35
+      7 | t       |   264
+      8 | f       |     1
+      9 | f       |    28
+      9 | t       |   217
+(16 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5284
+ Assigned False | t       |   230
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    66
+ Assigned True | t       |   486
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5282
+ Assigned False | t       |   226
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    64
+ Assigned True | t       |   481
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2918
+ Assigned False | t       |   105
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    28
+ Assigned True | t       |   217
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.6
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.6
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 2387.69 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.508175820862387
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+             feature              |   weight    
+----------------------------------+-------------
+ Rank=0.0                         |     4.58099
+ Rank=1.0                         |     3.90101
+ Search Visits=3.0                |    0.640732
+ Daily Page Views Per Visitor=1.0 |    0.604089
+ Daily Time on Site=2.0           |    0.585673
+ Daily Time on Site=0.0           |    0.459231
+ Country Rank=0.0                 |    0.404221
+ Bounce Rate=0.0                  |    0.398585
+ Search Visits=2.0                |    0.366364
+ Total Sites Linking In=5.0       |    0.290634
+ Daily Page Views Per Visitor=4.0 |     0.28007
+ Search Visits=4.0                |     0.21584
+ Country Rank=2.0                 |    0.188927
+ Daily Page Views Per Visitor=2.0 |    0.185659
+ Total Sites Linking In=3.0       |    0.100585
+ Bounce Rate=5.0                  |           0
+ Daily Page Views Per Visitor=3.0 |           0
+ Daily Page Views Per Visitor=5.0 |           0
+ Search Visits=0.0                | -0.00148678
+ Bounce Rate=3.0                  |    -0.09709
+ Bounce Rate=1.0                  |  -0.0972674
+ Total Sites Linking In=1.0       |   -0.132066
+ Daily Time on Site=1.0           |   -0.161552
+ Country Rank=1.0                 |   -0.166999
+ Daily Time on Site=5.0           |    -0.27703
+ Daily Time on Site=4.0           |   -0.471393
+ Search Visits=5.0                |   -0.502559
+ Total Sites Linking In=2.0       |   -0.505446
+ Total Sites Linking In=0.0       |   -0.608392
+ Country Rank=5.0                 |   -0.617533
+ Daily Page Views Per Visitor=0.0 |   -0.661491
+ Search Visits=1.0                |   -0.909504
+ Bounce Rate=2.0                  |    -1.13937
+ Bounce Rate=4.0                  |    -1.21393
+ Daily Time on Site=3.0           |    -1.27437
+(35 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  2052
+      0 | t       |    92
+      1 | t       |     1
+      2 | f       |  1921
+      2 | t       |    81
+      3 | f       |     1
+      6 | f       |     2
+      6 | t       |     2
+      7 | f       |    28
+      7 | t       |   181
+      9 | f       |    16
+      9 | t       |   179
+(12 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3974
+ Assigned False | t       |   174
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    46
+ Assigned True | t       |   362
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3973
+ Assigned False | t       |   174
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    44
+ Assigned True | t       |   360
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2052
+ Assigned False | t       |    92
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    16
+ Assigned True | t       |   179
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.4
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.4
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 2324.7 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.497909712429984
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+             feature              |   weight   
+----------------------------------+------------
+ Rank=1.0                         |    2.94577
+ Rank=0.0                         |    2.90806
+ Daily Time on Site=2.0           |   0.983238
+ Daily Time on Site=0.0           |   0.954353
+ Bounce Rate=5.0                  |   0.924423
+ Daily Page Views Per Visitor=4.0 |   0.657512
+ Search Visits=3.0                |   0.643499
+ Country Rank=2.0                 |   0.481889
+ Total Sites Linking In=3.0       |   0.446466
+ Daily Page Views Per Visitor=2.0 |   0.443712
+ Total Sites Linking In=5.0       |   0.393247
+ Daily Time on Site=1.0           |   0.367624
+ Daily Page Views Per Visitor=1.0 |   0.254738
+ Country Rank=1.0                 |   0.251789
+ Bounce Rate=0.0                  |   0.227553
+ Country Rank=0.0                 |   0.157665
+ Daily Time on Site=5.0           |   0.136226
+ Search Visits=2.0                |   0.103697
+ Search Visits=0.0                |  0.0429754
+ Bounce Rate=3.0                  |  0.0124927
+ Search Visits=4.0                |          0
+ Daily Page Views Per Visitor=5.0 |          0
+ Total Sites Linking In=0.0       |          0
+ Bounce Rate=1.0                  |          0
+ Total Sites Linking In=1.0       | -0.0426483
+ Daily Time on Site=4.0           |  -0.108916
+ Daily Page Views Per Visitor=3.0 |   -0.14122
+ Search Visits=5.0                |   -0.33472
+ Search Visits=1.0                |  -0.342986
+ Bounce Rate=2.0                  |  -0.555061
+ Daily Time on Site=3.0           |  -0.561358
+ Total Sites Linking In=2.0       |  -0.602111
+ Bounce Rate=4.0                  |  -0.927071
+ Daily Page Views Per Visitor=0.0 |  -0.943339
+ Country Rank=5.0                 |   -1.07069
+(35 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  1394
+      0 | t       |    58
+      2 | f       |  1178
+      2 | t       |    53
+      3 | t       |     1
+      4 | t       |     2
+      5 | t       |     1
+      6 | t       |     1
+      7 | f       |    10
+      7 | t       |   136
+      9 | f       |    21
+      9 | t       |   101
+(12 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2572
+ Assigned False | t       |   114
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    31
+ Assigned True | t       |   239
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2572
+ Assigned False | t       |   111
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    31
+ Assigned True | t       |   237
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1394
+ Assigned False | t       |    58
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    21
+ Assigned True | t       |   101
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.2
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.2
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 2171.38 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.316888158653397
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+             feature              |   weight    
+----------------------------------+-------------
+ Rank=1.0                         |     1.36716
+ Total Sites Linking In=3.0       |     1.17133
+ Total Sites Linking In=5.0       |      1.0918
+ Country Rank=2.0                 |     1.07817
+ Daily Page Views Per Visitor=2.0 |     1.07613
+ Daily Page Views Per Visitor=4.0 |    0.921485
+ Search Visits=3.0                |    0.864285
+ Bounce Rate=0.0                  |    0.766945
+ Bounce Rate=5.0                  |    0.759841
+ Daily Time on Site=2.0           |    0.662446
+ Country Rank=0.0                 |    0.613751
+ Bounce Rate=3.0                  |    0.609315
+ Total Sites Linking In=1.0       |    0.588728
+ Daily Page Views Per Visitor=5.0 |    0.530181
+ Daily Time on Site=0.0           |    0.489358
+ Daily Page Views Per Visitor=3.0 |    0.451003
+ Country Rank=1.0                 |    0.325833
+ Rank=0.0                         |    0.317379
+ Daily Time on Site=1.0           |    0.311102
+ Daily Time on Site=5.0           |    0.244836
+ Search Visits=4.0                |    0.137586
+ Total Sites Linking In=2.0       |    0.130986
+ Search Visits=2.0                |   0.0984275
+ Bounce Rate=1.0                  | -0.00345448
+ Search Visits=0.0                | -0.00613359
+ Total Sites Linking In=0.0       |   -0.124846
+ Search Visits=1.0                |   -0.172015
+ Daily Time on Site=4.0           |   -0.215372
+ Daily Page Views Per Visitor=0.0 |   -0.235327
+ Search Visits=5.0                |   -0.287671
+ Daily Page Views Per Visitor=1.0 |   -0.303856
+ Country Rank=5.0                 |    -0.40599
+ Bounce Rate=2.0                  |   -0.604941
+ Bounce Rate=4.0                  |   -0.864773
+ Daily Time on Site=3.0           |   -0.916651
+(35 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |   720
+      0 | t       |    28
+      2 | f       |   604
+      2 | t       |    21
+      3 | f       |     1
+      5 | t       |     2
+      7 | f       |    10
+      7 | t       |    55
+      9 | f       |    16
+      9 | t       |    65
+(10 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1325
+ Assigned False | t       |    49
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    26
+ Assigned True | t       |   122
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1324
+ Assigned False | t       |    49
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    26
+ Assigned True | t       |   120
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |   720
+ Assigned False | t       |    28
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    16
+ Assigned True | t       |    65
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
