@@ -20,7 +20,7 @@ commands.getstatusoutput('mkdir expResults')
 logger = logging.getLogger("exps")
 logger.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_gibbs_perf.log"),"w")
+fh = logging.FileHandler(os.path.join(os.path.dirname(os.path.realpath("__file__")), "stock_experiments_gibbs_perf_LowHO.log"),"w")
 fh.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
 fh.setFormatter(formatter)
@@ -36,8 +36,7 @@ logger.addHandler(ch)
 
 # Define different holdout sizes
 
-holdoutSizes = [0.95, 0.8, 0.6, 0.4, 0.2, 0.1]
-
+holdoutSizes = [0.99,0.98,0.96,0.95, 0.9, 0.8, 0.6, 0.4]
 # Run experiments for truth disdovery without features
 logger.info('EXPERIMENTS: SOURCES ONLY')
 for h in holdoutSizes:
@@ -301,4 +300,4 @@ for h in holdoutSizes:
 	logger.info('END experiments: WITH FEATURES')
 
 # backup 
-commands.getstatusoutput('cp stock_experiments_gibbs_perf.log expResults/.')
+commands.getstatusoutput('cp stock_experiments_gibbs_perf_LowHO.log expResults/.')
