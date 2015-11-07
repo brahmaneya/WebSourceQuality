@@ -35,13 +35,6 @@ CREATE TABLE event_truth(
   )
 DISTRIBUTED BY (geid);
 
-DROP TABLE IF EXISTS source_event_input CASCADE;
-CREATE TABLE source_event_input(
-  source_id varchar(200),
-  geid int,
-  is_true boolean
-)
-DISTRIBUTED BY (geid);
 
 DROP TABLE IF EXISTS source_event_truth CASCADE;
 CREATE TABLE source_event_truth(
