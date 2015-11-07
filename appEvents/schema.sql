@@ -20,12 +20,27 @@ CREATE TABLE source_features(
   )
 DISTRIBUTED BY (source_id);
 
+DROP TABLE IF EXISTS event_input CASCDE;
+CREATE TABLE event_input(
+  geid int,
+  is_true boolean
+  )
+DISTRIBUTES BY (geid);
+
 DROP TABLE IF EXISTS event_truth CASCADE;
 CREATE TABLE event_truth(
   geid int,
   is_true boolean, -- whether tuple is true
   id bigint -- reserved for deepdive
   )
+DISTRIBUTED BY (geid);
+
+DROP TABLE IF EXISTS source_event_input CASCADE;
+CREATE TABLE source_event_input(
+  source_id varchar(200),
+  geid int,
+  is_true boolean
+)
 DISTRIBUTED BY (geid);
 
 DROP TABLE IF EXISTS source_event_truth CASCADE;
