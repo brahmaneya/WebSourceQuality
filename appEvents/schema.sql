@@ -20,12 +20,12 @@ CREATE TABLE source_features(
   )
 DISTRIBUTED BY (source_id);
 
-DROP TABLE IF EXISTS event_input CASCDE;
+DROP TABLE IF EXISTS event_input CASCADE;
 CREATE TABLE event_input(
   geid int,
   is_true boolean
   )
-DISTRIBUTES BY (geid);
+DISTRIBUTED BY (geid);
 
 DROP TABLE IF EXISTS event_truth CASCADE;
 CREATE TABLE event_truth(

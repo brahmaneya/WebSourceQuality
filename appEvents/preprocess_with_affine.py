@@ -21,7 +21,15 @@ minF = {}
 sources = pickle.load(open(sys.argv[1],'r'))
 srcFeatures = pickle.load(open(sys.argv[2],'r'))
 
-for src in srcFeatures:
+print len(sources)
+print len(srcFeatures)
+
+count = 0
+for s in srcFeatures:
+	if len(srcFeatures[s]) != 0:
+		count += 1
+print count 
+for src in sources:
 	for f in srcFeatures[src]:
 		featureValues[f].append(srcFeatures[src][f])
 
@@ -38,7 +46,7 @@ featureId = 0
 for src in sources:
     for k in srcFeatures[src]: 
         if k not in ['Country']:
-            fValue = round((srcFeatures[src][k] - minF[k])*30/(maxF[k] - minF[k]))
+            fValue = srcFeatures[src][k]#round((srcFeatures[src][k] - minF[k])*10/(maxF[k] - minF[k]))
 	    if k not in allFeatures:
 		  allFeatures[k] = featureId
 		  id2Feature[featureId] = k
