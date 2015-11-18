@@ -4,7 +4,8 @@ import random
 
 numFeatures = 20
 numSources = 200
-numTuples = 1000
+numTuples = 400
+tuplesPerSource = 5
 
 # creating SrcFeats
 srcFeatsDensity = 0.2
@@ -15,16 +16,49 @@ srcFeats[0,:] = np.zeros(numSources + 1)
 
 # creating feature weights and accuracies
 L1 = 5
+sigma = int(sys.argv[1]); #noise term
 featureWeights = np.random.laplace(0,L1,(numFeatures + 1))
 featureWeights[0] = 0
 srcAccs = np.dot(np.transpose(srcFeats),featureWeights)
+srcAccs = srcAccs + 2 * sigma * (np.random.rand(numSources + 1) - 0.5)
 srcAccs = 1 / (1 + np.exp(srcAccs))
 
-tuplesPerSource = 5
-outputs = np.zeros((numSources + 1, tuplesPerSource + 1))
-for j in range(1,numSources):
-	for (i in range(1,tuplesPerSource):
-		outputs[j + 1, i + 1] = random.random() < srcAccs[j + 1]
+Omega = [[]]
+for j in range(1, numSources):
+	Omega = Omega + [[]]
+	for l in range(1,tuplesPerSource):
+		Omega[j] = Omega[j] + [random.randint(1, numTuples)];
+
+datafolder = "data" + str(sigma) + "/"
+if not os.path.exists(datafolder):
+	    os.makedirs(datafolder)
+
+
+features_file = datafolder + "srcFeatures.csv"
+groundtruth_file = datafolder + "groundtruth.csv"
+positivevotes_file = datafolder + "positiveVotes.csv"
+negativevotes_file = datafolder + "negativeVotes.csv"
+
+f_features = open(features_file, 'w')
+f_groundtruth = open(groundtruth_file, 'w')
+f_positivevotes = open(positivevotes_file, 'w')
+f_negativevotes = open(negativevotes_file, 'w')
+
+for k in range(1,numFeatures):
+	for j in range(1,numSources):
+		if (srcFeats[k,j] == 1):
+			f_features.write('{},{}\n'.format(j,k))
+
+for i in range(1,numTuples):
+	f_groundtruth.write('{},true\n'.format(i))
+
+for j in range(1, numSources):
+	for k in Omega[j]:
+		obs = random.random() < srcAccs[j]
+		if obs:
+			f_positivevotes.write('{},{}\n'.format(j,k))
+		else:
+			f_negativevotes.write('{},{}\n'.format(j,k))
 
 
 
