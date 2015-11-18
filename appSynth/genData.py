@@ -20,7 +20,7 @@ sigma = int(sys.argv[1]); #noise term
 featureWeights = np.random.laplace(0,L1,(numFeatures + 1))
 featureWeights[0] = 0
 srcAccs = np.dot(np.transpose(srcFeats),featureWeights)
-srcAccs = srcAccs + 2 * sigma * (np.random.rand(numSources + 1) - 0.5)
+srcAccs = srcAccs + 2 * (sigma / numSources) * (np.random.rand(numSources + 1) - 0.5)
 srcAccs = 1 / (1 + np.exp(srcAccs))
 
 Omega = [[]]
