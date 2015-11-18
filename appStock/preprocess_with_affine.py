@@ -2,6 +2,7 @@ import sys
 import random
 from sets import Set
 import urllib2
+import sympy
 
 srcFeatures = {}
 featureValues = {}
@@ -85,10 +86,8 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 time = inputLine[:inputLine.index("<")]
                 time = time.replace(',','')
-                print time
                 time = time.split(':')
                 totalTime = int(time[0])*60 + int(time[1])
-                print totalTime
                 srcFeatures[srcId]['Daily Time on Site'] = totalTime
                 featureValues['Daily Time on Site'].append(totalTime)
 
@@ -98,8 +97,6 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 visits = inputLine[:inputLine.index("%")]
                 visits = visits.replace(',','')
-                print visits
-                print float(visits)
                 srcFeatures[srcId]['Search Visits'] = float(visits)
                 featureValues['Search Visits'].append(float(visits))
 
@@ -109,8 +106,6 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 links = inputLine[inputLine.index(">")+1:inputLine.index("</span")]
                 links = links.replace(',','')
-                print links
-                print int(links)
                 srcFeatures[srcId]['Total Sites Linking In'] = int(links)
                 featureValues['Total Sites Linking In'].append(int(links))
 
@@ -151,6 +146,7 @@ for f in featureValues:
 rawInput = open('data/stock-2011-07-01.txt','r')
 sourcesInput = {}
 stockSymbols = {}
+symbolTruth = {}
 for l in rawInput.readlines():
     l = l.rstrip("\n")
     l = l.split("\t")
@@ -172,7 +168,6 @@ for l in rawInput.readlines():
             elif l[6].find('m') != -1 and l[6].find('mil') == -1 and l[0] == 'barrons':
                 volume = l[6].replace('m','000').replace('.','')
 	    elif l[6].find('m') != -1 and l[6].find('mil') == -1:
-                print l[6]
 		volume = l[6].replace('m','0000').replace('.','')
             else:
                 volume = l[6].replace(',','').replace(".00","")
@@ -181,18 +176,21 @@ for l in rawInput.readlines():
             if symbol not in stockSymbols:
                 stockSymbols[symbol] = Set([])
             stockSymbols[symbol].add(volume)
-
+    if l[0] == 'nasdaq-com': 
+	symbol = l[1]
+	volume = l[6].replace(',','').replace(".00","")
+	symbolTruth[symbol] = volume
 
 # grab symbol truth
-symbolTruth = {}
-truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
-for l in truthInput.readlines():
-    l = l.rstrip("\n")
-    l = l.split("\t")
-    symbol = l[0]
-    volume = l[5].replace(',','')
-    symbolTruth[symbol] = volume
-truthInput.close()
+#symbolTruth = {}
+#truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
+#for l in truthInput.readlines():
+#    l = l.rstrip("\n")
+#    l = l.split("\t")
+#    symbol = l[0]
+#    volume = l[5].replace(',','')
+#    symbolTruth[symbol] = volume
+#truthInput.close()
 
 # Print stock symbol volumes
 stockVolumes = open('data/stockVolumes.csv','w')
@@ -221,21 +219,50 @@ for src in sourcesInput:
             srcObservations.write(newline)
 srcObservations.close()
 
-# Print source features
-numMaxFeatures = 9
-srcFeaturesOut = open('data/srcFeatures.csv','w')
-for src in srcFeatures:
-    print (len(srcFeatures[src]))
-    featureNum = 0
-    for k in srcFeatures[src]:
-        featureNum = featureNum + 1
-        if k != 'Country':
-            fValue = round((srcFeatures[src][k] - minF[k])*10/(maxF[k] - minF[k]))
+# Preprocess source features
+allFeatures = {}
+id2Feature = {}
+featureId = 0
+for src in sources:
+    for k in srcFeatures[src]: 
+        if k not in ['Country']:
+            fValue = srcFeatures[src][k]#ound((srcFeatures[src][k] - minF[k])*5/(maxF[k] - minF[k]))
+	    if k not in allFeatures:
+		allFeatures[k] = featureId
+		id2Feature[featureId] = k
+		featureId += 1
+	    srcFeatures[src][k] = fValue
 	else:
             fValue = srcFeatures[src][k]
-        newline = str(src)+","+k+"="+str(fValue)+"\n"
-        if featureNum > 0 and featureNum < numMaxFeatures + 1:
-            srcFeaturesOut.write(newline)
+
+# Form SympY SrcFatureValue Matrix
+matrixInput = []
+for src in sources:
+	srcValues = []
+	for i in id2Feature:
+		if id2Feature[i] in srcFeatures[src]:
+			srcValues.append(srcFeatures[src][id2Feature[i]])
+		else:
+			srcValues.append(-1)
+	matrixInput.append(srcValues)
+fSympyMatrix = sympy.Matrix(matrixInput)
+print fSympyMatrix
+fSympyMatrix.rref()
+featuresToUse = fSympyMatrix.rref()[1]
+
+print "Total features = ", len(allFeatures)
+print "AffineIndepFeatures = ",len(featuresToUse)
+print id2Feature
+srcFeaturesOut = open('data/srcFeatures.csv','w')
+for src in sources:
+	usedFeats = 0
+	for f in srcFeatures[src]:
+		if f in allFeatures:
+			if allFeatures[f] in featuresToUse:
+				newline = src+","+f+"="+str(srcFeatures[src][f])+"\n"
+				srcFeaturesOut.write(newline)
+				usedFeats += 1
+	print src,usedFeats,len(srcFeatures[src])
 srcFeaturesOut.close()
 
 

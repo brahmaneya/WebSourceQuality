@@ -1,0 +1,2423 @@
+exps - INFO - EXPERIMENTS: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.8
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.8
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 52.04 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.368800376050698
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  5318
+      0 | t       |   187
+      1 | f       |     1
+      1 | t       |     1
+      2 | f       |     1
+      2 | t       |     3
+      3 | f       |     2
+      3 | t       |     4
+      4 | t       |     2
+      5 | t       |     1
+      6 | t       |     1
+      7 | f       |     1
+      7 | t       |     1
+      8 | f       |     2
+      8 | t       |     5
+      9 | f       |    76
+      9 | t       |   524
+(17 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.870703764321
+exps - INFO - Recall: 0.729766803841
+exps - INFO - Acc: 0.954975530179
+exps - INFO - F1: 0.794029850746
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.870279146141
+exps - INFO - Recall: 0.727023319616
+exps - INFO - Acc: 0.954649265905
+exps - INFO - F1: 0.792227204783
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.873333333333
+exps - INFO - Recall: 0.718792866941
+exps - INFO - Acc: 0.954159869494
+exps - INFO - F1: 0.788562829195
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5322
+ Assigned False | t       |   197
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    79
+ Assigned True | t       |   532
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5320
+ Assigned False | t       |   191
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    79
+ Assigned True | t       |   530
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5318
+ Assigned False | t       |   187
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    76
+ Assigned True | t       |   524
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.6
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.6
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 53.03 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.355482594613889
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  3978
+      0 | t       |   145
+      1 | t       |     2
+      2 | t       |     4
+      6 | f       |     1
+      7 | t       |     1
+      8 | f       |     1
+      8 | t       |     2
+      9 | f       |    59
+      9 | t       |   393
+(10 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.866520787746
+exps - INFO - Recall: 0.7239488117
+exps - INFO - Acc: 0.953772350632
+exps - INFO - F1: 0.788844621514
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.868421052632
+exps - INFO - Recall: 0.7239488117
+exps - INFO - Acc: 0.953990405582
+exps - INFO - F1: 0.78963110668
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.869469026549
+exps - INFO - Recall: 0.718464351005
+exps - INFO - Acc: 0.953554295683
+exps - INFO - F1: 0.786786786787
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3978
+ Assigned False | t       |   151
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    61
+ Assigned True | t       |   396
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3978
+ Assigned False | t       |   151
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    60
+ Assigned True | t       |   396
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3978
+ Assigned False | t       |   145
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    59
+ Assigned True | t       |   393
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.4
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.4
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 52.25 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.356943358026745
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  2713
+      0 | t       |    94
+      1 | t       |     1
+      3 | f       |     1
+      6 | t       |     2
+      8 | t       |     1
+      9 | f       |    31
+      9 | t       |   268
+(8 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.897350993377
+exps - INFO - Recall: 0.74043715847
+exps - INFO - Acc: 0.95949855352
+exps - INFO - F1: 0.811377245509
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.896666666667
+exps - INFO - Recall: 0.734972677596
+exps - INFO - Acc: 0.958855673417
+exps - INFO - F1: 0.807807807808
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.896321070234
+exps - INFO - Recall: 0.732240437158
+exps - INFO - Acc: 0.958534233365
+exps - INFO - F1: 0.806015037594
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2714
+ Assigned False | t       |    95
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    31
+ Assigned True | t       |   271
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2713
+ Assigned False | t       |    95
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    31
+ Assigned True | t       |   269
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2713
+ Assigned False | t       |    94
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    31
+ Assigned True | t       |   268
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.2
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.2
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 53.63 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.390128311324777
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  1265
+      0 | t       |    48
+      2 | t       |     1
+      5 | f       |     1
+      8 | f       |     2
+      8 | t       |     2
+      9 | f       |    17
+      9 | t       |   129
+(8 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.867549668874
+exps - INFO - Recall: 0.727777777778
+exps - INFO - Acc: 0.952901023891
+exps - INFO - F1: 0.791540785498
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.873333333333
+exps - INFO - Recall: 0.727777777778
+exps - INFO - Acc: 0.953583617747
+exps - INFO - F1: 0.793939393939
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.883561643836
+exps - INFO - Recall: 0.716666666667
+exps - INFO - Acc: 0.953583617747
+exps - INFO - F1: 0.791411042945
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1265
+ Assigned False | t       |    49
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    20
+ Assigned True | t       |   131
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1265
+ Assigned False | t       |    49
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    19
+ Assigned True | t       |   131
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1265
+ Assigned False | t       |    48
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    17
+ Assigned True | t       |   129
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - EXPERIMENTS: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.8
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.8
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 114.92 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.245110843489412
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight    
+-----------------------------------+-------------
+ Search Visits=10.0                |     2.73125
+ Daily Page Views Per Visitor=2.9  |     2.21831
+ Daily Time on Site=188            |     2.19446
+ Search Visits=10.4                |     1.08712
+ Total Sites Linking In=3005       |     1.02508
+ Total Sites Linking In=1965       |     1.01888
+ Country Rank=291897               |    0.998015
+ Search Visits=5.5                 |    0.978559
+ Country Rank=123                  |    0.952425
+ Bounce Rate=12.6                  |    0.949836
+ Total Sites Linking In=73         |    0.939352
+ Daily Page Views Per Visitor=8.14 |     0.92607
+ Daily Time on Site=194            |    0.909122
+ Bounce Rate=33.9                  |    0.907719
+ Rank=635815                       |    0.894382
+ Daily Time on Site=198            |    0.873201
+ Rank=69898                        |    0.870818
+ Daily Page Views Per Visitor=2.09 |    0.863775
+ Country Rank=70                   |    0.859525
+ Search Visits=21.0                |    0.852944
+ Bounce Rate=50.2                  |    0.845642
+ Total Sites Linking In=3643       |    0.831881
+ Bounce Rate=21.0                  |    0.817525
+ Rank=631                          |    0.800671
+ Country Rank=2415                 |    0.793567
+ Country Rank=13638                |    0.777097
+ Daily Time on Site=102            |    0.772959
+ Daily Time on Site=451            |    0.769459
+ Total Sites Linking In=174111     |    0.740728
+ Bounce Rate=63.6                  |    0.727407
+ Rank=8778                         |    0.725088
+ Search Visits=13.3                |    0.716932
+ Daily Page Views Per Visitor=2.1  |    0.713684
+ Daily Page Views Per Visitor=2.5  |    0.702998
+ Search Visits=23.8                |    0.692096
+ Bounce Rate=73.0                  |    0.679333
+ Bounce Rate=55.4                  |    0.667183
+ Daily Page Views Per Visitor=6.65 |    0.663286
+ Rank=166                          |    0.656597
+ Daily Page Views Per Visitor=3.46 |    0.650818
+ Total Sites Linking In=11276      |    0.642356
+ Daily Time on Site=828            |    0.629468
+ Daily Time on Site=149            |    0.629444
+ Daily Time on Site=109            |     0.61943
+ Daily Time on Site=480            |    0.610334
+ Daily Page Views Per Visitor=2.6  |    0.605811
+ Rank=126196                       |    0.595243
+ Total Sites Linking In=2514       |    0.583876
+ Country Rank=47998                |    0.582899
+ Search Visits=15.8                |    0.577631
+ Bounce Rate=78.4                  |    0.576725
+ Bounce Rate=70.2                  |    0.569396
+ Daily Page Views Per Visitor=1.62 |    0.568917
+ Total Sites Linking In=29811      |    0.555704
+ Daily Time on Site=173            |    0.542358
+ Country Rank=1984                 |    0.531499
+ Search Visits=19.9                |    0.527245
+ Daily Page Views Per Visitor=1.5  |    0.525712
+ Rank=5447555                      |    0.522688
+ Total Sites Linking In=1900       |    0.521284
+ Rank=4857                         |    0.518269
+ Country Rank=343                  |    0.514668
+ Search Visits=29.3                |     0.51458
+ Rank=4128                         |    0.514063
+ Country Rank=2850                 |    0.513336
+ Total Sites Linking In=3975       |    0.507063
+ Rank=91285                        |    0.504468
+ Country Rank=41674                |    0.502937
+ Bounce Rate=47.0                  |    0.501988
+ Search Visits=23.9                |    0.501577
+ Daily Time on Site=163            |     0.49518
+ Country Rank=7012                 |    0.494743
+ Daily Page Views Per Visitor=1.4  |    0.492147
+ Rank=23525                        |    0.491495
+ Daily Time on Site=258            |    0.486099
+ Daily Time on Site=122            |    0.483689
+ Rank=14526                        |    0.479424
+ Total Sites Linking In=99         |    0.461468
+ Search Visits=10.6                |    0.452428
+ Bounce Rate=48.5                  |    0.451016
+ Bounce Rate=77.1                  |    0.442548
+ Total Sites Linking In=5932       |     0.44049
+ Rank=6972                         |    0.432835
+ Search Visits=26.3                |    0.432235
+ Country Rank=4302                 |    0.427719
+ Bounce Rate=25.2                  |    0.425674
+ Country Rank=537016               |    0.422121
+ Daily Time on Site=42             |    0.417389
+ Bounce Rate=80.0                  |    0.411383
+ Search Visits=4.9                 |    0.390986
+ Search Visits=12.4                |    0.388993
+ Bounce Rate=67.3                  |    0.388323
+ Daily Page Views Per Visitor=1.82 |    0.371295
+ Daily Page Views Per Visitor=1.46 |    0.367237
+ Country Rank=34796                |    0.362872
+ Daily Page Views Per Visitor=10.2 |    0.361419
+ Total Sites Linking In=10803      |     0.35934
+ Search Visits=3.2                 |    0.353587
+ Country Rank=2914                 |     0.34098
+ Rank=80601                        |    0.338795
+ Total Sites Linking In=738        |    0.337486
+ Rank=702                          |     0.33498
+ Total Sites Linking In=4425       |    0.332805
+ Total Sites Linking In=4272       |    0.327987
+ Daily Page Views Per Visitor=1.3  |    0.326925
+ Search Visits=8.1                 |    0.326678
+ Bounce Rate=69.0                  |    0.317957
+ Bounce Rate=47.9                  |    0.312044
+ Daily Page Views Per Visitor=2.4  |    0.305622
+ Daily Time on Site=295            |    0.304803
+ Daily Page Views Per Visitor=1.0  |    0.296044
+ Search Visits=18.4                |    0.295091
+ Search Visits=11.0                |    0.274812
+ Daily Time on Site=199            |    0.250318
+ Rank=207                          |    0.246514
+ Country Rank=596                  |    0.244495
+ Daily Time on Site=845            |    0.230414
+ Total Sites Linking In=50232      |    0.222851
+ Daily Time on Site=202            |    0.203469
+ Search Visits=14.1                |    0.201589
+ Country Rank=93                   |    0.201278
+ Total Sites Linking In=94124      |    0.195854
+ Rank=8776                         |    0.195496
+ Daily Time on Site=310            |    0.189029
+ Total Sites Linking In=14475      |    0.187777
+ Country Rank=718                  |    0.187165
+ Total Sites Linking In=4325       |    0.178677
+ Bounce Rate=58.3                  |    0.177144
+ Rank=2095                         |    0.174929
+ Daily Page Views Per Visitor=1.89 |    0.173108
+ Bounce Rate=68.3                  |    0.165129
+ Country Rank=1778                 |    0.151206
+ Rank=2476                         |    0.147486
+ Rank=1255421                      |    0.142516
+ Daily Page Views Per Visitor=1.7  |    0.107214
+ Daily Page Views Per Visitor=3.3  |   0.0727281
+ Search Visits=9.0                 |   0.0717846
+ Rank=241053                       |    0.069252
+ Bounce Rate=57.2                  |   0.0523683
+ Total Sites Linking In=231576     |   0.0481183
+ Rank=27369                        |   0.0480811
+ Search Visits=5.4                 |   0.0450906
+ Search Visits=10.8                |   0.0416962
+ Daily Time on Site=189            |   0.0416377
+ Total Sites Linking In=15838      |   0.0412164
+ Rank=1301                         |   0.0406002
+ Search Visits=12.8                |   0.0380663
+ Search Visits=7.8                 |    0.034438
+ Total Sites Linking In=17363      |   0.0329595
+ Daily Time on Site=238            |   0.0318448
+ Rank=198145                       |   0.0267205
+ Rank=5517                         |   0.0158181
+ Daily Page Views Per Visitor=4.8  |  0.00654968
+ Bounce Rate=45.9                  | 0.000714035
+ Bounce Rate=66.4                  | -0.00947027
+ Daily Time on Site=324            | -0.00993251
+ Country Rank=2088                 |  -0.0106727
+ Bounce Rate=36.7                  |  -0.0107478
+ Total Sites Linking In=659        |  -0.0140896
+ Daily Time on Site=171            |  -0.0210717
+ Total Sites Linking In=168        |  -0.0225106
+ Country Rank=13400                |  -0.0403623
+ Daily Time on Site=464            |   -0.042526
+ Country Rank=375                  |  -0.0461148
+ Rank=7387                         |  -0.0483215
+ Rank=77                           |  -0.0517011
+ Rank=120287                       |  -0.0526831
+ Country Rank=22                   |  -0.0528068
+ Daily Page Views Per Visitor=1.61 |  -0.0528172
+ Total Sites Linking In=1712       |  -0.0534453
+ Country Rank=53822                |   -0.056326
+ Country Rank=613                  |  -0.0585954
+ Search Visits=14.2                |  -0.0597519
+ Search Visits=5.7                 |  -0.0607594
+ Daily Page Views Per Visitor=2.8  |  -0.0607672
+ Bounce Rate=30.7                  |  -0.0611056
+ Country Rank=1784                 |  -0.0635284
+ Bounce Rate=71.1                  |  -0.0640294
+ Daily Time on Site=197            |  -0.0714236
+ Daily Page Views Per Visitor=4.1  |   -0.074507
+ Total Sites Linking In=615        |  -0.0805056
+ Daily Time on Site=317            |  -0.0815701
+ Total Sites Linking In=1800       |  -0.0847303
+ Total Sites Linking In=8904       |  -0.0865507
+ Daily Time on Site=344            |  -0.0914877
+ Bounce Rate=41.5                  |  -0.0983545
+ Bounce Rate=30.4                  |   -0.101857
+ Bounce Rate=61.1                  |   -0.104688
+ Daily Page Views Per Visitor=2.05 |   -0.109812
+ Daily Time on Site=621            |   -0.110144
+ Country Rank=5022                 |   -0.122683
+ Daily Page Views Per Visitor=4.13 |   -0.124209
+ Bounce Rate=38.2                  |   -0.135779
+ Rank=128250                       |   -0.140717
+ Search Visits=7.7                 |   -0.145575
+ Rank=9860                         |   -0.159517
+ Daily Time on Site=350            |   -0.159741
+ Search Visits=7.9                 |   -0.229948
+ Search Visits=9.8                 |   -0.262061
+ Total Sites Linking In=290        |   -0.267624
+ Country Rank=22530                |   -0.274756
+ Daily Page Views Per Visitor=2.76 |   -0.295115
+ Total Sites Linking In=42356      |   -0.322225
+ Daily Time on Site=302            |    -0.32456
+ Search Visits=8.6                 |    -0.32808
+ Country Rank=36950                |    -0.33268
+ Total Sites Linking In=278        |   -0.351775
+ Country Rank=262                  |   -0.362777
+ Country Rank=253636               |   -0.371193
+ Bounce Rate=37.0                  |   -0.384972
+ Search Visits=24.0                |   -0.385717
+ Total Sites Linking In=411        |   -0.401472
+ Bounce Rate=52.6                  |   -0.408919
+ Daily Time on Site=878            |   -0.421053
+ Search Visits=9.7                 |   -0.425259
+ Bounce Rate=42.6                  |   -0.426461
+ Rank=384054                       |   -0.509258
+ Daily Page Views Per Visitor=2.2  |   -0.528738
+ Rank=664                          |   -0.550724
+ Country Rank=109407               |   -0.581077
+ Daily Time on Site=178            |   -0.622555
+ Rank=221824                       |   -0.665595
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  5208
+      0 | t       |   101
+      1 | f       |     3
+      1 | t       |     1
+      2 | f       |     4
+      2 | t       |     3
+      3 | t       |     1
+      4 | t       |     1
+      5 | t       |     1
+      7 | t       |     1
+      8 | f       |     1
+      8 | t       |     3
+      9 | f       |   103
+      9 | t       |   607
+(14 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.854748603352
+exps - INFO - Recall: 0.851182197497
+exps - INFO - Acc: 0.965054653859
+exps - INFO - F1: 0.852961672474
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.854545454545
+exps - INFO - Recall: 0.849791376912
+exps - INFO - Acc: 0.964889036105
+exps - INFO - F1: 0.852161785216
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.854929577465
+exps - INFO - Recall: 0.844228094576
+exps - INFO - Acc: 0.964392182842
+exps - INFO - F1: 0.849545136459
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5215
+ Assigned False | t       |   107
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   104
+ Assigned True | t       |   612
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5215
+ Assigned False | t       |   105
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   104
+ Assigned True | t       |   611
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  5208
+ Assigned False | t       |   101
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   103
+ Assigned True | t       |   607
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.6
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.6
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 119.97 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.270865371069315
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight    
+-----------------------------------+-------------
+ Search Visits=10.0                |     3.36613
+ Daily Time on Site=188            |      3.0443
+ Daily Page Views Per Visitor=2.9  |     2.38563
+ Rank=8778                         |     1.24033
+ Total Sites Linking In=73         |     1.22832
+ Daily Page Views Per Visitor=2.5  |     1.22072
+ Country Rank=123                  |     1.19709
+ Daily Time on Site=102            |     1.19446
+ Country Rank=291897               |      1.1728
+ Total Sites Linking In=1965       |     1.16785
+ Search Visits=13.3                |     1.16234
+ Bounce Rate=33.9                  |     1.14828
+ Daily Time on Site=198            |     1.13447
+ Country Rank=2415                 |     1.13418
+ Total Sites Linking In=3643       |     1.13271
+ Bounce Rate=63.6                  |     1.12602
+ Bounce Rate=50.2                  |      1.1179
+ Search Visits=10.4                |     1.10443
+ Rank=635815                       |      1.0782
+ Daily Time on Site=194            |     1.06527
+ Search Visits=21.0                |     1.06351
+ Daily Page Views Per Visitor=8.14 |      1.0562
+ Rank=631                          |     1.05469
+ Total Sites Linking In=3005       |     1.05316
+ Rank=69898                        |     1.05204
+ Bounce Rate=12.6                  |     1.04984
+ Search Visits=5.5                 |     1.03363
+ Daily Time on Site=451            |       1.026
+ Daily Page Views Per Visitor=2.09 |     1.02352
+ Total Sites Linking In=3975       |     0.97882
+ Country Rank=13638                |    0.974856
+ Bounce Rate=21.0                  |    0.949714
+ Search Visits=23.8                |    0.937974
+ Country Rank=70                   |    0.912616
+ Daily Time on Site=109            |    0.886482
+ Search Visits=10.6                |      0.8632
+ Country Rank=7012                 |    0.861017
+ Bounce Rate=78.4                  |    0.855766
+ Daily Page Views Per Visitor=1.46 |    0.853014
+ Daily Page Views Per Visitor=3.46 |     0.84973
+ Daily Page Views Per Visitor=1.62 |     0.84627
+ Total Sites Linking In=174111     |    0.843198
+ Daily Page Views Per Visitor=2.6  |    0.835459
+ Bounce Rate=77.1                  |    0.830894
+ Total Sites Linking In=10803      |    0.825989
+ Rank=166                          |    0.823707
+ Total Sites Linking In=5932       |    0.823065
+ Search Visits=4.9                 |    0.818982
+ Rank=23525                        |    0.813872
+ Rank=14526                        |    0.801524
+ Bounce Rate=70.2                  |    0.789788
+ Daily Page Views Per Visitor=2.1  |     0.78455
+ Daily Time on Site=173            |    0.776808
+ Rank=80601                        |    0.770505
+ Country Rank=41674                |    0.767542
+ Daily Time on Site=258            |    0.764101
+ Daily Time on Site=42             |    0.762648
+ Country Rank=2850                 |    0.759185
+ Rank=5447555                      |    0.751856
+ Total Sites Linking In=4425       |    0.747166
+ Country Rank=47998                |    0.743922
+ Bounce Rate=80.0                  |    0.743098
+ Search Visits=3.2                 |    0.715224
+ Daily Page Views Per Visitor=1.82 |    0.714972
+ Bounce Rate=48.5                  |    0.708971
+ Rank=91285                        |     0.70672
+ Daily Page Views Per Visitor=1.0  |     0.70123
+ Search Visits=15.8                |    0.694507
+ Bounce Rate=55.4                  |    0.689445
+ Total Sites Linking In=99         |    0.686534
+ Search Visits=23.9                |    0.679455
+ Daily Page Views Per Visitor=6.65 |    0.669598
+ Rank=126196                       |    0.666506
+ Country Rank=4302                 |    0.661757
+ Bounce Rate=73.0                  |    0.657458
+ Country Rank=34796                |    0.648225
+ Search Visits=29.3                |    0.638864
+ Country Rank=343                  |    0.628978
+ Bounce Rate=47.0                  |    0.627958
+ Search Visits=19.9                |    0.618979
+ Daily Time on Site=122            |    0.614421
+ Country Rank=1984                 |    0.614109
+ Daily Time on Site=149            |    0.607975
+ Total Sites Linking In=2514       |    0.607006
+ Total Sites Linking In=11276      |    0.589924
+ Bounce Rate=69.0                  |     0.57698
+ Daily Time on Site=828            |    0.571559
+ Total Sites Linking In=29811      |    0.569854
+ Search Visits=26.3                |    0.567295
+ Daily Page Views Per Visitor=1.4  |    0.557742
+ Daily Time on Site=163            |    0.557675
+ Rank=6972                         |    0.553066
+ Rank=4857                         |    0.532213
+ Rank=4128                         |    0.497086
+ Daily Page Views Per Visitor=1.5  |    0.496326
+ Rank=702                          |    0.494083
+ Daily Time on Site=480            |    0.478652
+ Total Sites Linking In=1900       |    0.450065
+ Country Rank=537016               |    0.436436
+ Bounce Rate=47.9                  |     0.43643
+ Bounce Rate=67.3                  |    0.431631
+ Country Rank=718                  |    0.429892
+ Daily Time on Site=845            |    0.415416
+ Rank=8776                         |    0.414965
+ Country Rank=2914                 |    0.412643
+ Daily Page Views Per Visitor=2.4  |    0.407497
+ Search Visits=12.4                |    0.400364
+ Daily Page Views Per Visitor=1.3  |    0.395799
+ Country Rank=1778                 |    0.373677
+ Total Sites Linking In=738        |    0.360659
+ Total Sites Linking In=4325       |     0.35283
+ Search Visits=14.1                |    0.336089
+ Bounce Rate=68.3                  |    0.336006
+ Total Sites Linking In=50232      |    0.335156
+ Daily Time on Site=199            |    0.332923
+ Daily Time on Site=310            |     0.31708
+ Daily Time on Site=295            |    0.315792
+ Search Visits=8.1                 |    0.313204
+ Total Sites Linking In=14475      |    0.296245
+ Bounce Rate=25.2                  |    0.284464
+ Bounce Rate=58.3                  |     0.28116
+ Search Visits=18.4                |    0.276235
+ Total Sites Linking In=4272       |    0.275459
+ Daily Page Views Per Visitor=10.2 |    0.274818
+ Rank=1255421                      |    0.270417
+ Rank=2095                         |    0.269275
+ Rank=2476                         |    0.265995
+ Country Rank=596                  |    0.232412
+ Daily Page Views Per Visitor=1.7  |    0.220178
+ Daily Time on Site=238            |    0.212489
+ Rank=207                          |    0.190056
+ Bounce Rate=66.4                  |    0.189064
+ Daily Time on Site=202            |    0.179521
+ Daily Page Views Per Visitor=1.89 |    0.173072
+ Country Rank=93                   |    0.160582
+ Search Visits=11.0                |    0.159339
+ Total Sites Linking In=168        |    0.148413
+ Rank=241053                       |    0.136897
+ Bounce Rate=57.2                  |    0.126899
+ Total Sites Linking In=94124      |     0.12132
+ Country Rank=13400                |    0.120068
+ Search Visits=12.8                |    0.104711
+ Daily Time on Site=317            |   0.0798212
+ Daily Time on Site=189            |    0.077248
+ Total Sites Linking In=17363      |   0.0655574
+ Total Sites Linking In=1712       |   0.0556598
+ Daily Page Views Per Visitor=2.8  |   0.0527513
+ Bounce Rate=71.1                  |   0.0486786
+ Bounce Rate=30.7                  |   0.0464783
+ Search Visits=9.0                 |   0.0379306
+ Total Sites Linking In=231576     |   0.0285229
+ Daily Time on Site=197            |   0.0257257
+ Rank=5517                         |   0.0242784
+ Search Visits=7.8                 |   0.0151572
+ Daily Page Views Per Visitor=1.61 |   0.0144573
+ Search Visits=10.8                |   0.0123689
+ Daily Page Views Per Visitor=4.8  |  0.00903271
+ Country Rank=1784                 |  0.00867279
+ Rank=198145                       |   0.0058135
+ Daily Time on Site=324            |  0.00077096
+ Daily Page Views Per Visitor=3.3  | 7.85576e-05
+ Search Visits=5.4                 | -0.00329856
+ Country Rank=53822                | -0.00386855
+ Rank=77                           |  -0.0117697
+ Total Sites Linking In=659        |  -0.0119795
+ Rank=27369                        |  -0.0148718
+ Bounce Rate=45.9                  |  -0.0338075
+ Country Rank=613                  |  -0.0490727
+ Daily Time on Site=171            |  -0.0508646
+ Country Rank=22                   |  -0.0526301
+ Bounce Rate=36.7                  |  -0.0676898
+ Total Sites Linking In=15838      |  -0.0722748
+ Search Visits=5.7                 |  -0.0984718
+ Rank=1301                         |   -0.109199
+ Country Rank=375                  |   -0.124512
+ Total Sites Linking In=1800       |   -0.178775
+ Daily Page Views Per Visitor=2.05 |   -0.249252
+ Search Visits=7.7                 |   -0.265394
+ Country Rank=2088                 |   -0.317004
+ Rank=7387                         |    -0.33131
+ Country Rank=5022                 |   -0.336206
+ Bounce Rate=61.1                  |   -0.341943
+ Daily Time on Site=464            |   -0.358094
+ Daily Time on Site=350            |   -0.359005
+ Total Sites Linking In=8904       |   -0.391031
+ Country Rank=253636               |   -0.519701
+ Search Visits=9.8                 |   -0.535702
+ Daily Time on Site=178            |   -0.563893
+ Rank=384054                       |   -0.564078
+ Search Visits=8.6                 |   -0.578448
+ Search Visits=9.7                 |   -0.579214
+ Bounce Rate=41.5                  |   -0.592444
+ Daily Page Views Per Visitor=4.13 |   -0.605185
+ Country Rank=262                  |   -0.631779
+ Rank=9860                         |   -0.643442
+ Total Sites Linking In=278        |    -0.64471
+ Country Rank=36950                |   -0.659024
+ Search Visits=24.0                |   -0.663353
+ Daily Time on Site=878            |    -0.67274
+ Daily Page Views Per Visitor=2.2  |   -0.675543
+ Country Rank=22530                |   -0.691523
+ Daily Time on Site=621            |    -0.69564
+ Bounce Rate=37.0                  |   -0.730369
+ Daily Time on Site=344            |   -0.737345
+ Rank=664                          |   -0.741312
+ Bounce Rate=38.2                  |   -0.749679
+ Bounce Rate=52.6                  |   -0.760221
+ Search Visits=7.9                 |    -0.76368
+ Rank=120287                       |   -0.767221
+ Daily Time on Site=302            |    -0.77216
+ Total Sites Linking In=615        |   -0.783665
+ Total Sites Linking In=42356      |   -0.791644
+ Bounce Rate=30.4                  |   -0.793741
+ Daily Page Views Per Visitor=4.1  |   -0.804578
+ Search Visits=14.2                |   -0.814234
+ Bounce Rate=42.6                  |   -0.817789
+ Country Rank=109407               |   -0.842284
+ Total Sites Linking In=290        |   -0.843662
+ Total Sites Linking In=411        |   -0.879989
+ Rank=128250                       |   -0.908343
+ Rank=221824                       |   -0.916947
+ Daily Page Views Per Visitor=2.76 |    -1.81569
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  3856
+      0 | t       |    52
+      1 | f       |     7
+      6 | f       |    13
+      7 | f       |     2
+      9 | f       |   103
+      9 | t       |   497
+(7 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.808130081301
+exps - INFO - Recall: 0.905282331512
+exps - INFO - Acc: 0.962472406181
+exps - INFO - F1: 0.853951890034
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.825581395349
+exps - INFO - Recall: 0.905282331512
+exps - INFO - Acc: 0.965342163355
+exps - INFO - F1: 0.863596872285
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.828333333333
+exps - INFO - Recall: 0.905282331512
+exps - INFO - Acc: 0.965783664459
+exps - INFO - F1: 0.865100087032
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3863
+ Assigned False | t       |    52
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   118
+ Assigned True | t       |   497
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3863
+ Assigned False | t       |    52
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   105
+ Assigned True | t       |   497
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  3856
+ Assigned False | t       |    52
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |   103
+ Assigned True | t       |   497
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.4
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.4
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 122.06 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.247731299507291
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight   
+-----------------------------------+------------
+ Search Visits=10.0                |    2.76581
+ Daily Time on Site=188            |    2.10356
+ Daily Page Views Per Visitor=2.9  |    1.72043
+ Daily Time on Site=194            |     1.1634
+ Bounce Rate=73.0                  |    1.14848
+ Total Sites Linking In=73         |    1.11034
+ Search Visits=5.5                 |     1.1075
+ Bounce Rate=12.6                  |    1.09577
+ Country Rank=291897               |      1.093
+ Total Sites Linking In=174111     |    1.07676
+ Bounce Rate=50.2                  |    1.07433
+ Country Rank=2415                 |     1.0697
+ Country Rank=70                   |    1.06825
+ Rank=69898                        |    1.06009
+ Search Visits=10.4                |    1.05961
+ Rank=635815                       |    1.05666
+ Bounce Rate=63.6                  |    1.04932
+ Total Sites Linking In=3005       |    1.03502
+ Rank=166                          |    1.02103
+ Rank=631                          |    1.02016
+ Daily Page Views Per Visitor=2.09 |    1.01533
+ Daily Time on Site=451            |    1.01454
+ Bounce Rate=33.9                  |    1.01027
+ Search Visits=13.3                |    1.00875
+ Daily Time on Site=198            |    1.00777
+ Daily Page Views Per Visitor=8.14 |    1.00736
+ Country Rank=13638                |    1.00449
+ Total Sites Linking In=3643       |   0.994293
+ Country Rank=123                  |   0.987517
+ Search Visits=23.8                |   0.985022
+ Daily Time on Site=102            |   0.983812
+ Bounce Rate=21.0                  |   0.980565
+ Daily Page Views Per Visitor=3.46 |   0.968942
+ Daily Page Views Per Visitor=2.5  |   0.941979
+ Rank=8778                         |    0.93009
+ Total Sites Linking In=1965       |   0.929179
+ Search Visits=21.0                |   0.914342
+ Daily Time on Site=258            |   0.826113
+ Bounce Rate=69.0                  |   0.708198
+ Search Visits=15.8                |   0.707016
+ Search Visits=4.9                 |   0.699951
+ Total Sites Linking In=3975       |   0.696942
+ Daily Page Views Per Visitor=1.46 |   0.693545
+ Country Rank=41674                |   0.677629
+ Rank=80601                        |    0.67496
+ Total Sites Linking In=10803      |   0.657898
+ Search Visits=10.6                |   0.657402
+ Search Visits=3.2                 |   0.656858
+ Country Rank=7012                 |    0.65287
+ Daily Time on Site=173            |    0.64274
+ Total Sites Linking In=2514       |   0.634219
+ Rank=6972                         |   0.630005
+ Bounce Rate=48.5                  |   0.626889
+ Bounce Rate=77.1                  |   0.625285
+ Search Visits=29.3                |   0.623223
+ Bounce Rate=78.4                  |   0.623129
+ Daily Time on Site=149            |   0.623003
+ Daily Page Views Per Visitor=2.1  |   0.621804
+ Bounce Rate=55.4                  |   0.619313
+ Country Rank=47998                |   0.615728
+ Total Sites Linking In=1900       |   0.615559
+ Total Sites Linking In=11276      |   0.609516
+ Bounce Rate=47.0                  |   0.609273
+ Total Sites Linking In=4425       |   0.600184
+ Rank=23525                        |   0.588223
+ Rank=14526                        |   0.587427
+ Rank=4857                         |   0.585341
+ Daily Page Views Per Visitor=6.65 |   0.573828
+ Country Rank=2850                 |   0.571222
+ Country Rank=34796                |    0.56576
+ Daily Time on Site=828            |   0.563197
+ Country Rank=1984                 |   0.557978
+ Daily Page Views Per Visitor=1.82 |   0.557843
+ Total Sites Linking In=5932       |   0.556658
+ Daily Time on Site=163            |     0.5543
+ Bounce Rate=70.2                  |   0.553009
+ Daily Page Views Per Visitor=2.6  |   0.539455
+ Daily Time on Site=480            |   0.531373
+ Country Rank=4302                 |   0.519087
+ Rank=126196                       |   0.511276
+ Daily Time on Site=122            |   0.511231
+ Rank=91285                        |   0.510535
+ Daily Page Views Per Visitor=1.62 |   0.504574
+ Rank=702                          |   0.503586
+ Country Rank=343                  |   0.498066
+ Search Visits=19.9                |   0.487971
+ Total Sites Linking In=14475      |   0.484949
+ Search Visits=26.3                |   0.480818
+ Search Visits=23.9                |   0.480619
+ Rank=2095                         |   0.475289
+ Daily Time on Site=109            |   0.472259
+ Daily Page Views Per Visitor=1.4  |    0.47134
+ Country Rank=596                  |   0.462906
+ Daily Time on Site=42             |   0.415276
+ Daily Page Views Per Visitor=1.5  |   0.408978
+ Search Visits=14.1                |   0.399714
+ Daily Page Views Per Visitor=1.0  |   0.398032
+ Rank=5447555                      |   0.395577
+ Bounce Rate=68.3                  |   0.386409
+ Bounce Rate=47.9                  |   0.385546
+ Total Sites Linking In=29811      |   0.381619
+ Rank=4128                         |   0.360055
+ Search Visits=11.0                |   0.359519
+ Rank=8776                         |   0.335552
+ Total Sites Linking In=4325       |   0.333752
+ Daily Time on Site=238            |   0.324166
+ Rank=207                          |   0.324038
+ Daily Time on Site=845            |   0.317322
+ Bounce Rate=80.0                  |   0.303678
+ Total Sites Linking In=99         |   0.302089
+ Daily Page Views Per Visitor=1.89 |   0.298905
+ Country Rank=1778                 |   0.297812
+ Search Visits=12.4                |   0.291284
+ Country Rank=2914                 |   0.288019
+ Daily Time on Site=199            |   0.287836
+ Bounce Rate=58.3                  |   0.286498
+ Daily Time on Site=202            |   0.279655
+ Daily Page Views Per Visitor=1.7  |   0.278734
+ Bounce Rate=25.2                  |   0.276959
+ Daily Time on Site=310            |   0.268818
+ Country Rank=93                   |   0.248411
+ Total Sites Linking In=4272       |   0.236342
+ Country Rank=718                  |   0.235473
+ Rank=1255421                      |   0.234997
+ Total Sites Linking In=94124      |   0.234124
+ Search Visits=8.1                 |   0.233715
+ Bounce Rate=66.4                  |    0.22712
+ Daily Page Views Per Visitor=2.4  |   0.219144
+ Daily Page Views Per Visitor=3.3  |   0.206504
+ Daily Page Views Per Visitor=10.2 |   0.206108
+ Rank=2476                         |    0.19682
+ Country Rank=537016               |   0.187658
+ Daily Page Views Per Visitor=1.3  |   0.167766
+ Search Visits=18.4                |   0.144645
+ Daily Time on Site=295            |   0.122663
+ Total Sites Linking In=738        |   0.118432
+ Bounce Rate=71.1                  |   0.108508
+ Bounce Rate=30.7                  |   0.107736
+ Bounce Rate=45.9                  |  0.0991617
+ Bounce Rate=67.3                  |   0.092486
+ Total Sites Linking In=50232      |  0.0863435
+ Total Sites Linking In=15838      |  0.0794626
+ Total Sites Linking In=17363      |  0.0781943
+ Country Rank=1784                 |  0.0765266
+ Daily Time on Site=171            |  0.0729796
+ Search Visits=7.8                 |  0.0694571
+ Country Rank=53822                |  0.0670962
+ Daily Time on Site=189            |  0.0661884
+ Rank=77                           |  0.0602528
+ Search Visits=10.8                |  0.0547014
+ Rank=1301                         |  0.0399894
+ Rank=5517                         |   0.038356
+ Rank=198145                       |  0.0379551
+ Daily Page Views Per Visitor=1.61 |  0.0260847
+ Search Visits=12.8                |  0.0205176
+ Search Visits=5.4                 |  0.0133086
+ Daily Page Views Per Visitor=2.8  | 0.00381367
+ Total Sites Linking In=231576     |   -0.01294
+ Total Sites Linking In=1712       |  -0.014243
+ Bounce Rate=57.2                  | -0.0221245
+ Daily Time on Site=317            | -0.0244037
+ Daily Time on Site=197            | -0.0332944
+ Rank=241053                       | -0.0362854
+ Search Visits=9.0                 | -0.0372209
+ Country Rank=22                   | -0.0406279
+ Country Rank=13400                | -0.0418514
+ Country Rank=375                  | -0.0472914
+ Rank=9860                         | -0.0680107
+ Total Sites Linking In=168        | -0.0749199
+ Daily Page Views Per Visitor=2.05 | -0.0878332
+ Daily Time on Site=464            | -0.0936954
+ Total Sites Linking In=1800       | -0.0941526
+ Rank=27369                        |  -0.101384
+ Total Sites Linking In=8904       |  -0.103711
+ Daily Time on Site=350            |  -0.106327
+ Bounce Rate=41.5                  |   -0.12703
+ Total Sites Linking In=659        |  -0.139318
+ Daily Time on Site=324            |  -0.141469
+ Daily Page Views Per Visitor=4.8  |  -0.146699
+ Search Visits=9.8                 |  -0.158249
+ Bounce Rate=36.7                  |  -0.160796
+ Search Visits=5.7                 |  -0.162584
+ Country Rank=5022                 |  -0.165525
+ Country Rank=613                  |  -0.200522
+ Daily Page Views Per Visitor=4.13 |  -0.220154
+ Bounce Rate=61.1                  |  -0.225333
+ Total Sites Linking In=615        |  -0.234799
+ Country Rank=2088                 |  -0.243469
+ Rank=7387                         |  -0.305642
+ Search Visits=7.7                 |  -0.326609
+ Country Rank=36950                |   -0.36437
+ Bounce Rate=38.2                  |  -0.369363
+ Search Visits=14.2                |  -0.404226
+ Rank=120287                       |  -0.413865
+ Daily Page Views Per Visitor=2.76 |   -0.42572
+ Total Sites Linking In=290        |  -0.437741
+ Daily Time on Site=344            |  -0.468215
+ Country Rank=262                  |  -0.504912
+ Total Sites Linking In=278        |  -0.508331
+ Daily Time on Site=178            |  -0.529427
+ Rank=384054                       |  -0.550799
+ Country Rank=253636               |  -0.573723
+ Total Sites Linking In=42356      |  -0.573962
+ Rank=128250                       |  -0.585405
+ Daily Time on Site=302            |  -0.585938
+ Bounce Rate=37.0                  |  -0.596157
+ Search Visits=9.7                 |  -0.603281
+ Daily Page Views Per Visitor=4.1  |  -0.606909
+ Search Visits=8.6                 |  -0.612022
+ Bounce Rate=52.6                  |  -0.624766
+ Rank=664                          |  -0.626788
+ Bounce Rate=30.4                  |  -0.632837
+ Rank=221824                       |  -0.642441
+ Daily Page Views Per Visitor=2.2  |  -0.650045
+ Search Visits=7.9                 |   -0.68327
+ Total Sites Linking In=411        |  -0.691824
+ Daily Time on Site=621            |  -0.701369
+ Country Rank=22530                |   -0.72972
+ Daily Time on Site=878            |  -0.733306
+ Country Rank=109407               |  -0.742113
+ Search Visits=24.0                |  -0.848764
+ Bounce Rate=42.6                  |  -0.859957
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  2621
+      0 | t       |    29
+      1 | f       |     2
+      4 | f       |     1
+      5 | f       |     3
+      5 | t       |     1
+      6 | f       |     5
+      7 | t       |     1
+      9 | f       |    46
+      9 | t       |   304
+(10 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.85
+exps - INFO - Recall: 0.913432835821
+exps - INFO - Acc: 0.972452704945
+exps - INFO - F1: 0.880575539568
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.868945868946
+exps - INFO - Recall: 0.910447761194
+exps - INFO - Acc: 0.974775970793
+exps - INFO - F1: 0.889212827988
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.868571428571
+exps - INFO - Recall: 0.907462686567
+exps - INFO - Acc: 0.974444075672
+exps - INFO - F1: 0.887591240876
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2624
+ Assigned False | t       |    29
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    54
+ Assigned True | t       |   306
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2623
+ Assigned False | t       |    29
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    46
+ Assigned True | t       |   305
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  2621
+ Assigned False | t       |    29
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    46
+ Assigned True | t       |   304
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.2
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.2
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 125.82 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.254453454327279
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight    
+-----------------------------------+-------------
+ Search Visits=10.0                |     2.84429
+ Daily Time on Site=188            |     2.46642
+ Daily Page Views Per Visitor=2.9  |     1.76806
+ Bounce Rate=73.0                  |     1.52103
+ Daily Time on Site=194            |       1.024
+ Total Sites Linking In=1965       |     1.01962
+ Search Visits=10.4                |     1.00447
+ Search Visits=13.3                |    0.990517
+ Bounce Rate=50.2                  |    0.988666
+ Total Sites Linking In=73         |    0.966355
+ Rank=69898                        |    0.956978
+ Country Rank=2415                 |    0.956191
+ Daily Page Views Per Visitor=2.09 |    0.950999
+ Country Rank=291897               |    0.938153
+ Country Rank=13638                |    0.936117
+ Daily Time on Site=102            |    0.917419
+ Daily Page Views Per Visitor=8.14 |    0.912897
+ Total Sites Linking In=3643       |    0.895281
+ Rank=8778                         |    0.892443
+ Bounce Rate=12.6                  |    0.892429
+ Daily Time on Site=198            |    0.890239
+ Bounce Rate=63.6                  |    0.888193
+ Country Rank=123                  |    0.878961
+ Search Visits=5.5                 |    0.869515
+ Daily Page Views Per Visitor=2.5  |    0.867897
+ Bounce Rate=33.9                  |    0.863703
+ Rank=631                          |    0.850824
+ Rank=635815                       |    0.842085
+ Search Visits=21.0                |    0.837714
+ Total Sites Linking In=3005       |    0.832889
+ Daily Time on Site=451            |    0.829236
+ Search Visits=23.8                |    0.724799
+ Rank=166                          |    0.707945
+ Country Rank=7012                 |    0.679358
+ Rank=6972                         |    0.666627
+ Country Rank=34796                |    0.662275
+ Country Rank=70                   |    0.661589
+ Country Rank=4302                 |    0.652617
+ Total Sites Linking In=174111     |    0.651803
+ Search Visits=10.6                |    0.625127
+ Daily Time on Site=173            |    0.620904
+ Rank=23525                        |    0.620026
+ Daily Time on Site=109            |     0.61584
+ Bounce Rate=77.1                  |      0.6145
+ Total Sites Linking In=3975       |    0.610865
+ Bounce Rate=21.0                  |     0.60079
+ Daily Page Views Per Visitor=3.46 |    0.599894
+ Total Sites Linking In=11276      |    0.585323
+ Search Visits=15.8                |    0.584553
+ Country Rank=2850                 |    0.579149
+ Total Sites Linking In=4425       |    0.568601
+ Daily Time on Site=480            |    0.564657
+ Rank=80601                        |    0.557175
+ Total Sites Linking In=5932       |    0.554818
+ Daily Page Views Per Visitor=1.82 |    0.552031
+ Daily Page Views Per Visitor=1.62 |    0.551157
+ Search Visits=19.9                |    0.549866
+ Total Sites Linking In=1900       |    0.549856
+ Bounce Rate=70.2                  |    0.548888
+ Daily Page Views Per Visitor=1.4  |    0.548453
+ Rank=14526                        |    0.541314
+ Search Visits=3.2                 |    0.538303
+ Total Sites Linking In=2514       |    0.531511
+ Daily Time on Site=149            |    0.529623
+ Daily Page Views Per Visitor=1.46 |    0.524342
+ Rank=126196                       |    0.521804
+ Daily Time on Site=828            |    0.521664
+ Total Sites Linking In=10803      |    0.512082
+ Rank=4857                         |     0.51055
+ Bounce Rate=78.4                  |    0.504883
+ Search Visits=23.9                |    0.499579
+ Bounce Rate=47.0                  |    0.493322
+ Bounce Rate=55.4                  |    0.491049
+ Bounce Rate=48.5                  |    0.489909
+ Country Rank=1984                 |     0.48775
+ Daily Time on Site=122            |    0.487608
+ Bounce Rate=69.0                  |    0.485368
+ Country Rank=47998                |    0.483139
+ Daily Page Views Per Visitor=2.1  |    0.471861
+ Search Visits=29.3                |    0.459273
+ Rank=91285                        |    0.448735
+ Total Sites Linking In=99         |    0.440202
+ Search Visits=26.3                |     0.43713
+ Daily Time on Site=845            |    0.434868
+ Rank=702                          |    0.433872
+ Total Sites Linking In=29811      |    0.433697
+ Country Rank=2914                 |    0.429889
+ Daily Time on Site=258            |    0.425538
+ Daily Page Views Per Visitor=6.65 |    0.400914
+ Country Rank=343                  |     0.39543
+ Rank=207                          |    0.394935
+ Daily Page Views Per Visitor=2.6  |    0.394468
+ Bounce Rate=80.0                  |    0.393562
+ Country Rank=41674                |    0.389726
+ Search Visits=4.9                 |    0.388197
+ Total Sites Linking In=4272       |    0.387796
+ Rank=4128                         |    0.382385
+ Search Visits=14.1                |    0.379042
+ Bounce Rate=25.2                  |    0.362762
+ Daily Page Views Per Visitor=1.5  |    0.362013
+ Daily Page Views Per Visitor=1.3  |    0.359776
+ Daily Time on Site=295            |    0.340935
+ Total Sites Linking In=738        |    0.340269
+ Daily Time on Site=42             |    0.336938
+ Daily Page Views Per Visitor=10.2 |    0.335742
+ Rank=1255421                      |    0.306566
+ Daily Time on Site=163            |    0.294889
+ Daily Page Views Per Visitor=1.89 |    0.292783
+ Daily Page Views Per Visitor=1.0  |    0.282917
+ Rank=5447555                      |    0.271997
+ Search Visits=11.0                |      0.2674
+ Bounce Rate=58.3                  |    0.266209
+ Total Sites Linking In=94124      |    0.262089
+ Rank=2095                         |     0.26118
+ Bounce Rate=66.4                  |    0.259656
+ Daily Time on Site=202            |    0.259512
+ Daily Time on Site=238            |    0.241176
+ Bounce Rate=68.3                  |    0.227805
+ Bounce Rate=67.3                  |    0.223098
+ Search Visits=12.4                |    0.222658
+ Total Sites Linking In=50232      |    0.216519
+ Search Visits=18.4                |    0.206351
+ Total Sites Linking In=14475      |    0.204267
+ Daily Time on Site=199            |    0.184334
+ Country Rank=1778                 |    0.183201
+ Country Rank=596                  |     0.17376
+ Rank=8776                         |    0.170991
+ Country Rank=537016               |    0.155637
+ Daily Page Views Per Visitor=2.4  |     0.13743
+ Daily Page Views Per Visitor=1.7  |    0.134601
+ Bounce Rate=47.9                  |    0.133698
+ Daily Time on Site=310            |    0.118907
+ Country Rank=93                   |    0.103321
+ Search Visits=5.4                 |   0.0864605
+ Country Rank=13400                |   0.0825703
+ Bounce Rate=57.2                  |   0.0773532
+ Search Visits=12.8                |   0.0761426
+ Total Sites Linking In=15838      |   0.0696079
+ Rank=241053                       |   0.0672792
+ Daily Time on Site=197            |   0.0672485
+ Total Sites Linking In=4325       |    0.062156
+ Rank=5517                         |   0.0619861
+ Country Rank=375                  |   0.0604685
+ Daily Page Views Per Visitor=4.8  |   0.0585686
+ Rank=77                           |   0.0584224
+ Rank=2476                         |   0.0579362
+ Daily Page Views Per Visitor=1.61 |   0.0536506
+ Daily Time on Site=324            |   0.0474655
+ Rank=27369                        |   0.0468916
+ Daily Time on Site=171            |   0.0440223
+ Total Sites Linking In=659        |   0.0436669
+ Search Visits=8.1                 |   0.0425433
+ Total Sites Linking In=17363      |   0.0403161
+ Total Sites Linking In=231576     |   0.0365667
+ Total Sites Linking In=168        |    0.034462
+ Daily Time on Site=464            |   0.0297806
+ Country Rank=718                  |   0.0227774
+ Rank=7387                         |    0.020558
+ Search Visits=7.7                 |   0.0181972
+ Country Rank=22                   |   0.0145213
+ Search Visits=7.8                 |   0.0122717
+ Search Visits=10.8                |  0.00822362
+ Rank=198145                       |  0.00795811
+ Country Rank=53822                |  0.00241501
+ Country Rank=613                  |  0.00162487
+ Daily Time on Site=317            |  0.00121422
+ Country Rank=5022                 |  -0.0024206
+ Total Sites Linking In=8904       | -0.00492127
+ Bounce Rate=30.7                  | -0.00695855
+ Daily Page Views Per Visitor=4.13 | -0.00830733
+ Daily Time on Site=350            | -0.00975999
+ Daily Page Views Per Visitor=2.8  |  -0.0098226
+ Search Visits=5.7                 |  -0.0125422
+ Total Sites Linking In=1712       |  -0.0126046
+ Country Rank=2088                 |  -0.0178373
+ Bounce Rate=36.7                  |  -0.0227248
+ Rank=9860                         |  -0.0243421
+ Total Sites Linking In=1800       |  -0.0250942
+ Bounce Rate=41.5                  |  -0.0330319
+ Country Rank=1784                 |   -0.033323
+ Daily Page Views Per Visitor=3.3  |  -0.0347047
+ Bounce Rate=61.1                  |  -0.0375987
+ Bounce Rate=45.9                  |  -0.0397619
+ Rank=1301                         |  -0.0417405
+ Search Visits=9.0                 |  -0.0455172
+ Bounce Rate=71.1                  |  -0.0542993
+ Bounce Rate=30.4                  |  -0.0657704
+ Daily Page Views Per Visitor=2.05 |  -0.0779192
+ Daily Time on Site=189            |  -0.0810308
+ Country Rank=253636               |   -0.131929
+ Total Sites Linking In=278        |      -0.181
+ Search Visits=9.8                 |   -0.189661
+ Daily Time on Site=178            |   -0.199331
+ Daily Time on Site=621            |   -0.212766
+ Daily Page Views Per Visitor=2.76 |   -0.219257
+ Rank=128250                       |   -0.219914
+ Search Visits=7.9                 |   -0.239018
+ Daily Page Views Per Visitor=4.1  |   -0.241471
+ Country Rank=22530                |   -0.244404
+ Bounce Rate=37.0                  |   -0.260595
+ Rank=120287                       |   -0.267181
+ Daily Time on Site=344            |   -0.278027
+ Total Sites Linking In=411        |   -0.283096
+ Search Visits=9.7                 |   -0.291719
+ Total Sites Linking In=290        |   -0.301105
+ Rank=384054                       |   -0.302035
+ Total Sites Linking In=615        |    -0.30768
+ Country Rank=36950                |   -0.328518
+ Rank=664                          |   -0.345392
+ Search Visits=14.2                |     -0.3486
+ Total Sites Linking In=42356      |   -0.353418
+ Daily Time on Site=878            |    -0.35988
+ Country Rank=109407               |   -0.364765
+ Bounce Rate=52.6                  |   -0.370452
+ Rank=221824                       |   -0.393263
+ Daily Page Views Per Visitor=2.2  |   -0.396509
+ Daily Time on Site=302            |   -0.403334
+ Search Visits=24.0                |   -0.413587
+ Bounce Rate=42.6                  |   -0.456761
+ Bounce Rate=38.2                  |   -0.491153
+ Search Visits=8.6                 |   -0.511413
+ Country Rank=262                  |   -0.524243
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  1309
+      0 | t       |    31
+      7 | t       |     2
+      9 | f       |    14
+      9 | t       |   157
+(5 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.919075144509
+exps - INFO - Recall: 0.836842105263
+exps - INFO - Acc: 0.970257766028
+exps - INFO - F1: 0.876033057851
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.919075144509
+exps - INFO - Recall: 0.836842105263
+exps - INFO - Acc: 0.970257766028
+exps - INFO - F1: 0.876033057851
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.918128654971
+exps - INFO - Recall: 0.826315789474
+exps - INFO - Acc: 0.968935888962
+exps - INFO - F1: 0.869806094183
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1309
+ Assigned False | t       |    31
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |   159
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1309
+ Assigned False | t       |    31
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |   159
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1309
+ Assigned False | t       |    31
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |   157
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - EXPERIMENTS: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.95
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.95
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 51.26 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.409059926002601
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  6241
+      0 | t       |   271
+      1 | f       |     2
+      1 | t       |     3
+      2 | f       |     1
+      2 | t       |     2
+      3 | f       |     1
+      3 | t       |     6
+      4 | f       |     1
+      4 | t       |     4
+      7 | f       |     2
+      7 | t       |     2
+      8 | f       |     6
+      8 | t       |     4
+      9 | f       |    74
+      9 | t       |   573
+(16 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.875945537065
+exps - INFO - Recall: 0.66936416185
+exps - INFO - Acc: 0.948839149173
+exps - INFO - F1: 0.758846657929
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.875945537065
+exps - INFO - Recall: 0.66936416185
+exps - INFO - Acc: 0.948839149173
+exps - INFO - F1: 0.758846657929
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.885625965997
+exps - INFO - Recall: 0.662427745665
+exps - INFO - Acc: 0.949117197275
+exps - INFO - F1: 0.757936507937
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6246
+ Assigned False | t       |   286
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    82
+ Assigned True | t       |   579
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6244
+ Assigned False | t       |   276
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    82
+ Assigned True | t       |   579
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6241
+ Assigned False | t       |   271
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    74
+ Assigned True | t       |   573
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - USING HOLDOUT 0.1
+exps - INFO - START experiments: SOURCES ONLY w. HOLDOUT 0.1
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running SOURCES ONLY. Total run time = 52.7 secs
+exps - DEBUG - PRINT results: SOURCES ONLY
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.380288038559731
+(1 row)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  1047
+      0 | t       |    34
+      9 | f       |    14
+      9 | t       |    98
+(4 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.875
+exps - INFO - Recall: 0.742424242424
+exps - INFO - Acc: 0.959765297569
+exps - INFO - F1: 0.803278688525
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.875
+exps - INFO - Recall: 0.742424242424
+exps - INFO - Acc: 0.959765297569
+exps - INFO - F1: 0.803278688525
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.875
+exps - INFO - Recall: 0.742424242424
+exps - INFO - Acc: 0.959765297569
+exps - INFO - F1: 0.803278688525
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1047
+ Assigned False | t       |    34
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |    98
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1047
+ Assigned False | t       |    34
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |    98
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  1047
+ Assigned False | t       |    34
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    14
+ Assigned True | t       |    98
+(2 rows)
+
+exps - INFO - END experiments: SOURCES ONLY
+exps - INFO - EXPERIMENTS: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.95
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.95
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 111.02 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.360908311806655
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight    
+-----------------------------------+-------------
+ Search Visits=10.0                |     1.82306
+ Daily Page Views Per Visitor=2.9  |     1.66344
+ Daily Time on Site=188            |     1.42719
+ Daily Page Views Per Visitor=3.3  |     1.16117
+ Daily Page Views Per Visitor=2.76 |     1.10959
+ Bounce Rate=73.0                  |    0.524033
+ Search Visits=18.4                |    0.517126
+ Daily Page Views Per Visitor=2.09 |    0.516649
+ Total Sites Linking In=3005       |    0.507023
+ Bounce Rate=50.2                  |    0.495098
+ Country Rank=123                  |    0.495001
+ Search Visits=19.9                |      0.4716
+ Daily Time on Site=102            |    0.464662
+ Daily Page Views Per Visitor=1.82 |     0.45478
+ Daily Page Views Per Visitor=2.8  |    0.447513
+ Bounce Rate=69.0                  |    0.436287
+ Total Sites Linking In=4425       |    0.427318
+ Total Sites Linking In=1965       |    0.404758
+ Daily Page Views Per Visitor=1.4  |    0.401738
+ Rank=69898                        |    0.398701
+ Rank=23525                        |    0.398516
+ Daily Time on Site=149            |    0.396924
+ Search Visits=5.4                 |    0.395908
+ Daily Time on Site=295            |    0.392743
+ Search Visits=5.5                 |    0.390668
+ Country Rank=1984                 |    0.382387
+ Daily Time on Site=109            |    0.381726
+ Search Visits=13.3                |    0.381368
+ Daily Page Views Per Visitor=2.6  |    0.375648
+ Country Rank=13638                |    0.375526
+ Daily Page Views Per Visitor=1.62 |    0.372764
+ Daily Time on Site=451            |    0.369902
+ Search Visits=10.6                |    0.363471
+ Daily Page Views Per Visitor=2.1  |    0.362864
+ Bounce Rate=25.2                  |    0.359488
+ Daily Time on Site=163            |    0.358038
+ Total Sites Linking In=11276      |     0.35434
+ Daily Page Views Per Visitor=1.46 |    0.352723
+ Bounce Rate=55.4                  |    0.348397
+ Daily Page Views Per Visitor=1.3  |    0.347558
+ Daily Time on Site=828            |    0.346383
+ Rank=2476                         |     0.34236
+ Daily Time on Site=122            |     0.34101
+ Daily Page Views Per Visitor=2.5  |    0.335544
+ Daily Page Views Per Visitor=1.89 |    0.334797
+ Bounce Rate=47.9                  |    0.333404
+ Total Sites Linking In=94124      |    0.331265
+ Rank=207                          |    0.328981
+ Bounce Rate=77.1                  |    0.328959
+ Country Rank=93                   |    0.328685
+ Bounce Rate=71.1                  |     0.32533
+ Daily Page Views Per Visitor=1.61 |    0.325229
+ Rank=9860                         |    0.325105
+ Search Visits=23.8                |    0.320482
+ Rank=1255421                      |    0.312276
+ Bounce Rate=67.3                  |     0.30467
+ Total Sites Linking In=73         |    0.303616
+ Daily Time on Site=198            |    0.303423
+ Search Visits=29.3                |    0.300886
+ Daily Time on Site=845            |    0.300291
+ Rank=702                          |     0.29947
+ Total Sites Linking In=2514       |    0.297688
+ Total Sites Linking In=738        |    0.297105
+ Bounce Rate=63.6                  |    0.296338
+ Rank=126196                       |    0.293201
+ Daily Page Views Per Visitor=4.13 |    0.292155
+ Country Rank=343                  |    0.292146
+ Country Rank=2914                 |    0.291517
+ Rank=80601                        |     0.28974
+ Country Rank=34796                |    0.288537
+ Rank=6972                         |    0.288048
+ Bounce Rate=70.2                  |    0.286921
+ Daily Page Views Per Visitor=10.2 |    0.284262
+ Total Sites Linking In=4272       |    0.282676
+ Rank=631                          |    0.280661
+ Bounce Rate=12.6                  |    0.278235
+ Rank=14526                        |     0.27358
+ Country Rank=70                   |    0.269503
+ Daily Time on Site=480            |    0.268521
+ Daily Page Views Per Visitor=6.65 |      0.2656
+ Daily Page Views Per Visitor=1.5  |    0.265526
+ Total Sites Linking In=3975       |    0.265172
+ Total Sites Linking In=10803      |    0.259008
+ Bounce Rate=78.4                  |    0.257641
+ Daily Page Views Per Visitor=3.46 |    0.255734
+ Country Rank=718                  |    0.254672
+ Bounce Rate=47.0                  |    0.254072
+ Search Visits=23.9                |    0.253171
+ Total Sites Linking In=3643       |    0.251548
+ Country Rank=2850                 |    0.246769
+ Daily Time on Site=173            |    0.246767
+ Daily Page Views Per Visitor=8.14 |    0.245861
+ Search Visits=12.4                |    0.244367
+ Bounce Rate=33.9                  |    0.241903
+ Country Rank=47998                |    0.239827
+ Rank=4128                         |    0.236003
+ Rank=91285                        |    0.233247
+ Bounce Rate=61.1                  |    0.227982
+ Daily Page Views Per Visitor=2.05 |    0.227642
+ Daily Time on Site=202            |    0.227613
+ Daily Time on Site=258            |    0.227094
+ Search Visits=11.0                |    0.224818
+ Search Visits=15.8                |    0.224306
+ Country Rank=4302                 |    0.223931
+ Country Rank=5022                 |    0.220947
+ Daily Page Views Per Visitor=2.4  |    0.220348
+ Search Visits=21.0                |    0.219951
+ Daily Time on Site=189            |    0.219652
+ Rank=8778                         |    0.219232
+ Search Visits=26.3                |    0.219092
+ Total Sites Linking In=29811      |    0.215038
+ Total Sites Linking In=1900       |    0.201998
+ Total Sites Linking In=50232      |    0.200273
+ Search Visits=7.9                 |     0.19652
+ Country Rank=41674                |    0.195701
+ Search Visits=10.4                |    0.195613
+ Country Rank=1784                 |    0.190421
+ Rank=384054                       |    0.188728
+ Daily Time on Site=621            |    0.185359
+ Total Sites Linking In=174111     |    0.182276
+ Country Rank=537016               |    0.180634
+ Country Rank=2088                 |    0.177699
+ Rank=7387                         |    0.177593
+ Total Sites Linking In=17363      |    0.176464
+ Bounce Rate=21.0                  |    0.172934
+ Country Rank=22530                |    0.168675
+ Country Rank=613                  |    0.164792
+ Daily Time on Site=194            |    0.159564
+ Search Visits=3.2                 |    0.156995
+ Country Rank=291897               |     0.15626
+ Country Rank=7012                 |    0.154986
+ Daily Time on Site=310            |    0.151307
+ Bounce Rate=41.5                  |    0.148967
+ Rank=4857                         |    0.144096
+ Rank=27369                        |    0.141507
+ Search Visits=8.1                 |    0.136224
+ Daily Time on Site=178            |    0.132069
+ Bounce Rate=45.9                  |    0.128687
+ Daily Time on Site=324            |     0.12787
+ Country Rank=2415                 |    0.123074
+ Total Sites Linking In=290        |    0.122911
+ Total Sites Linking In=659        |    0.120352
+ Bounce Rate=36.7                  |    0.120126
+ Rank=128250                       |    0.116825
+ Bounce Rate=30.4                  |    0.114226
+ Search Visits=7.7                 |    0.112273
+ Bounce Rate=66.4                  |    0.109859
+ Country Rank=253636               |    0.109519
+ Total Sites Linking In=8904       |    0.109003
+ Total Sites Linking In=5932       |    0.105956
+ Country Rank=13400                |    0.105813
+ Country Rank=22                   |    0.102198
+ Search Visits=24.0                |   0.0996589
+ Rank=166                          |   0.0936892
+ Daily Page Views Per Visitor=1.7  |    0.089114
+ Rank=635815                       |   0.0858866
+ Total Sites Linking In=168        |    0.083209
+ Daily Time on Site=878            |   0.0820048
+ Total Sites Linking In=14475      |   0.0808519
+ Total Sites Linking In=1800       |   0.0790141
+ Daily Page Views Per Visitor=4.8  |   0.0780698
+ Daily Time on Site=302            |    0.076974
+ Daily Page Views Per Visitor=2.2  |   0.0758183
+ Search Visits=10.8                |   0.0689281
+ Total Sites Linking In=411        |   0.0672862
+ Bounce Rate=57.2                  |   0.0650683
+ Rank=5517                         |   0.0645884
+ Bounce Rate=48.5                  |   0.0644583
+ Search Visits=4.9                 |   0.0597098
+ Daily Time on Site=171            |    0.059061
+ Rank=8776                         |   0.0579313
+ Daily Time on Site=350            |   0.0543994
+ Total Sites Linking In=231576     |   0.0490731
+ Bounce Rate=37.0                  |   0.0473348
+ Bounce Rate=80.0                  |   0.0426141
+ Search Visits=9.8                 |   0.0420235
+ Daily Time on Site=317            |   0.0401135
+ Search Visits=9.7                 |   0.0355218
+ Rank=241053                       |   0.0334263
+ Total Sites Linking In=15838      |   0.0332601
+ Country Rank=53822                |   0.0299382
+ Bounce Rate=58.3                  |   0.0261779
+ Country Rank=36950                |   0.0167147
+ Bounce Rate=42.6                  |   0.0166934
+ Daily Time on Site=464            |   0.0153321
+ Daily Page Views Per Visitor=4.1  |  0.00999827
+ Country Rank=262                  |  0.00655867
+ Total Sites Linking In=278        |  0.00505978
+ Bounce Rate=68.3                  |  0.00264071
+ Daily Time on Site=344            |  0.00152122
+ Rank=1301                         |  0.00137028
+ Rank=77                           | 0.000402683
+ Rank=5447555                      | 0.000398081
+ Daily Time on Site=199            | -0.00237945
+ Search Visits=7.8                 | -0.00248094
+ Search Visits=9.0                 | -0.00986671
+ Rank=2095                         | -0.00987449
+ Bounce Rate=30.7                  |   -0.014136
+ Country Rank=1778                 |  -0.0165334
+ Daily Time on Site=42             |  -0.0194109
+ Daily Page Views Per Visitor=1.0  |  -0.0205649
+ Total Sites Linking In=615        |  -0.0228158
+ Daily Time on Site=238            |  -0.0246218
+ Search Visits=14.2                |  -0.0253004
+ Country Rank=596                  |  -0.0276605
+ Rank=664                          |  -0.0343402
+ Daily Time on Site=197            |  -0.0369528
+ Search Visits=12.8                |  -0.0395584
+ Search Visits=5.7                 |  -0.0419278
+ Search Visits=8.6                 |    -0.04663
+ Country Rank=109407               |  -0.0467768
+ Total Sites Linking In=42356      |   -0.049511
+ Total Sites Linking In=99         |  -0.0582405
+ Total Sites Linking In=1712       |  -0.0586231
+ Rank=221824                       |  -0.0587311
+ Search Visits=14.1                |  -0.0608097
+ Country Rank=375                  |  -0.0616102
+ Bounce Rate=52.6                  |  -0.0624668
+ Rank=198145                       |  -0.0635186
+ Bounce Rate=38.2                  |  -0.0691334
+ Rank=120287                       |  -0.0691668
+ Total Sites Linking In=4325       |  -0.0706963
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |  6216
+      0 | t       |   228
+      1 | f       |    24
+      1 | t       |     1
+      2 | f       |     1
+      2 | t       |     3
+      3 | t       |     3
+      4 | f       |     1
+      4 | t       |     1
+      5 | t       |     2
+      6 | t       |     4
+      7 | f       |     3
+      8 | f       |     2
+      8 | t       |     2
+      9 | f       |    88
+      9 | t       |   618
+(16 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.870653685675
+exps - INFO - Recall: 0.726218097448
+exps - INFO - Acc: 0.954286508267
+exps - INFO - F1: 0.791903858318
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.869565217391
+exps - INFO - Recall: 0.719257540603
+exps - INFO - Acc: 0.953452827567
+exps - INFO - F1: 0.787301587302
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.875354107649
+exps - INFO - Recall: 0.716937354988
+exps - INFO - Acc: 0.953869667917
+exps - INFO - F1: 0.788265306122
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6242
+ Assigned False | t       |   236
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    93
+ Assigned True | t       |   626
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6241
+ Assigned False | t       |   232
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    93
+ Assigned True | t       |   620
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |  6216
+ Assigned False | t       |   228
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    88
+ Assigned True | t       |   618
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES
+exps - INFO - USING HOLDOUT 0.1
+exps - INFO - START experiments: WITH FEATURES ONLY w. HOLDOUT 0.1
+exps - INFO - Initializing and cleaning DD
+exps - INFO - DONE
+exps - INFO - DONE running WITH FEATURES. Total run time = 119.47 secs
+exps - DEBUG - PRINT results: WITH FEATURES
+exps - INFO - ACCURACY ESTIMATION ERROR:
+       sqrt        
+-------------------
+ 0.323277131841224
+(1 row)
+
+exps - DEBUG - SELECTED FEATURES W. WEIGHTS:
+              feature              |   weight    
+-----------------------------------+-------------
+ Search Visits=10.0                |     2.61373
+ Daily Time on Site=188            |     2.43175
+ Daily Page Views Per Visitor=2.9  |     2.12766
+ Search Visits=10.4                |    0.828105
+ Bounce Rate=73.0                  |    0.819758
+ Daily Time on Site=102            |    0.778465
+ Total Sites Linking In=3005       |    0.768884
+ Daily Time on Site=109            |    0.750002
+ Daily Time on Site=451            |    0.743537
+ Bounce Rate=50.2                  |    0.719323
+ Bounce Rate=12.6                  |    0.717901
+ Daily Page Views Per Visitor=1.82 |    0.715219
+ Total Sites Linking In=73         |     0.71447
+ Bounce Rate=33.9                  |    0.713624
+ Total Sites Linking In=1965       |    0.712307
+ Search Visits=13.3                |    0.710699
+ Daily Page Views Per Visitor=2.6  |    0.689658
+ Rank=635815                       |    0.686858
+ Daily Page Views Per Visitor=2.09 |    0.681489
+ Rank=23525                        |    0.681038
+ Country Rank=13638                |    0.678414
+ Search Visits=5.5                 |    0.677851
+ Daily Time on Site=480            |    0.675283
+ Rank=69898                        |    0.669997
+ Daily Time on Site=194            |    0.667548
+ Total Sites Linking In=5932       |    0.664681
+ Country Rank=2415                 |    0.659446
+ Country Rank=123                  |    0.657485
+ Search Visits=21.0                |    0.650847
+ Total Sites Linking In=10803      |    0.642851
+ Rank=8778                         |    0.641154
+ Daily Page Views Per Visitor=1.62 |    0.639734
+ Rank=631                          |    0.637375
+ Daily Page Views Per Visitor=3.46 |    0.634174
+ Daily Page Views Per Visitor=8.14 |    0.633593
+ Country Rank=1984                 |    0.633403
+ Total Sites Linking In=4425       |    0.631113
+ Total Sites Linking In=3643       |    0.630265
+ Total Sites Linking In=174111     |    0.629186
+ Country Rank=7012                 |    0.627658
+ Search Visits=23.8                |    0.623667
+ Country Rank=291897               |     0.62312
+ Bounce Rate=78.4                  |     0.62177
+ Daily Time on Site=198            |    0.621058
+ Daily Page Views Per Visitor=2.5  |    0.619679
+ Bounce Rate=21.0                  |    0.616901
+ Search Visits=29.3                |    0.615658
+ Daily Time on Site=828            |    0.606288
+ Rank=80601                        |    0.604752
+ Bounce Rate=63.6                  |    0.603419
+ Daily Time on Site=149            |    0.598612
+ Country Rank=70                   |    0.593076
+ Search Visits=15.8                |    0.590915
+ Daily Page Views Per Visitor=6.65 |    0.584584
+ Country Rank=41674                |    0.571322
+ Country Rank=47998                |    0.565903
+ Bounce Rate=48.5                  |    0.557237
+ Bounce Rate=69.0                  |    0.551676
+ Bounce Rate=55.4                  |    0.550349
+ Daily Page Views Per Visitor=2.1  |    0.549236
+ Rank=91285                        |    0.547886
+ Daily Page Views Per Visitor=1.5  |    0.539862
+ Rank=126196                       |    0.538663
+ Rank=166                          |    0.528332
+ Total Sites Linking In=29811      |    0.520168
+ Daily Time on Site=258            |    0.519007
+ Search Visits=19.9                |    0.505434
+ Bounce Rate=47.0                  |    0.503694
+ Country Rank=34796                |    0.502664
+ Search Visits=10.6                |    0.491031
+ Total Sites Linking In=11276      |    0.482927
+ Rank=14526                        |     0.48098
+ Daily Page Views Per Visitor=1.46 |    0.478956
+ Search Visits=4.9                 |    0.471911
+ Daily Time on Site=122            |    0.465733
+ Rank=4128                         |    0.464599
+ Country Rank=2850                 |     0.45377
+ Daily Page Views Per Visitor=1.4  |     0.45019
+ Rank=2476                         |    0.446263
+ Search Visits=3.2                 |    0.439784
+ Daily Time on Site=173            |    0.437605
+ Rank=6972                         |    0.435699
+ Search Visits=26.3                |    0.430497
+ Search Visits=23.9                |    0.428199
+ Rank=4857                         |    0.423956
+ Country Rank=343                  |    0.414727
+ Total Sites Linking In=2514       |    0.405529
+ Total Sites Linking In=4272       |    0.399168
+ Bounce Rate=80.0                  |    0.388627
+ Daily Time on Site=310            |    0.379695
+ Daily Time on Site=163            |    0.377469
+ Bounce Rate=70.2                  |    0.374161
+ Rank=702                          |    0.372423
+ Rank=5447555                      |    0.365702
+ Total Sites Linking In=3975       |    0.363785
+ Total Sites Linking In=50232      |    0.361606
+ Daily Page Views Per Visitor=1.3  |    0.359728
+ Daily Page Views Per Visitor=10.2 |    0.354161
+ Daily Page Views Per Visitor=1.61 |    0.350787
+ Country Rank=537016               |    0.344483
+ Total Sites Linking In=1900       |    0.342498
+ Search Visits=5.4                 |    0.334127
+ Rank=5517                         |    0.331199
+ Bounce Rate=47.9                  |     0.32883
+ Country Rank=4302                 |    0.316315
+ Total Sites Linking In=99         |    0.313083
+ Daily Page Views Per Visitor=2.4  |    0.310752
+ Country Rank=1778                 |    0.310467
+ Daily Page Views Per Visitor=4.8  |    0.305333
+ Daily Time on Site=295            |     0.29891
+ Bounce Rate=71.1                  |    0.298152
+ Country Rank=2914                 |    0.297603
+ Rank=1255421                      |     0.28837
+ Total Sites Linking In=17363      |    0.282981
+ Search Visits=18.4                |    0.279044
+ Country Rank=718                  |    0.278611
+ Daily Page Views Per Visitor=1.0  |    0.277199
+ Search Visits=8.1                 |    0.270787
+ Daily Time on Site=189            |    0.270494
+ Total Sites Linking In=4325       |    0.268306
+ Bounce Rate=67.3                  |     0.26612
+ Search Visits=11.0                |    0.265235
+ Bounce Rate=36.7                  |    0.259167
+ Daily Time on Site=324            |    0.257804
+ Daily Time on Site=42             |    0.244984
+ Search Visits=14.1                |    0.236469
+ Daily Time on Site=202            |    0.232778
+ Bounce Rate=25.2                  |    0.230379
+ Daily Page Views Per Visitor=4.13 |    0.229925
+ Daily Time on Site=845            |    0.229184
+ Bounce Rate=68.3                  |    0.228383
+ Daily Page Views Per Visitor=1.89 |    0.224978
+ Country Rank=1784                 |    0.222857
+ Daily Time on Site=197            |    0.222372
+ Bounce Rate=58.3                  |    0.220301
+ Total Sites Linking In=659        |    0.217264
+ Rank=207                          |    0.214925
+ Total Sites Linking In=738        |    0.211092
+ Search Visits=5.7                 |    0.210649
+ Bounce Rate=77.1                  |    0.205411
+ Daily Time on Site=199            |    0.204158
+ Total Sites Linking In=14475      |    0.199446
+ Country Rank=5022                 |    0.196948
+ Rank=27369                        |    0.181135
+ Country Rank=93                   |    0.180443
+ Total Sites Linking In=1800       |    0.173346
+ Total Sites Linking In=94124      |    0.163548
+ Rank=2095                         |    0.161561
+ Rank=241053                       |    0.152075
+ Bounce Rate=57.2                  |    0.151807
+ Search Visits=12.4                |    0.146592
+ Country Rank=13400                |    0.145793
+ Bounce Rate=41.5                  |    0.144131
+ Bounce Rate=66.4                  |    0.140955
+ Rank=8776                         |    0.138713
+ Daily Time on Site=238            |    0.137214
+ Daily Time on Site=350            |    0.130675
+ Total Sites Linking In=1712       |    0.125943
+ Country Rank=596                  |    0.110138
+ Search Visits=9.0                 |     0.10756
+ Rank=9860                         |    0.103773
+ Daily Page Views Per Visitor=1.7  |   0.0970853
+ Rank=77                           |   0.0934281
+ Country Rank=613                  |   0.0912655
+ Bounce Rate=30.7                  |   0.0847828
+ Total Sites Linking In=168        |   0.0824085
+ Rank=198145                       |   0.0820957
+ Total Sites Linking In=231576     |   0.0781854
+ Total Sites Linking In=15838      |   0.0728551
+ Country Rank=22                   |   0.0722057
+ Rank=1301                         |   0.0719416
+ Search Visits=9.8                 |   0.0617274
+ Country Rank=262                  |    0.060711
+ Total Sites Linking In=42356      |   0.0541745
+ Daily Time on Site=464            |   0.0522891
+ Bounce Rate=61.1                  |   0.0494568
+ Bounce Rate=52.6                  |   0.0493193
+ Daily Time on Site=344            |   0.0483813
+ Daily Page Views Per Visitor=2.8  |   0.0479766
+ Rank=664                          |   0.0464373
+ Country Rank=53822                |   0.0340095
+ Daily Time on Site=171            |     0.02923
+ Search Visits=10.8                |   0.0166799
+ Rank=7387                         |   0.0134755
+ Search Visits=8.6                 |   0.0123559
+ Daily Page Views Per Visitor=3.3  |   0.0118533
+ Bounce Rate=45.9                  |   0.0116609
+ Country Rank=375                  |  0.00965164
+ Country Rank=2088                 |  0.00362215
+ Daily Page Views Per Visitor=2.76 |  0.00268035
+ Search Visits=12.8                | -0.00437865
+ Rank=120287                       |  -0.0094966
+ Total Sites Linking In=615        |  -0.0103756
+ Search Visits=7.8                 |  -0.0110698
+ Daily Time on Site=302            |  -0.0216348
+ Search Visits=14.2                |  -0.0249183
+ Country Rank=36950                |  -0.0316055
+ Total Sites Linking In=8904       |  -0.0521409
+ Bounce Rate=38.2                  |  -0.0524483
+ Daily Time on Site=317            |  -0.0611355
+ Total Sites Linking In=411        |  -0.0624177
+ Search Visits=7.7                 |  -0.0671754
+ Bounce Rate=30.4                  |  -0.0732543
+ Daily Page Views Per Visitor=2.05 |  -0.0806536
+ Search Visits=7.9                 |  -0.0999262
+ Daily Time on Site=178            |   -0.125333
+ Bounce Rate=37.0                  |   -0.127544
+ Daily Time on Site=878            |   -0.139927
+ Country Rank=253636               |   -0.146151
+ Country Rank=109407               |   -0.146431
+ Country Rank=22530                |    -0.15126
+ Rank=221824                       |   -0.162943
+ Total Sites Linking In=290        |    -0.16317
+ Rank=384054                       |   -0.185214
+ Search Visits=9.7                 |   -0.189248
+ Daily Time on Site=621            |   -0.210933
+ Total Sites Linking In=278        |   -0.211858
+ Rank=128250                       |   -0.222491
+ Daily Page Views Per Visitor=4.1  |   -0.236387
+ Daily Page Views Per Visitor=2.2  |   -0.258404
+ Bounce Rate=42.6                  |   -0.276147
+ Search Visits=24.0                |   -0.330251
+(222 rows)
+
+exps - DEBUG - BUCKETS:
+ bucket | is_true | count 
+--------+---------+-------
+      0 | f       |   951
+      0 | t       |    30
+      1 | f       |     2
+      6 | t       |     1
+      9 | f       |    15
+      9 | t       |    93
+(6 rows)
+
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.5
+exps - INFO - Precision: 0.862385321101
+exps - INFO - Recall: 0.758064516129
+exps - INFO - Acc: 0.958791208791
+exps - INFO - F1: 0.80686695279
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.7
+exps - INFO - Precision: 0.861111111111
+exps - INFO - Recall: 0.75
+exps - INFO - Acc: 0.957875457875
+exps - INFO - F1: 0.801724137931
+exps - INFO - 
+PERFORMANCE FOR Threshold 0.9
+exps - INFO - Precision: 0.861111111111
+exps - INFO - Recall: 0.75
+exps - INFO - Acc: 0.957875457875
+exps - INFO - F1: 0.801724137931
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.5)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |   953
+ Assigned False | t       |    30
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.5)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    15
+ Assigned True | t       |    94
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.3)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |   953
+ Assigned False | t       |    30
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.7)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    15
+ Assigned True | t       |    93
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO FALSE (threshold 0.1)
+    ?column?    | is_true | count 
+----------------+---------+-------
+ Assigned False | f       |   951
+ Assigned False | t       |    30
+(2 rows)
+
+exps - DEBUG - EVALUATE ASSIGNMENTS TO TRUE (threshold 0.9)
+   ?column?    | is_true | count 
+---------------+---------+-------
+ Assigned True | f       |    15
+ Assigned True | t       |    93
+(2 rows)
+
+exps - INFO - END experiments: WITH FEATURES

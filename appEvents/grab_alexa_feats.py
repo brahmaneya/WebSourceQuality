@@ -2,6 +2,8 @@ import sys
 import random
 from sets import Set
 import urllib2
+import sympy
+import cPickle as pickle
 
 srcFeatures = {}
 featureValues = {}
@@ -85,10 +87,8 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 time = inputLine[:inputLine.index("<")]
                 time = time.replace(',','')
-                print time
                 time = time.split(':')
                 totalTime = int(time[0])*60 + int(time[1])
-                print totalTime
                 srcFeatures[srcId]['Daily Time on Site'] = totalTime
                 featureValues['Daily Time on Site'].append(totalTime)
 
@@ -98,8 +98,6 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 visits = inputLine[:inputLine.index("%")]
                 visits = visits.replace(',','')
-                print visits
-                print float(visits)
                 srcFeatures[srcId]['Search Visits'] = float(visits)
                 featureValues['Search Visits'].append(float(visits))
 
@@ -109,8 +107,6 @@ def getFeatures(srcId, srcName):
                 inputLine = pageLines[lidx]
                 links = inputLine[inputLine.index(">")+1:inputLine.index("</span")]
                 links = links.replace(',','')
-                print links
-                print int(links)
                 srcFeatures[srcId]['Total Sites Linking In'] = int(links)
                 featureValues['Total Sites Linking In'].append(int(links))
 
@@ -127,116 +123,25 @@ def getFeatures(srcId, srcName):
 
 # Read sources and extract features
 sources = {}
-sFile = open('data/sourceSites.txt','r')
+lineReached = 0
+sFile = open('data/sources.csv','r')
 for l in sFile.readlines():
     l = l.rstrip("\n")
-    l = l.split("\t")
-    print l[0]
+    lineReached += 1
+    print l
     # l[0] -> id in raw dataset
-    # l[1] -> website for alexa crawling
-    srcFeatures[l[0]] = {}
-    status = getFeatures(l[0],l[1])
-    if status == 0:
-        sources[l[0]] = l[1]
+    # l[1] -> website for alexa crawling    
+    if l > 5451 and l < 6588:
+        srcFeatures[l] = {}
+        status = getFeatures(l,l)
+        if status == 0:
+            print "\n\n lineReached = ",lineReached
+            sources[l] = l
+
+pickle.dump(sources,open("sourcesCrawled54516588.pkl","wb"))
+pickle.dump(srcFeatures,open("srcFeatsCrawled54516588.pkl","wb"))
 
 
-# Examine features
-for f in featureValues:
-    if f != 'Country':
-        maxF[f] = max(featureValues[f])
-        minF[f] = min(featureValues[f])
-
-
-# Read raw input
-rawInput = open('data/stock-2011-07-01.txt','r')
-sourcesInput = {}
-stockSymbols = {}
-for l in rawInput.readlines():
-    l = l.rstrip("\n")
-    l = l.split("\t")
-    # check if source in sources to consider
-    if l[0] in sources:
-        if l[0] not in sourcesInput:
-            sourcesInput[l[0]] = {}
-        # grab stock symbol
-        symbol = l[1]
-        # grab source volume info
-        if l[6] != '' and l[6].find('+') == -1 and l[6]!= '0' and l[6] != '0.00' and l[6] != 'null' and l[6] != 'vol.  0' and l[6].find('-') == -1:
-            if l[6].find('k') != -1:
-                volume = l[6].replace('k','0').replace('.','')
-            elif l[6].find('vol.') != -1:
-                volume = l[6].replace('vol.','').lstrip(' ').replace(',','').replace(".00","")
-            elif l[6].find('mil') != -1:
-                l[6] = l[6].replace('mil','').rstrip(' ')+'0000'
-                volume = l[6].replace('.','')
-            elif l[6].find('m') != -1 and l[6].find('mil') == -1 and l[0] == 'barrons':
-                volume = l[6].replace('m','000').replace('.','')
-	    elif l[6].find('m') != -1 and l[6].find('mil') == -1:
-                print l[6]
-		volume = l[6].replace('m','0000').replace('.','')
-            else:
-                volume = l[6].replace(',','').replace(".00","")
-
-            sourcesInput[l[0]][symbol]= volume
-            if symbol not in stockSymbols:
-                stockSymbols[symbol] = Set([])
-            stockSymbols[symbol].add(volume)
-
-
-# grab symbol truth
-symbolTruth = {}
-truthInput = open('data/stock-2011-07-01-nasdaq-com.txt','r')
-for l in truthInput.readlines():
-    l = l.rstrip("\n")
-    l = l.split("\t")
-    symbol = l[0]
-    volume = l[5].replace(',','')
-    symbolTruth[symbol] = volume
-truthInput.close()
-
-# Print stock symbol volumes
-stockVolumes = open('data/stockVolumes.csv','w')
-for s in stockSymbols:
-    for v in stockSymbols[s]:
-        newline = str(s)+","+str(v)+","
-        if s in symbolTruth:
-            if v == symbolTruth[s]:
-                newline += "true\n"
-            else:
-                newline += "false\n"
-        else:
-            newline += "N/A\n"
-        stockVolumes.write(newline)
-stockVolumes.close()
-
-srcObservations = open('data/srcStockVolumes.csv','w')
-
-# Print source stock symbol volumes
-outputsPerSource = 30
-for src in sourcesInput:
-    for s in sourcesInput[src]:
-        print (str(src) + "," + str(len(sourcesInput[src])))
-        if random.random() < 1.0: #300.0 / len(sourcesInput[src]):
-            newline = str(src)+","+str(s)+","+str(sourcesInput[src][s])+",true\n"
-            srcObservations.write(newline)
-srcObservations.close()
-
-# Print source features
-numMaxFeatures = 9
-srcFeaturesOut = open('data/srcFeatures.csv','w')
-for src in srcFeatures:
-    print (len(srcFeatures[src]))
-    featureNum = 0
-    for k in srcFeatures[src]:
-        featureNum = featureNum + 1
-        if k != 'Country':
-            fValue = round((srcFeatures[src][k] - minF[k])*10/(maxF[k] - minF[k]))
-	else:
-            fValue = srcFeatures[src][k]
-        newline = str(src)+","+k+"="+str(fValue)+"\n"
-        if featureNum > 0 and featureNum < numMaxFeatures + 1:
-            srcFeaturesOut.write(newline)
-srcFeaturesOut.close()
 
 
 
