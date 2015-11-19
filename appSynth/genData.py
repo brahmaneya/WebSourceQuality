@@ -2,10 +2,10 @@ import sys,os
 import numpy as np
 import random
 
-numFeatures = 20
-numSources = 200
-numTuples = 400
-tuplesPerSource = 5
+numFeatures = 5
+numSources = 300
+numTuples = 5000
+tuplesPerSource = 50
 
 # creating SrcFeats
 srcFeatsDensity = 0.2
