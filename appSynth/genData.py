@@ -34,15 +34,20 @@ if not os.path.exists(datafolder):
 	    os.makedirs(datafolder)
 
 
+accuracies_file = datafolder + "accuracies.csv"
 features_file = datafolder + "srcFeatures.csv"
 groundtruth_file = datafolder + "groundtruth.csv"
 positivevotes_file = datafolder + "positiveVotes.csv"
 negativevotes_file = datafolder + "negativeVotes.csv"
 
+f_accuracies = open(accuracies_file, 'w')
 f_features = open(features_file, 'w')
 f_groundtruth = open(groundtruth_file, 'w')
 f_positivevotes = open(positivevotes_file, 'w')
 f_negativevotes = open(negativevotes_file, 'w')
+
+for j in range(1,numSources):
+	f_accuracies.write('{},{}\n'.format(j,srcAccs[j]))
 
 for k in range(1,numFeatures):
 	for j in range(1,numSources):
