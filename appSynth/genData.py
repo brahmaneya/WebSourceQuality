@@ -3,9 +3,9 @@ import numpy as np
 import random
 
 numFeatures = 5
-numSources = 300
-numTuples = 5000
-tuplesPerSource = 50
+numSources = 1000
+numTuples = 10000
+tuplesPerSource = 100
 
 # creating SrcFeats
 srcFeatsDensity = 0.2
